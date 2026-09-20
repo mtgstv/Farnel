@@ -1,16 +1,70 @@
-# React + Vite
+# 🍎 Farnel
+Projeto de uma web application com design adaptável destinada às disciplinas de Front-end Frameworks (AV1 e AV2) e Back-end Frameworks (AV2).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Ideia:
+Plataforma de doação de alimentos que conecta doadores (mercados, restaurantes, produtores,
+pessoas físicas) a instituições e pessoas em situação de insegurança alimentar, evitando o
+descarte de alimentos ainda próprios para consumo.
 
-Currently, two official plugins are available:
+### Tema e problemática
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+#### Tema central: 
+Combate ao desperdício de alimentos por meio da conexão entre doadores e instituições/beneficiários.
 
-## React Compiler
+#### Problemática: 
+Alimentos em boas condições são descartados aos montes enquanto instituições e pessoas enfrentam insegurança alimentar.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+O desperdício de alimentos é inclusive uma problemática reconhecida dentro do ODS 12 — Consumo e Produção Responsáveis e a ODS 2 — Fome Zero e Agricultura Sustentável; a ONU estima que 1,05 bilhão de toneladas de alimentos foram desperdiçadas em 2022.
 
-## Expanding the ESLint configuration
+Problemas que a aplicação pretende resolver:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Desperdício de alimentos que ainda estão próprios para consumo.
+- Dificuldade de encontrar locais/pessoas para realizar doações.
+- Falta de organização no processo de doação.
+- Dificuldade das instituições em encontrar doações disponíveis.
+- Falta de acompanhamento sobre o destino das doações.
+---
+
+### Ideia e solução
+O sistema busca facilitar a **doação e distribuição de alimentos**, conectando pessoas ou estabelecimentos que possuem alimentos disponíveis para doação com instituições ou pessoas que necessitam desses alimentos.
+
+**Exemplo:**  
+Um supermercado possui 30 kg de alimentos próximos da data de validade. Em vez de descartá-los, cadastra a doação no sistema. Uma instituição próxima pode visualizar a oferta e solicitar a retirada.
+
+## Stack
+
+- [React](https://react.dev/) 19 + [Vite](https://vite.dev/)
+- [React Router](https://reactrouter.com/) (navegação client-side)
+- Dados locais (`src/data/*.json` e `.js`) + `localStorage` (Sem back-end ainda. Planejado para a AV2.)
+- [Tailwind CSS v4](https://tailwindcss.com/) — estilização utilitária
+
+## Como rodar
+
+```bash
+npm install
+npm run dev       # ambiente de desenvolvimento em http://localhost:5173
+npm run build     # build de produção em /dist
+npm run preview   # servir o build de produção localmente
+npm run lint       # checagem de lint (oxlint)
+```
+
+## Estrutura do projeto
+
+```
+src/
+  main.jsx              # ponto de entrada, BrowserRouter
+  App.jsx                # DoacoesProvider + definição das rotas
+  index.css               # estilos globais
+  data/
+    doacoes.json          # dados locais iniciais (semente do localStorage)
+    categorias.js          # lista de categorias de alimentos
+  context/
+    DoacoesContext.jsx      # estado global + ações (CRUD, solicitar, favoritar)
+  hooks/
+    useLocalStorage.js       # hook genérico de persistência
+  utils/
+    status.js                 # status possíveis de uma doação (rótulo/cor)
+    validacao.js                # validação do formulário de doação
+  components/                    # peças reutilizáveis (Navbar, Card, Alerta, etc.)
+  pages/                           # uma página por rota
+```

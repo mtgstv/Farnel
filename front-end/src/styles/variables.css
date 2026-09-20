@@ -1,0 +1,19 @@
+@theme {
+  --color-cream: #f8f2e7;
+  --color-cream-dark: #efe4d0;
+  --color-forest: #2f4a3c;
+  --color-forest-light: #3d5c4b;
+  --color-forest-dark: #253b30;
+  --color-terracotta: #dd7c4f;
+  --color-terracotta-dark: #c96a3f;
+  --color-ink: #2a2a24;
+  --color-ink-soft: #5c584e;
+  --color-line: #e6dcc9;
+
+  --font-heading: "Lora", "Georgia", serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-ballet: "Ballet", cursive;
+
+  --shadow-soft: 0 20px 45px -20px rgba(47, 74, 60, 0.35);
+  --shadow-card: 0 12px 30px -18px rgba(42, 42, 36, 0.25);
+}
