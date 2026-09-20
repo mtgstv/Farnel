@@ -5,10 +5,10 @@ import alimentos3 from '../assets/alimentos3.jpg'
 import alimentos4 from '../assets/alimentos4.jpg'
 
 const cards = [
-    { src: alimentos1, alt: 'Batatas e batatas-doces frescas em caixas' },
-    { src: alimentos2, alt: 'Descreva a segunda imagem' },
-    { src: alimentos3, alt: 'Descreva a terceira imagem' },
-    { src: alimentos4, alt: 'Descreva a quarta imagem' },
+    { src: alimentos1, alt: 'Imagem 1' },
+    { src: alimentos2, alt: 'Imagem 2' },
+    { src: alimentos3, alt: 'Imagem 3' },
+    { src: alimentos4, alt: 'Imagem 4' },
 ]
 
 const INTERVAL_MS = 4000 // tempo entre trocas
