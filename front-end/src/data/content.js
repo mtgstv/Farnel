@@ -127,3 +127,79 @@ export const footerLinks = {
   atuacao: ["Doadores", "Cozinhas Parceiras", "Logística de Rotas", "Lei do Doador"],
   institucional: ["Sobre Nós", "Transparência Fiscal", "Nossos Resultados", "Contato"],
 };
+
+export const doacoes = [
+    {
+        id: 1,
+        categoria: "Verduras",
+        titulo: "Verduras Orgânicas Sortidas",
+        quantidade: "25 kg",
+        validade: "19/09/2026",
+        local: "Cotia/SP",
+        status: "Cancelada"
+    },
+    {
+        id: 2,
+        categoria: "Padaria",
+        titulo: "Pães Artesanais",
+        quantidade: "40 unidades",
+        validade: "20/09/2026",
+        local: "São Paulo/SP",
+        status: "Disponível"
+    },
+    {
+        id: 3,
+        categoria: "Frutas",
+        titulo: "Cestas de Banana Prata",
+        quantidade: "80 kg",
+        validade: "22/09/2026",
+        local: "Campinas/SP",
+        status: "Disponível"
+    },
+    {
+        id: 4,
+        categoria: "Laticínios",
+        titulo: "Caixas de Leite Integral",
+        quantidade: "30 caixas",
+        validade: "30/11/2026",
+        local: "São Paulo/SP",
+        status: "Disponível"
+    },
+    {
+        id: 5,
+        categoria: "Bebidas",
+        titulo: "Sucos e Águas Engarrafadas",
+        quantidade: "100 unidades",
+        validade: "01/12/2026",
+        local: "Osasco/SP",
+        status: "Disponível"
+    },
+    {
+        id: 6,
+        categoria: "Massas",
+        titulo: "Macarrão Tipo Espaguete",
+        quantidade: "60 pacotes",
+        validade: "10/01/2027",
+        local: "São Paulo/SP",
+        status: "Disponível"
+    },
+    {
+        id: 7,
+        categoria: "Grãos",
+        titulo: "Pacotes de Arroz Branco",
+        quantidade: "50 pacotes",
+        validade: "15/02/2027",
+        local: "São Paulo/SP",
+        status: "Solicitada"
+    },
+    {
+        id: 8,
+        categoria: "Enlatados",
+        titulo: "Enlatados Diversos",
+        quantidade: "120 latas",
+        validade: "01/06/2027",
+        local: "Guarulhos/SP",
+        status: "Concluída"
+    }
+];
+
