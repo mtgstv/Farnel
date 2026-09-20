@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home/Home';
-import Doacoes from '../pages/Doacoes/Doacoes';
+import Home from '../pages/Home';
+import Doacoes from '../pages/Doacoes';
 
 function AppRoutes() {
     return (
