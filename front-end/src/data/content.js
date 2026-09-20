@@ -135,6 +135,7 @@ export const doacoes = [
         titulo: "Verduras Orgânicas Sortidas",
         quantidade: "25 kg",
         validade: "19/09/2026",
+        dataCadastro: "18/09/2026",
         local: "Cotia/SP",
         status: "Cancelada"
     },
@@ -144,6 +145,7 @@ export const doacoes = [
         titulo: "Pães Artesanais",
         quantidade: "40 unidades",
         validade: "20/09/2026",
+        dataCadastro: "20/09/2026",
         local: "São Paulo/SP",
         status: "Disponível"
     },
@@ -153,6 +155,7 @@ export const doacoes = [
         titulo: "Cestas de Banana Prata",
         quantidade: "80 kg",
         validade: "22/09/2026",
+        dataCadastro: "19/09/2026",
         local: "Campinas/SP",
         status: "Disponível"
     },
@@ -162,6 +165,7 @@ export const doacoes = [
         titulo: "Caixas de Leite Integral",
         quantidade: "30 caixas",
         validade: "30/11/2026",
+        dataCadastro: "17/09/2026",
         local: "São Paulo/SP",
         status: "Disponível"
     },
@@ -171,6 +175,7 @@ export const doacoes = [
         titulo: "Sucos e Águas Engarrafadas",
         quantidade: "100 unidades",
         validade: "01/12/2026",
+        dataCadastro: "20/09/2026",
         local: "Osasco/SP",
         status: "Disponível"
     },
@@ -180,6 +185,7 @@ export const doacoes = [
         titulo: "Macarrão Tipo Espaguete",
         quantidade: "60 pacotes",
         validade: "10/01/2027",
+        dataCadastro: "16/09/2026",
         local: "São Paulo/SP",
         status: "Disponível"
     },
@@ -189,6 +195,7 @@ export const doacoes = [
         titulo: "Pacotes de Arroz Branco",
         quantidade: "50 pacotes",
         validade: "15/02/2027",
+        dataCadastro: "15/09/2026",
         local: "São Paulo/SP",
         status: "Solicitada"
     },
@@ -198,6 +205,7 @@ export const doacoes = [
         titulo: "Enlatados Diversos",
         quantidade: "120 latas",
         validade: "01/06/2027",
+        dataCadastro: "14/09/2026",
         local: "Guarulhos/SP",
         status: "Concluída"
     }

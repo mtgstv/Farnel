@@ -2,7 +2,9 @@ function FiltrosDoacoes({
     categoriaSelecionada,
     setCategoriaSelecionada,
     statusSelecionado,
-    setStatusSelecionado
+    setStatusSelecionado,
+    ordenacaoSelecionada,
+    setOrdenacaoSelecionada
 }){
     
     return(
@@ -35,10 +37,13 @@ function FiltrosDoacoes({
                 <option value="Cancelada">Cancelada</option>
             </select>
 
-            <select>
-                <option>Validade mais próxima</option>
-                <option>Nome (A-Z)</option>
-                <option>Mais recentes</option>
+            <select
+                value={ordenacaoSelecionada}
+                onChange={(event) => setOrdenacaoSelecionada(event.target.value)}
+            >
+                <option value="validade">Validade mais próxima</option>
+                <option value="nome">Nome (A-Z)</option>
+                <option value="recentes">Mais recentes</option>
             </select>
 
             <button>Limpar filtros</button>
