@@ -1,8 +1,10 @@
-# Foodshare
-Projeto de uma web application com design adaptável destinada às disciplinas de Front-end Frameworks e Back-end Frameworks.
+# 🍎 Farnel
+Projeto de uma web application com design adaptável destinada às disciplinas de Front-end Frameworks (AV1 e AV2) e Back-end Frameworks (AV2).
 
-## Plataforma de doação de alimentos
-Nome da plataforma: FoodShare
+## Ideia:
+Plataforma de doação de alimentos que conecta doadores (mercados, restaurantes, produtores,
+pessoas físicas) a instituições e pessoas em situação de insegurança alimentar, evitando o
+descarte de alimentos ainda próprios para consumo.
 
 ### Tema e problemática
 
@@ -28,3 +30,41 @@ O sistema busca facilitar a **doação e distribuição de alimentos**, conectan
 
 **Exemplo:**  
 Um supermercado possui 30 kg de alimentos próximos da data de validade. Em vez de descartá-los, cadastra a doação no sistema. Uma instituição próxima pode visualizar a oferta e solicitar a retirada.
+
+## Stack
+
+- [React](https://react.dev/) 19 + [Vite](https://vite.dev/)
+- [React Router](https://reactrouter.com/) (navegação client-side)
+- Dados locais (`src/data/*.json` e `.js`) + `localStorage` (Sem back-end ainda. Planejado para a AV2.)
+- [Tailwind CSS v4](https://tailwindcss.com/) — estilização utilitária
+
+## Como rodar
+
+```bash
+npm install
+npm run dev       # ambiente de desenvolvimento em http://localhost:5173
+npm run build     # build de produção em /dist
+npm run preview   # servir o build de produção localmente
+npm run lint       # checagem de lint (oxlint)
+```
+
+## Estrutura do projeto
+
+```
+src/
+  main.jsx              # ponto de entrada, BrowserRouter
+  App.jsx                # DoacoesProvider + definição das rotas
+  index.css               # estilos globais
+  data/
+    doacoes.json          # dados locais iniciais (semente do localStorage)
+    categorias.js          # lista de categorias de alimentos
+  context/
+    DoacoesContext.jsx      # estado global + ações (CRUD, solicitar, favoritar)
+  hooks/
+    useLocalStorage.js       # hook genérico de persistência
+  utils/
+    status.js                 # status possíveis de uma doação (rótulo/cor)
+    validacao.js                # validação do formulário de doação
+  components/                    # peças reutilizáveis (Navbar, Card, Alerta, etc.)
+  pages/                           # uma página por rota
+```
