@@ -53,15 +53,15 @@ function Doacoes(){
 
     return(
 
-        <div className="doacoes-page">
+        <div className="min-h-screen py-10 px-6 md:px-10">
 
             <header>
                 
             </header>
 
-            <main className="doacoes-container">
+            <main className="container-page">
 
-                <h1 className="doacoes-titulo">
+                <h1 className="mb-8 text-3xl font-bold md:text-4xl">
                     Doações Disponíveis
                 </h1>
 
@@ -81,7 +81,7 @@ function Doacoes(){
 
                 <ContadorDoacoes quantidade={doacoesFiltradas.length}/>
 
-                <section>
+                <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {doacoesOrdenadas.map((doacao) =>(
                         <DoacaoCard
                             key={doacao.id}

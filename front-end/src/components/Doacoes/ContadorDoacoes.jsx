@@ -1,7 +1,9 @@
 function ContadorDoacoes({quantidade}){
 
     return(
-        <p>{quantidade} doações encontradas</p>
+        <p className="my-6 text-sm font-medium text-ink-soft">
+        {quantidade} doações encontradas
+        </p>
     )
 
 }
