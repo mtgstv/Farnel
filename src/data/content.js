@@ -81,7 +81,7 @@ export const partners = [
 export const testimonials = [
   {
     quote:
-      "Tínhamos desperdício diário na padaria devido ao controle de estoque. Com o Prato Cheio, embalamos o excedente, e em minutos, a ONG do bairro coleta. Além de ajudar, recebemos isenção fiscal.",
+      "Tínhamos desperdício diário na padaria devido ao controle de estoque. Com o Farnel, embalamos o excedente, e em minutos, a ONG do bairro coleta. Além de ajudar, recebemos isenção fiscal.",
     name: "Juliana Mendes",
     role: "Doadora · Proprietária do Pão de Ouro",
   },

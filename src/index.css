@@ -218,3 +218,47 @@
     animation: none;
   }
 }
+
+/* Máscara: esmaece nas duas pontas */
+.stats-carousel {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+/* Faixa que se move da esquerda para a direita */
+.stats-track {
+  animation: stats-slide 18s linear infinite;
+}
+
+.stats-carousel:hover .stats-track {
+  animation-play-state: paused;
+}
+
+@keyframes stats-slide {
+  from { transform: translateX(-33.3333%); }
+  to   { transform: translateX(0); }
+}
+
+/* Balanço de cavalinho de carrossel */
+.stat-card {
+  animation: carousel-bob 2.6s ease-in-out infinite;
+}
+
+.stat-card:nth-child(even) {
+  animation-delay: -1.3s; /* metade do ciclo: uma sobe enquanto a outra desce */
+}
+
+@keyframes carousel-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stats-track,
+  .stat-card {
+    animation: none;
+  }
+  .stats-track > [aria-hidden="true"] {
+    display: none; /* sem movimento, mostra só um conjunto */
+  }
+}

@@ -2,6 +2,7 @@ import { ArrowIcon, CheckBadge } from "./Icons";
 import HeroCardStack from "./HeroCardStack";
 import OrangeRain from "./OrangeRain";
 import FloatingOranges from "./FloatingOranges";
+import StatsCarousel from "./StatsCarousel";
 
 export default function Hero() {
     return (
@@ -58,22 +59,7 @@ export default function Hero() {
                 <div className="relative">
                     <div className="absolute -right-0.5 -top-6 h-28 w-28 rounded-full bg-terracotta/70 blur-xl" />
                     <div className="absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-forest/50 blur-xl" />
-
-                    <div className="absolute right-0 -bottom-30 hidden gap-5 lg:flex xl:right-16">
-                        <div className="rounded-2xl bg-white px-4 py-3 shadow-lg">
-                            <p className="text-2xl font-semibold text-forest-dark">+1.200</p>
-                            <p className="text-xs text-ink-soft">Doações realizadas</p>
-                        </div>
-                        <div className="rounded-2xl bg-white px-4 py-3 shadow-lg">
-                            <p className="text-2xl font-semibold text-forest-dark">+100</p>
-                            <p className="text-xs text-ink-soft">Empresas parceiras</p>
-                        </div>
-                        <div className="rounded-2xl bg-white px-4 py-3 shadow-lg">
-                            <p className="text-2xl font-semibold text-forest-dark">+50</p>
-                            <p className="text-xs text-ink-soft">ONGs auxiliadas</p>
-                        </div>
-                    </div>
-
+                    <StatsCarousel />
                     <HeroCardStack />
                 </div>
             </section>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import laranja from "../assets/laranja.png"; // ajuste o caminho e o nome do seu arquivo
+import laranjainteira from "../assets/laranjainteira.png";
+import laranja from "../assets/laranja.png";
 
 const DROP_COUNT = 36;
 let uid = 0;
@@ -58,7 +59,7 @@ export default function OrangeRain({ className = "" }) {
                     {drops.map((d) => (
                         <img
                             key={d.id}
-                            src={laranja}
+                            src={laranjainteira}
                             alt=""
                             className="orange-drop"
                             style={{

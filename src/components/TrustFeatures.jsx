@@ -9,7 +9,7 @@ export default function TrustFeatures() {
       <div className="text-center">
         <p className="eyebrow">Transparência e segurança</p>
         <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">
-          Por que o Prato Cheio é viável e seguro?
+          Por que o Farnel é viável e seguro?
         </h2>
       </div>
 
