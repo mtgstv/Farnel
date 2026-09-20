@@ -1,4 +1,6 @@
 function FiltrosDoacoes({
+    busca,
+    setBusca,
     categoriaSelecionada,
     setCategoriaSelecionada,
     statusSelecionado,
@@ -9,6 +11,13 @@ function FiltrosDoacoes({
     
     return(
         <div>
+
+            <input
+                type="text"
+                placeholder="Buscar alimento..."
+                value={busca}
+                onChange={(event) => setBusca(event.target.value)}
+            />
             <select 
                 value={categoriaSelecionada}
                 onChange={(event)=> setCategoriaSelecionada(event.target.value)}
