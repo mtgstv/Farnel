@@ -1,9 +1,26 @@
+import { useState } from "react";
 import DoacaoCard from "../../components/Doacoes/DoacaoCard";
+import FiltrosDoacoes from "../../components/Doacoes/FiltrosDoacoes";
 import ContadorDoacoes from "../../components/Doacoes/ContadorDoacoes";
 import { doacoes } from "../../data/content";
 
 
 function Doacoes(){
+
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState("Todas");
+    const [statusSelecionado, setStatusSelecionado] = useState("Todos");
+
+    const doacoesFiltradas = doacoes.filter((doacao)=>{
+        const categoriaCorresponde = 
+            categoriaSelecionada === "Todas" ||
+            doacao.categoria === categoriaSelecionada;
+
+        const statusCorresponde = 
+            statusSelecionado === "Todos" ||
+            doacao.status === statusSelecionado;
+
+        return categoriaCorresponde && statusCorresponde;
+    });
 
     return(
 
@@ -14,9 +31,16 @@ function Doacoes(){
             </header>
 
             <main>
-                <ContadorDoacoes quantidade={doacoes.length}/>
+                <FiltrosDoacoes
+                    categoriaSelecionada={categoriaSelecionada}
+                    setCategoriaSelecionada={setCategoriaSelecionada}
+                    statusSelecionado={statusSelecionado}
+                    setStatusSelecionado={setStatusSelecionado}
+                />
 
-                {doacoes.map((doacao) =>(
+                <ContadorDoacoes quantidade={doacoesFiltradas.length}/>
+
+                {doacoesFiltradas.map((doacao) =>(
                     <DoacaoCard
                         key={doacao.id}
                         categoria={doacao.categoria}
