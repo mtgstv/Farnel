@@ -47,24 +47,3 @@ npm run build     # build de produção em /dist
 npm run preview   # servir o build de produção localmente
 npm run lint       # checagem de lint (oxlint)
 ```
-
-## Estrutura do projeto
-
-```
-src/
-  main.jsx              # ponto de entrada, BrowserRouter
-  App.jsx                # DoacoesProvider + definição das rotas
-  index.css               # estilos globais
-  data/
-    doacoes.json          # dados locais iniciais (semente do localStorage)
-    categorias.js          # lista de categorias de alimentos
-  context/
-    DoacoesContext.jsx      # estado global + ações (CRUD, solicitar, favoritar)
-  hooks/
-    useLocalStorage.js       # hook genérico de persistência
-  utils/
-    status.js                 # status possíveis de uma doação (rótulo/cor)
-    validacao.js                # validação do formulário de doação
-  components/                    # peças reutilizáveis (Navbar, Card, Alerta, etc.)
-  pages/                           # uma página por rota
-```
