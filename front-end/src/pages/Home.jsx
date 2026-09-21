@@ -9,26 +9,23 @@ import TrustFeatures from "../components/TrustFeatures";
 import CtaBanner from "../components/CtaBanner";
 import Footer from "../components/Footer";
 
-function Home(){
-    return(
-        
-        <div className="min-h-screen bg-cream">
-            <Header />
-
-            <main>
-                <Hero />
-                <StatsBanner />
-                <HowItWorks />
-                <Partners />
-                <Testimonials />
-                <Coverage />
-                <TrustFeatures />
-                <CtaBanner />
-            </main>
-
-            <Footer />
-        </div>
-    );
+function Home() {
+  return (
+    <div className="min-h-screen bg-cream">
+      <Header />
+      <main>
+        <Hero />
+        <StatsBanner />
+        <HowItWorks />
+        <Partners />
+        <Testimonials />
+        <Coverage />
+        <TrustFeatures />
+        <CtaBanner />
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
 export default Home;

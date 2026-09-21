@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LeafLogo, ArrowIcon } from "./Icons";
+import { SiteLogo, ArrowIcon } from "./Icons";
 
 const NAV_LINKS = [
   { label: "Como Funciona", href: "#como-funciona" },
@@ -30,19 +30,17 @@ export default function Header() {
     >
       <div className="container-page flex h-20 items-center justify-between">
         <a href="#top" className="flex items-center gap-3">
-          {/* <LeafLogo /> */}
+          <SiteLogo className="relative -top-1 h-16 w-16" iconClassName="h-full w-full" />
+
           <div className="flex flex-col items-center">
-            <span
-              className="relative z-10 -mb-2 font-ballet text-[2.75rem] leading-none text-forest-dark [font-variation-settings:'opsz'_16] [-webkit-text-stroke:0.6px_currentColor] [text-shadow:0_0_8px_var(--color-cream),0_0_2px_var(--color-cream)]"
-            >
+            <span className="relative top-1 z-10 -mb-2 font-ballet text-[2.75rem] leading-none text-forest-dark [font-variation-settings:'opsz'_16] [-webkit-text-stroke:0.6px_currentColor] [text-shadow:0_0_8px_var(--color-cream),0_0_2px_var(--color-cream)]">
               Farnel
             </span>
-            <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink">
+            <span className="pl-[0.2em] text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink">
               Compartilhe. Alimente.
             </span>
           </div>
         </a>
-
         <nav className="hidden items-center gap-8 lg:flex">
           {NAV_LINKS.map((link) => (
             <a

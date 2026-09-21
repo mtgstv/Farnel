@@ -1,12 +1,9 @@
-import iconPng from "../assets/icon.png";
+import icon from "../assets/icon.svg";
 
-// Trocar esse leaflogo por uma logo decente
-export function LeafLogo({ className = "h-9 w-9" }) {
+export function SiteLogo({ className = "h-9 w-9", iconClassName = "h-[55%] w-[55%]" }) {
   return (
-    <span
-      className={`${className} inline-flex items-center justify-center rounded-full bg-forest`}
-    >
-      <img src={iconPng} alt="" className="h-[55%] w-[55%] object-contain" />
+    <span className={`${className} inline-flex items-center justify-center`}>
+      <img src={icon} alt="" className={`${iconClassName} object-contain`} />
     </span>
   );
 }

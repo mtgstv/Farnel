@@ -3,11 +3,11 @@
 @theme {
   --color-cream: #f8f2e7;
   --color-cream-dark: #efe4d0;
-  --color-forest: #2f4a3c;
-  --color-forest-light: #3d5c4b;
-  --color-forest-dark: #253b30;
-  --color-terracotta: #dd7c4f;
-  --color-terracotta-dark: #c96a3f;
+  --color-forest: #1A964F;
+  --color-forest-light: #35B86D;
+  --color-forest-dark: #116133;
+  --color-terracotta: #FF9129;
+  --color-terracotta-dark: #DB7D23;
   --color-ink: #2a2a24;
   --color-ink-soft: #5c584e;
   --color-line: #e6dcc9;
@@ -97,11 +97,168 @@
 .dot-grid {
   background-image: radial-gradient(
     circle,
-    color-mix(in srgb, var(--color-forest, #2f4a3c) 28%, transparent) 1.5px,
+    color-mix(in srgb, var(--color-forest, #2f4a3c) 70%, transparent) 1.5px,
     transparent 1.5px
   );
   background-size: 24px 24px;
   background-position: center;
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
   mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+}
+
+@property --cor-linha {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgba(142, 202, 230, 0); 
+}
+
+.link-animado {
+  text-decoration: none;
+  background-image: linear-gradient(var(--cor-linha), var(--cor-linha));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size 0.4s ease, --cor-linha 0.4s ease;
+}
+
+.link-animado:hover,
+.link-animado:focus {
+  --cor-linha: rgba(142, 202, 230, 1);     
+  background-size: 100% 2px;
+}
+
+.destaquetext {
+  color: var(--color-terracotta);
+  font-family: "Parisienne";
+  font-weight: 600;
+  font-size: 4rem;
+}
+
+@property --cor-linha {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgba(142, 202, 230, 0);
+}
+
+.destaquetitle {
+  position: relative;
+  z-index: 0;
+}
+
+.destaquetitle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0.25em;                 /* altura da linha */
+  width: 0;                       /* estado inicial: sem largura */
+  height: 0.05em;                 /* bem fina, como um risco de caneta */
+  border-radius: 9999px;          /* pontas arredondadas */
+  background-color: #8ecae6;      /* 100% opaca */
+  z-index: -1;                    /* atrás do texto */
+  animation: riscar 0.9s ease-out 0.5s forwards;
+}
+
+@keyframes riscar {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .destaquetitle::after {
+    animation: none;
+    width: 100%;                  /* mostra a linha pronta, sem animar */
+  }
+}
+
+@keyframes orange-spin {
+  from { transform: rotate(0deg) scale(1); }
+  40%  { transform: rotate(200deg) scale(1.12); }
+  to   { transform: rotate(360deg) scale(1); }
+}
+
+.orange-spin {
+  animation: orange-spin 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes orange-fall {
+  from { transform: translate3d(0, -12vh, 0) rotate(0deg); }
+  to   { transform: translate3d(var(--drift), 112vh, 0) rotate(var(--rot)); }
+}
+
+.orange-drop {
+  position: absolute;
+  top: 0;
+  animation-name: orange-fall;
+  animation-timing-function: ease-in;   /* acelera como uma queda de verdade */
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+@keyframes orange-rise {
+  from { opacity: 0; transform: translateY(110px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes orange-float {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50%      { transform: translateY(-14px) rotate(calc(var(--rot, 0deg) + 6deg)); }
+}
+
+.float-orange {
+  animation: orange-rise 1.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.float-orange > img {
+  animation: orange-float 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-orange,
+  .float-orange > img {
+    animation: none;
+  }
+}
+
+/* Máscara: esmaece nas duas pontas */
+.stats-carousel {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+/* Faixa que se move da esquerda para a direita */
+.stats-track {
+  animation: stats-slide 18s linear infinite;
+}
+
+.stats-carousel:hover .stats-track {
+  animation-play-state: paused;
+}
+
+@keyframes stats-slide {
+  from { transform: translateX(-33.3333%); }
+  to   { transform: translateX(0); }
+}
+
+/* Balanço de cavalinho de carrossel */
+.stat-card {
+  animation: carousel-bob 2.6s ease-in-out infinite;
+}
+
+.stat-card:nth-child(even) {
+  animation-delay: -1.3s; /* metade do ciclo: uma sobe enquanto a outra desce */
+}
+
+@keyframes carousel-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stats-track,
+  .stat-card {
+    animation: none;
+  }
+  .stats-track > [aria-hidden="true"] {
+    display: none; /* sem movimento, mostra só um conjunto */
+  }
 }

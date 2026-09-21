@@ -1,4 +1,4 @@
-import { LeafLogo, InstagramIcon, FacebookIcon, LinkedinIcon } from "./Icons";
+import { SiteLogo, InstagramIcon, FacebookIcon, LinkedinIcon } from "./Icons";
 import { footerLinks } from "../data/content";
 
 function LinkColumn({ title, links }) {
@@ -25,10 +25,9 @@ export default function Footer() {
     <footer className="border-t border-line bg-cream-dark">
       <div className="container-page grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <div className="flex flex-col items-center">
-            <span
-              className="relative z-10 -mb-2 font-ballet text-[2.75rem] leading-none text-forest-dark [font-variation-settings:'opsz'_16] [-webkit-text-stroke:0.6px_currentColor] [text-shadow:0_0_8px_var(--color-cream),0_0_2px_var(--color-cream)]"
-            >
+          <div className="flex items-center gap-5">
+            <SiteLogo className="h-16 w-16" iconClassName="h-full w-full" />
+            <span className="relative top-2 z-10 font-ballet text-[2.75rem] leading-none text-forest-dark [font-variation-settings:'opsz'_16] [-webkit-text-stroke:0.6px_currentColor] [text-shadow:0_0_8px_var(--color-cream),0_0_2px_var(--color-cream)]">
               Farnel
             </span>
           </div>
@@ -71,7 +70,7 @@ export default function Footer() {
           </p>
           <div className="flex gap-5">
             {/* Aqui eu preciso fazer uma página com essas informações abaixo */}
-            <a href="#" className="hover:text-forest-dark"> 
+            <a href="#" className="hover:text-forest-dark">
               Política de Privacidade
             </a>
             <a href="#" className="hover:text-forest-dark">
