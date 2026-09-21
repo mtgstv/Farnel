@@ -28,7 +28,7 @@ export default function Coverage() {
             ))}
           </ul>
 
-          <a href="#cidades" className="btn-primary mt-8">
+          <a href="/cidades" className="btn-primary mt-8">
             Ver Cidades Atendidas
             <ArrowIcon className="h-4 w-4" />
           </a>

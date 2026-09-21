@@ -25,7 +25,7 @@ export default function Hero() {
                 <div className="relative rounded-3xl bg-cream/60 p-6 backdrop-blur-sm sm:p-8">
                     <p className="eyebrow">Solidariedade em ação no Brasil</p>
                     <h1 className="mt-4 text-4xl font-semibold text-forest-dark sm:text-5xl lg:text-[3.2rem] lg:leading-[1.08]">
-                        Conectando quem quer <a href="https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/l15224.htm" className="destaquetitle destaquetext">ajudar</a> com quem precisa de alimento<span className="destaquetext">.</span>
+                        Conectando quem quer <a href="/doe" className="destaquetitle destaquetext">ajudar</a> com quem precisa de alimento<span className="destaquetext">.</span>
                     </h1>
                     <p className="mt-6 max-w-lg text-base leading-relaxed text-ink-soft">
                         O Farnel une diversos doadores, desde restaurantes, feiras, supermercados e até pequenos doadores diretamente a
@@ -34,11 +34,11 @@ export default function Hero() {
                     </p>
 
                     <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-                        <a href="#doar" className="btn-primary">
+                        <a href="/doe" className="btn-primary">
                             Doe alimentos
                             <ArrowIcon className="h-4 w-4" />
                         </a>
-                        <a href="#receber" className="btn-outline">
+                        <a href="/doacoes" className="btn-outline">
                             Ver doações disponíveis
                             <ArrowIcon className="h-4 w-4" />
                         </a>

@@ -15,6 +15,7 @@
   --font-heading: "Lora", "Georgia", serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-ballet: "Ballet", cursive;
+  --font-parisienne: "Parisienne";
 
   --shadow-soft: 0 20px 45px -20px rgba(47, 74, 60, 0.35);
   --shadow-card: 0 12px 30px -18px rgba(42, 42, 36, 0.25);

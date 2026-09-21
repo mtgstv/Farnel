@@ -55,12 +55,12 @@ export default function Header() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <a
-            href="#area-ong"
+            href="/login"
             className="rounded-full border-2 border-forest/15 px-5 py-2.5 text-sm font-semibold text-forest-dark transition-colors hover:border-forest/30"
           >
             Entre
           </a>
-          <a href="#doar" className="btn-primary">
+          <a href="/signin" className="btn-primary">
             Cadastre-se
             <ArrowIcon className="h-4 w-4" />
           </a>

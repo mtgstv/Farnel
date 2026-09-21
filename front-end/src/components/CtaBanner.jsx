@@ -13,11 +13,11 @@ export default function CtaBanner() {
         </p>
 
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a href="#doar" className="btn-primary">
+          <a href="/signin" className="btn-primary">
             Quero Ser Doador
             <ArrowIcon className="h-4 w-4" />
           </a>
-          <a href="#receber" className="btn-outline-light">
+          <a href="/signin" className="btn-outline-light">
             Quero Receber Doações
           </a>
         </div>
