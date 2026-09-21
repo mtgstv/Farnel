@@ -43,7 +43,4 @@ Um supermercado possui 30 kg de alimentos próximos da data de validade. Em vez 
 ```bash
 npm install
 npm run dev       # ambiente de desenvolvimento em http://localhost:5173
-npm run build     # build de produção em /dist
-npm run preview   # servir o build de produção localmente
-npm run lint       # checagem de lint (oxlint)
 ```
