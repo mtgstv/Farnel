@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getUsuarios, saveUsuarios } from "../../services/usuariosStorage";
 
 function CadastroForm() {
 
@@ -33,8 +34,21 @@ function CadastroForm() {
         return;
     }
 
-    console.log("Cadastro válido!");
-}
+   const usuarios = getUsuarios();
+
+    const novoUsuario = {
+        id: Date.now(),
+        nome: nome.trim(),
+        email: email.trim(),
+        senha: senha,
+    };
+
+    usuarios.push(novoUsuario);
+
+    saveUsuarios(usuarios);
+
+    console.log("Usuário cadastrado:", novoUsuario);
+    }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -66,11 +80,11 @@ function CadastroForm() {
             <div>
                 <label htmlFor="senha">Senha</label>
                 <input
-                type="password"
-                id="confirmarSenha"
-                name="confirmarSenha"
-                value={confirmarSenha}
-                onChange={(event) => setConfirmarSenha(event.target.value)}
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    value={senha}
+                    onChange={(event) => setSenha(event.target.value)}
                 />
             </div>
 
@@ -78,11 +92,12 @@ function CadastroForm() {
                 <label htmlFor="confirmarSenha">
                     Confirmar senha
                 </label>
-
                 <input
                     type="password"
                     id="confirmarSenha"
                     name="confirmarSenha"
+                    value={confirmarSenha}
+                    onChange={(event) => setConfirmarSenha(event.target.value)}
                 />
             </div>
 
