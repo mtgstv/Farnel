@@ -8,11 +8,13 @@ function CadastroForm() {
     const [senha, setSenha] = useState("");
     const [confirmarSenha, setConfirmarSenha] = useState("");
     const [erro, setErro] = useState("");
+    const [sucesso, setSucesso] = useState("");
 
     function handleSubmit(event) {
     event.preventDefault();
 
     setErro("");
+    setSucesso("");
 
     if (!nome.trim()) {
         setErro("O nome é obrigatório.");
@@ -55,6 +57,7 @@ function CadastroForm() {
     usuarios.push(novoUsuario);
 
     saveUsuarios(usuarios);
+    setSucesso("Cadastro realizado com sucesso!");
 
     console.log("Usuário cadastrado:", novoUsuario);
     }
@@ -63,6 +66,7 @@ function CadastroForm() {
         <form onSubmit={handleSubmit}>
 
             {erro && <p>{erro}</p>}
+            {sucesso && <p>{sucesso}</p>}
 
              <div>
                 <label htmlFor="nome">Nome</label>
