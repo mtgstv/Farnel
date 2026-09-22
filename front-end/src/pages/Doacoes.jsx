@@ -2,7 +2,7 @@ import { useState } from "react";
 import DoacaoCard from "../components/Doacoes/DoacaoCard";
 import FiltrosDoacoes from "../components/Doacoes/FiltrosDoacoes";
 import ContadorDoacoes from "../components/Doacoes/ContadorDoacoes";
-import { doacoes } from "../data/content";
+import { getDoacoes } from "../services/doacoesStorage";
 
 function converterData(data) {
     const [dia, mes, ano] = data.split("/");
@@ -11,6 +11,7 @@ function converterData(data) {
 
 function Doacoes(){
 
+    const [doacoes, setDoacoes] = useState(getDoacoes());
     const [categoriaSelecionada, setCategoriaSelecionada] = useState("Todas");
     const [statusSelecionado, setStatusSelecionado] = useState("Todos");
     const [ordenacaoSelecionada, setOrdenacaoSelecionada] = useState("validade");
