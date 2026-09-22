@@ -58,6 +58,10 @@ function CadastroForm() {
 
     saveUsuarios(usuarios);
     setSucesso("Cadastro realizado com sucesso!");
+    setNome("");
+    setEmail("");
+    setSenha("");
+    setConfirmarSenha("");
 
     console.log("Usuário cadastrado:", novoUsuario);
     }
