@@ -36,6 +36,15 @@ function CadastroForm() {
 
    const usuarios = getUsuarios();
 
+   const emailExiste = usuarios.some(
+        (usuario) => usuario.email.toLowerCase() === email.trim().toLowerCase()
+    );
+
+    if (emailExiste) {
+        setErro("Este e-mail já está cadastrado.");
+        return;
+    }
+
     const novoUsuario = {
         id: Date.now(),
         nome: nome.trim(),
