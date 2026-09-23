@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getUsuarios, saveUsuarios } from "../../services/usuariosStorage";
+import { loginAutomatico } from "../../services/authStorage";
 
 function CadastroForm() {
     const [nome, setNome] = useState("");
@@ -63,6 +64,8 @@ function CadastroForm() {
         usuarios.push(novoUsuario);
 
         saveUsuarios(usuarios);
+
+        loginAutomatico(novoUsuario);
 
         setSucesso("Cadastro realizado com sucesso!");
 
