@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { getDoacoes } from "../services/doacoesStorage";
+import { Link } from "react-router-dom";
 
 
 
@@ -25,6 +26,13 @@ function DetalhesDoacao(){
         <div className="min-h-screen px-6 py-10 md:px-10">
 
             <main className="container-page">
+
+                <Link
+                    to="/doacoes"
+                    className="mb-8 inline-flex items-center gap-2 rounded-xl border border-terracotta px-5 py-3 font-semibold text-terracotta transition hover:bg-terracotta/10"
+                >
+                    ← Voltar para doações
+                </Link>
 
                 <div className="mb-10 grid grid-cols-1 gap-8 md:grid-cols-2 md:items-center">
 
