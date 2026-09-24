@@ -11,7 +11,7 @@ function converterData(data) {
 
 function Doacoes(){
 
-    const [doacoes, setDoacoes] = useState(getDoacoes());
+    const [doacoes] = useState(getDoacoes());
     const [categoriaSelecionada, setCategoriaSelecionada] = useState("Todas");
     const [statusSelecionado, setStatusSelecionado] = useState("Todos");
     const [ordenacaoSelecionada, setOrdenacaoSelecionada] = useState("validade");
