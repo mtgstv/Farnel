@@ -1,3 +1,5 @@
+import imagemPadrao from "../assets/ImgDescricao/imgtest.jpg";
+
 export const stats = [
   {
     value: "4.2 Milhões",
@@ -132,6 +134,7 @@ export const doacoes = [
         id: 1,
         categoria: "Verduras",
         titulo: "Verduras Orgânicas Sortidas",
+        imagem: imagemPadrao,
         descricao: "Verduras orgânicas frescas disponíveis para doação.",
         quantidade: "25 kg",
         validade: "19/09/2026",
@@ -142,12 +145,13 @@ export const doacoes = [
         doador: "Horta Verde",
         contato: "(11) 99999-1001",
         status: "Cancelada"
-    },
-
-    {
+      },
+      
+      {
         id: 2,
         categoria: "Padaria",
         titulo: "Pães Artesanais",
+        imagem: imagemPadrao,
         descricao: "Pães artesanais produzidos recentemente e disponíveis para doação.",
         quantidade: "40 unidades",
         validade: "20/09/2026",
@@ -158,12 +162,13 @@ export const doacoes = [
         doador: "Padaria Pão Nosso",
         contato: "(11) 99999-1002",
         status: "Disponível"
-    },
-
-    {
+      },
+      
+      {
         id: 3,
         categoria: "Frutas",
         titulo: "Cestas de Banana Prata",
+        imagem: imagemPadrao,
         descricao: "Cestas contendo bananas prata em boas condições para consumo.",
         quantidade: "80 kg",
         validade: "22/09/2026",
@@ -174,12 +179,13 @@ export const doacoes = [
         doador: "Frutaria Central",
         contato: "(19) 99999-1003",
         status: "Disponível"
-    },
-
-    {
+      },
+      
+      {
         id: 4,
         categoria: "Laticínios",
         titulo: "Caixas de Leite Integral",
+        imagem: imagemPadrao,
         descricao: "Caixas de leite integral dentro do prazo de validade.",
         quantidade: "30 caixas",
         validade: "30/11/2026",
@@ -190,12 +196,13 @@ export const doacoes = [
         doador: "Mercado São João",
         contato: "(11) 99999-1004",
         status: "Disponível"
-    },
-
-    {
+      },
+      
+      {
         id: 5,
         categoria: "Bebidas",
         titulo: "Sucos e Águas Engarrafadas",
+        imagem: imagemPadrao,
         descricao: "Sucos e águas engarrafadas disponíveis para distribuição.",
         quantidade: "100 unidades",
         validade: "01/12/2026",
@@ -206,12 +213,13 @@ export const doacoes = [
         doador: "Distribuidora Boa Água",
         contato: "(11) 99999-1005",
         status: "Disponível"
-    },
-
-    {
+      },
+      
+      {
         id: 6,
         categoria: "Massas",
         titulo: "Macarrão Tipo Espaguete",
+        imagem: imagemPadrao,
         descricao: "Pacotes de macarrão tipo espaguete disponíveis para doação.",
         quantidade: "60 pacotes",
         validade: "10/01/2027",
@@ -222,12 +230,13 @@ export const doacoes = [
         doador: "Supermercado Central",
         contato: "(11) 99999-1006",
         status: "Disponível"
-    },
-
-    {
+      },
+      
+      {
         id: 7,
         categoria: "Grãos",
         titulo: "Pacotes de Arroz Branco",
+        imagem: imagemPadrao,
         descricao: "Pacotes de arroz branco destinados à doação.",
         quantidade: "50 pacotes",
         validade: "15/02/2027",
@@ -238,12 +247,13 @@ export const doacoes = [
         doador: "Instituto Alimentar",
         contato: "(11) 99999-1007",
         status: "Solicitada"
-    },
-
-    {
+      },
+      
+      {
         id: 8,
         categoria: "Enlatados",
         titulo: "Enlatados Diversos",
+        imagem: imagemPadrao,
         descricao: "Variedade de alimentos enlatados dentro do prazo de validade.",
         quantidade: "120 latas",
         validade: "01/06/2027",

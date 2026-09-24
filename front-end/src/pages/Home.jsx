@@ -23,7 +23,7 @@ function Home() {
         <TrustFeatures />
         <CtaBanner />
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 }
