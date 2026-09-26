@@ -9,20 +9,19 @@ function converterData(data) {
     return new Date(ano, mes - 1, dia);
 }
 
-function Doacoes(){
-
+function Doacoes() {
     const [doacoes, setDoacoes] = useState(getDoacoes());
     const [categoriaSelecionada, setCategoriaSelecionada] = useState("Todas");
     const [statusSelecionado, setStatusSelecionado] = useState("Todos");
     const [ordenacaoSelecionada, setOrdenacaoSelecionada] = useState("validade");
     const [busca, setBusca] = useState("");
 
-    const doacoesFiltradas = doacoes.filter((doacao)=>{
-        const categoriaCorresponde = 
+    const doacoesFiltradas = doacoes.filter((doacao) => {
+        const categoriaCorresponde =
             categoriaSelecionada === "Todas" ||
             doacao.categoria === categoriaSelecionada;
 
-        const statusCorresponde = 
+        const statusCorresponde =
             statusSelecionado === "Todos" ||
             doacao.status === statusSelecionado;
 
@@ -36,7 +35,7 @@ function Doacoes(){
 
     if (ordenacaoSelecionada === "validade") {
         doacoesOrdenadas.sort((a, b) => {
-        return converterData(a.validade) - converterData(b.validade);
+            return converterData(a.validade) - converterData(b.validade);
         });
     }
 
@@ -45,28 +44,23 @@ function Doacoes(){
             return a.titulo.localeCompare(b.titulo);
         });
     }
+
     if (ordenacaoSelecionada === "recentes") {
         doacoesOrdenadas.sort((a, b) => {
             return converterData(b.dataCadastro) - converterData(a.dataCadastro);
-    });
+        });
     }
 
-    return(
-
+    return (
         <div className="min-h-screen py-10 px-6 md:px-10">
-
-            <header>
-                
-            </header>
+            <header></header>
 
             <main className="container-page">
-
                 <h1 className="mb-8 text-3xl font-bold md:text-4xl">
                     Doações Disponíveis
                 </h1>
 
-                <section className="doacoes-filtros"> 
-
+                <section className="doacoes-filtros">
                     <FiltrosDoacoes
                         busca={busca}
                         setBusca={setBusca}
@@ -77,28 +71,22 @@ function Doacoes(){
                         ordenacaoSelecionada={ordenacaoSelecionada}
                         setOrdenacaoSelecionada={setOrdenacaoSelecionada}
                     />
-                </section> 
+                </section>
 
-                <ContadorDoacoes quantidade={doacoesFiltradas.length}/>
+                <ContadorDoacoes
+                    quantidade={doacoesFiltradas.length}
+                />
 
                 <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {doacoesOrdenadas.map((doacao) =>(
+                    {doacoesOrdenadas.map((doacao) => (
                         <DoacaoCard
                             key={doacao.id}
-                            categoria={doacao.categoria}
-                            titulo={doacao.titulo}
-                            quantidade={doacao.quantidade}
-                            validade={doacao.validade}
-                            local={doacao.local}
-                            status={doacao.status}
+                            doacao={doacao}
                         />
                     ))}
                 </section>
-
             </main>
-
         </div>
-
     );
 }
 
