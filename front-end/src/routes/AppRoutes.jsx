@@ -4,6 +4,7 @@ import Doacoes from '../pages/Doacoes';
 import NaoEncontrada from "../pages/NaoEncontrada";
 import Cadastro from '../pages/cadastro';
 import DetalhesDoacao from '../pages/DetalhesDoacao';
+import Favoritos from '../pages/Favoritos';
 import Layout from "./Layout";
 
 function AppRoutes() {
@@ -14,6 +15,7 @@ function AppRoutes() {
                 <Route path="/doacoes" element={<Doacoes />} />
                 <Route path="cadastro" element={<Cadastro />} />
                 <Route path="detalhes/:id" element={<DetalhesDoacao />} />
+                <Route path="/favoritos" element={<Favoritos />} />
             </Route>
 
             <Route path="*" element={<NaoEncontrada />} />
