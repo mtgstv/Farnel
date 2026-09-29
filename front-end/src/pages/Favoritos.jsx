@@ -44,7 +44,10 @@ function Favoritos() {
                         <section className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                             {favoritos.map((doacao) => (
                                 <div key={doacao.id}>
-                                    <DoacaoCard doacao={doacao} />
+                                    <DoacaoCard 
+                                        doacao={doacao}
+                                        mostrarFavorito={false}
+                                    />
 
                                     <button
                                         type="button"

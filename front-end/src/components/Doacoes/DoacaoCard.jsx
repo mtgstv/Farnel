@@ -1,5 +1,18 @@
-function DoacaoCard ({doacao, onVerDetalhes}){
+import { useState } from "react";
+import { adicionarFavorito, isFavorito, removerFavorito } from "../../services/favoritosStorage";
 
+function DoacaoCard({ doacao, onVerDetalhes, mostrarFavorito = true }) {
+    const [favoritado, setFavoritado] = useState(isFavorito(doacao.id));
+    function handleFavorito(){
+        if (favoritado) {
+            removerFavorito(doacao.id);
+            setFavoritado(false);
+            return;
+        }
+
+        adicionarFavorito(doacao);
+        setFavoritado(true);
+    }
     const estilosStatus = {
         Disponível: "bg-forest/10 text-forest",
         Solicitada: "bg-terracotta/10 text-terracotta",
@@ -8,51 +21,67 @@ function DoacaoCard ({doacao, onVerDetalhes}){
     };
 
     const estiloStatus = estilosStatus[doacao.status];
-    return(
+
+    return (
         <div className="flex h-full flex-col rounded-2xl bg-white p-6 shadow-card transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_16px_35px_-18px_rgba(42,42,36,0.35)]">
 
-
-            <div className="mb-4 flex items-center justify-between gap-3" >
+            <div className="mb-4 flex items-center justify-between gap-3">
                 <p className="text-xs font-semibold uppercase tracking-wider text-terracotta">
                     {doacao.categoria}
                 </p>
-            
-                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${estiloStatus}`}>
+
+                <span
+                    className={`rounded-full px-3 py-1 text-xs font-semibold ${estiloStatus}`}
+                >
                     {doacao.status}
                 </span>
-
             </div>
 
             <h2 className="mb-5 text-xl font-bold">
                 {doacao.titulo}
             </h2>
-            
+
             <div className="mb-6 flex flex-col gap-3 text-sm text-ink-soft">
                 <p>
-                    <span className="font-semibold text-ink">Quantidade:</span>{" "}
+                    <span className="font-semibold text-ink">
+                        Quantidade:
+                    </span>{" "}
                     {doacao.quantidade}
                 </p>
 
                 <p>
-                    <span className="font-semibold text-ink">Validade:</span>{" "}
+                    <span className="font-semibold text-ink">
+                        Validade:
+                    </span>{" "}
                     {doacao.validade}
                 </p>
 
                 <p>
-                    <span className="font-semibold text-ink">Local:</span>{" "}
+                    <span className="font-semibold text-ink">
+                        Local:
+                    </span>{" "}
                     {doacao.local}
                 </p>
             </div>
-            <button
 
+            <button
                 type="button"
-                onClick={()=> onVerDetalhes(doacao)}
+                onClick={() => onVerDetalhes(doacao)}
                 className="mt-auto w-full rounded-xl bg-terracotta px-5 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-terracotta-dark"
-                >
+            >
                 Ver detalhes
             </button>
+            {mostrarFavorito && (
+                <button
+                    type="button"
+                    onClick={handleFavorito}
+                    className="mt-3 w-full rounded-xl border border-terracotta px-5 py-3 text-sm font-semibold text-terracotta transition hover:bg-terracotta/10"
+                >
+                    {favoritado ? "♥ Remover dos favoritos" : "♡ Adicionar aos favoritos"}
+                </button>
+            )}
         </div>
-    )
+    );
 }
 
 export default DoacaoCard;
