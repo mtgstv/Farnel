@@ -6,6 +6,7 @@ import Cadastro from '../pages/cadastro';
 import DetalhesDoacao from '../pages/DetalhesDoacao';
 import Favoritos from '../pages/Favoritos';
 import Layout from "./Layout";
+import Login from '../pages/Login';
 
 function AppRoutes() {
     return (
@@ -15,6 +16,7 @@ function AppRoutes() {
                 <Route path="/doacoes" element={<Doacoes />} />
                 <Route path="cadastro" element={<Cadastro />} />
                 <Route path="detalhes/:id" element={<DetalhesDoacao />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/favoritos" element={<Favoritos />} />
             </Route>
 
