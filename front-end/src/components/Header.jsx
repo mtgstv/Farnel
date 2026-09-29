@@ -42,6 +42,12 @@ export default function Header() {
           </div>
         </a>
         <nav className="hidden items-center gap-8 lg:flex">
+          <a
+            href="/favoritos"
+            className="text-sm font-medium text-ink-soft transition-colors hover:text-forest-dark"
+          >
+            Favoritos
+          </a>
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
