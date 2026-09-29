@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DoacaoCard from "../components/Doacoes/DoacaoCard";
 import {
-    getFavoritos,
+   getFavoritos,
     removerFavorito,
 } from "../services/favoritosStorage";
 
