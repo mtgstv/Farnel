@@ -1,9 +1,9 @@
 import { useState } from "react";
-import DoacaoCard from "../components/Doacoes/DoacaoCard";
-import FiltrosDoacoes from "../components/Doacoes/FiltrosDoacoes";
-import ContadorDoacoes from "../components/Doacoes/ContadorDoacoes";
-import { getDoacoes } from "../services/doacoesStorage";
-import ModalDoacao from "../components/Doacoes/ModalDoacao";
+import DoacaoCard from "../../components/Doacoes/DoacaoCard";
+import FiltrosDoacoes from "../../components/Doacoes/FiltrosDoacoes";
+import ContadorDoacoes from "../../components/Doacoes/ContadorDoacoes";
+import { getDoacoes } from "../../services/doacoesStorage";
+import ModalDoacao from "../../components/Doacoes/ModalDoacao";
 import { Link } from "react-router-dom";
 
 function converterData(data) {

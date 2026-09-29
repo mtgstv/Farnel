@@ -1,23 +1,25 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home';
-import Doacoes from '../pages/Doacoes';
-import NaoEncontrada from "../pages/NaoEncontrada";
-import Cadastro from '../pages/cadastro';
-import DetalhesDoacao from '../pages/DetalhesDoacao';
-import Favoritos from '../pages/Favoritos';
-import Layout from "./Layout";
-import Login from '../pages/Login';
+import Layout from './Layout';
+import Home from '../pages/Principal/Home';
+import Sobre from '../pages/Principal/Sobre';
+import Cadastro from '../pages/Autenticacao/Cadastro';
+import Login from '../pages/Autenticacao/Login';
+import Doacoes from '../pages/Doacoes/Doacoes';
+import DetalhesDoacao from '../pages/Doacoes/DetalhesDoacao';
+import Favoritos from '../pages/Doacoes/Favoritos';
+import NaoEncontrada from '../pages/Principal/NaoEncontrada';
 
 function AppRoutes() {
     return (
         <Routes>
             <Route element={<Layout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/doacoes" element={<Doacoes />} />
+                <Route index element={<Home />} />
+                <Route path="sobre" element={<Sobre />} />
                 <Route path="cadastro" element={<Cadastro />} />
+                <Route path="login" element={<Login />} />
+                <Route path="doacoes" element={<Doacoes />} />
                 <Route path="detalhes/:id" element={<DetalhesDoacao />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/favoritos" element={<Favoritos />} />
+                <Route path="favoritos" element={<Favoritos />} />
             </Route>
 
             <Route path="*" element={<NaoEncontrada />} />

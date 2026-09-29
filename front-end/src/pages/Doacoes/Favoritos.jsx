@@ -1,9 +1,9 @@
 import { useState } from "react";
-import DoacaoCard from "../components/Doacoes/DoacaoCard";
+import DoacaoCard from "../../components/Doacoes/DoacaoCard";
 import {
    getFavoritos,
     removerFavorito,
-} from "../services/favoritosStorage";
+} from "../../services/favoritosStorage";
 
 function Favoritos() {
     const [favoritos, setFavoritos] = useState(getFavoritos());
