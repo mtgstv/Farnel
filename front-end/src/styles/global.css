@@ -1,0 +1,50 @@
+/* Estilos globais dos elementos HTML. O reset (margens etc.) já vem do Tailwind. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    color: var(--color-forest-dark);
+    line-height: 1.15;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  /* Contorno visível para quem navega pelo teclado (não aparece no clique do mouse).
+     Campos de formulário usam o próprio anel de foco (.campo). */
+  :where(a, button, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-terracotta-dark);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background-color: var(--color-terracotta);
+    color: white;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}

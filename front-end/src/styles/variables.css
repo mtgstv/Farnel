@@ -1,11 +1,22 @@
-@theme {
+/*
+ * Tokens do tema. Cada variável vira um utilitário do Tailwind
+ * (--color-forest → bg-forest, text-forest...; --font-heading → font-heading).
+ * "static" garante que todas as variáveis existam no CSS final, mesmo as que
+ * só são usadas via var() nos arquivos de estilo dos componentes.
+ */
+@theme static {
   --color-cream: #f8f2e7;
   --color-cream-dark: #efe4d0;
-  --color-forest: #2f4a3c;
-  --color-forest-light: #3d5c4b;
-  --color-forest-dark: #253b30;
-  --color-terracotta: #dd7c4f;
-  --color-terracotta-dark: #c96a3f;
+  /* #15803d: texto branco/creme sobre o verde fica com contraste 4,5:1 ou mais (WCAG AA) */
+  --color-forest: #15803d;
+  --color-forest-light: #35b86d;
+  --color-forest-dark: #116133;
+  --color-terracotta: #ff9129;
+  /* laranja vivo para preenchimentos e ícones; o escuro para textos (5:1 sobre branco) */
+  --color-terracotta-dark: #b3530b;
+  --color-terracotta-hover: #f27a0c;
+  --color-terracotta-light: #ffc080; /* textos laranja sobre fundos verdes */
+  --color-sky: #8ecae6;
   --color-ink: #2a2a24;
   --color-ink-soft: #5c584e;
   --color-line: #e6dcc9;
@@ -13,7 +24,9 @@
   --font-heading: "Lora", "Georgia", serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-ballet: "Ballet", cursive;
+  --font-parisienne: "Parisienne", cursive;
 
-  --shadow-soft: 0 20px 45px -20px rgba(47, 74, 60, 0.35);
-  --shadow-card: 0 12px 30px -18px rgba(42, 42, 36, 0.25);
+  --shadow-soft: 0 20px 45px -20px color-mix(in srgb, var(--color-forest-dark) 35%, transparent);
+  --shadow-card: 0 12px 30px -18px color-mix(in srgb, var(--color-ink) 25%, transparent);
+  --shadow-button: 0 10px 25px -8px color-mix(in srgb, var(--color-terracotta) 65%, transparent);
 }

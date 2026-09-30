@@ -1,3 +1,5 @@
+import "../styles/stats-carousel.css";
+
 const STATS = [
     { value: "+1.200", label: "Doações realizadas" },
     { value: "+100", label: "Empresas parceiras" },

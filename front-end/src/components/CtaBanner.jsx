@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowIcon, CheckBadge } from "./Icons";
 
 export default function CtaBanner() {
@@ -7,22 +8,22 @@ export default function CtaBanner() {
         <h2 className="text-2xl font-semibold text-cream sm:text-3xl lg:text-[2.1rem]">
           Transforme o excedente em esperança hoje mesmo
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-cream/75 sm:text-base">
+        <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-cream/90 sm:text-base">
           Cadastre seu estabelecimento ou sua organização de caridade social. Nossos
           matches levam menos de 24 horas para se concretizarem de forma prática.
         </p>
 
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a href="/signin" className="btn-primary">
+          <Link to="/cadastro" className="btn-primary">
             Quero Ser Doador
             <ArrowIcon className="h-4 w-4" />
-          </a>
-          <a href="/signin" className="btn-outline-light">
+          </Link>
+          <Link to="/cadastro" className="btn-outline-light">
             Quero Receber Doações
-          </a>
+          </Link>
         </div>
 
-        <p className="mt-6 flex items-center justify-center gap-2 text-xs text-cream/70 sm:text-sm">
+        <p className="mt-6 flex items-center justify-center gap-2 text-xs text-cream/90 sm:text-sm">
           <CheckBadge className="h-4 w-4 text-terracotta" />
           Junte-se a mais de 1.200 parceiros ativos que combatem a fome
         </p>

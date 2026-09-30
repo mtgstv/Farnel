@@ -3,7 +3,7 @@ import { QuoteMark } from "./Icons";
 
 export default function Testimonials() {
   return (
-    <section id="depoimentos" className="container-page py-20 md:py-24">
+    <section id="depoimentos" className="container-page scroll-mt-20 py-20 md:py-24">
       <div className="text-center">
         <p className="eyebrow">Vozes de solidariedade</p>
         <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">

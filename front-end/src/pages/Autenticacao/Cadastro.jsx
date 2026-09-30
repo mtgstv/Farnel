@@ -1,28 +1,28 @@
+import { Link, useLocation } from "react-router-dom";
+import PaginaCentralizada from "../../components/PaginaCentralizada";
 import CadastroForm from "../../components/Cadastro/CadastroForm";
 
 function Cadastro() {
+    const location = useLocation();
+
     return (
-        <main className="min-h-screen bg-cream py-12 md:py-20">
-            <div className="container-page">
-                <div className="mx-auto max-w-lg rounded-3xl bg-white p-8 shadow-card md:p-10">
-                    <div className="mb-8 text-center">
-                        <p className="eyebrow mb-3">
-                            Crie sua conta
-                        </p>
+        <PaginaCentralizada
+            eyebrow="Crie sua conta"
+            titulo="Cadastre-se no Farnel"
+            descricao="Leva menos de um minuto: depois é só doar ou solicitar alimentos."
+            largura="max-w-md"
+        >
+            <div className="cartao p-6 sm:p-8">
+                <CadastroForm />
 
-                        <h1 className="text-3xl md:text-4xl">
-                            Cadastre-se no Farnel
-                        </h1>
-
-                        <p className="mt-3 text-sm text-ink-soft">
-                            Preencha seus dados para criar sua conta.
-                        </p>
-                    </div>
-
-                    <CadastroForm />
-                </div>
+                <p className="mt-6 border-t border-line pt-5 text-center text-sm text-ink-soft">
+                    Já tem uma conta?{" "}
+                    <Link to="/login" state={location.state} className="font-semibold text-forest-dark hover:underline">
+                        Entrar
+                    </Link>
+                </p>
             </div>
-        </main>
+        </PaginaCentralizada>
     );
 }
 

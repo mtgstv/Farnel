@@ -1,0 +1,23 @@
+/* Usado em: components/HomeLogado/CarrosselVencimento.jsx */
+
+/* Fade nas bordas da tela: os cards laterais "somem" suavemente */
+.carrossel-faixa {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+}
+
+/* Balão com o resumo da doação: surge suavemente a cada troca de card */
+.balao-doacao {
+  animation: balao-entrar 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes balao-entrar {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .balao-doacao {
+    animation: none;
+  }
+}

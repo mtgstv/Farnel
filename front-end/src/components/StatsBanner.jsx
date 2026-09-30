@@ -4,7 +4,7 @@ export default function StatsBanner() {
   return (
     <section className="bg-forest py-16 text-cream">
       <div className="container-page text-center">
-        <p className="eyebrow text-terracotta">Nosso impacto em números</p>
+        <p className="eyebrow-claro">Nosso impacto em números</p>
         <h2 className="mt-3 text-2xl font-semibold text-cream sm:text-3xl">
           O tamanho da nossa rede de solidariedade
         </h2>
@@ -19,7 +19,7 @@ export default function StatsBanner() {
                 {stat.value}
               </p>
               <p className="mt-2 text-sm font-semibold text-cream/90">{stat.label}</p>
-              <p className="mt-1 text-xs text-cream/60">{stat.sub}</p>
+              <p className="mt-1 text-xs text-cream/90">{stat.sub}</p>
             </div>
           ))}
         </div>

@@ -5,7 +5,7 @@ const ICONS = [ShieldIcon, ReceiptIcon, TruckIcon];
 
 export default function TrustFeatures() {
   return (
-    <section className="container-page py-20 md:py-24">
+    <section id="transparencia" className="container-page scroll-mt-20 py-20 md:py-24">
       <div className="text-center">
         <p className="eyebrow">Transparência e segurança</p>
         <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">

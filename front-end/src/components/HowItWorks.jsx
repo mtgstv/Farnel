@@ -21,7 +21,7 @@ function StepList({ steps }) {
 
 export default function HowItWorks() {
   return (
-    <section id="como-funciona" className="container-page py-20 md:py-24">
+    <section id="como-funciona" className="container-page scroll-mt-20 py-20 md:py-24">
       <div className="text-center">
         <p className="eyebrow">O caminho do alimento</p>
         <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">Como funciona a plataforma</h2>

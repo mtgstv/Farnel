@@ -1,0 +1,37 @@
+/* Usado em: components/Doacoes/EsteiraDoacoes.jsx */
+
+/* A esteira ocupa a largura do container, incluindo o recuo lateral; os cards somem
+   com fade justamente nesse recuo (a borda vazia dos dois lados da página). */
+.esteira-faixa {
+  --fade: 1.5rem;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+}
+
+@media (width >= 48rem) {
+  .esteira-faixa {
+    --fade: 2.5rem;
+  }
+}
+
+/* Card que deu a volta na esteira: reaparece surgindo aos poucos */
+@keyframes esteira-entrar {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Flutuação bem leve dos cards (mais discreta que a da home) */
+.flutuar-suave {
+  animation: flutuar-suave 7s ease-in-out infinite;
+}
+
+@keyframes flutuar-suave {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flutuar-suave {
+    animation: none;
+  }
+}

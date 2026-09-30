@@ -1,119 +1,115 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import FotoDoacao from "./FotoDoacao";
+import SeloStatus from "./SeloStatus";
+import InfoItem from "../InfoItem";
+import { statusDaDoacao } from "../../services/ordenacaoDoacoes";
+import { getUsuarioLogado } from "../../services/authStorage";
 
+/*
+ * Janela com o resumo de uma doação, aberta a partir dos cards.
+ * Fecha com Esc, clicando fora ou no ×; enquanto aberta, a página de trás não rola.
+ */
 function ModalDoacao({ doacao, onFechar }) {
-    const estilosStatus = {
-        Disponível: "bg-forest/10 text-forest",
-        Solicitada: "bg-terracotta/10 text-terracotta",
-        Concluída: "bg-ink/10 text-ink-soft",
-        Cancelada: "bg-red-100 text-red-700"
-    };
+    const botaoFecharRef = useRef(null);
+    // A página pode recriar onFechar a cada render; guardado aqui, o efeito abaixo roda só ao abrir.
+    const fecharRef = useRef(onFechar);
+    useEffect(() => {
+        fecharRef.current = onFechar;
+    });
 
-    const estiloStatus = estilosStatus[doacao.status];
+    // "Vencida" é calculada pela validade; as outras vêm do status salvo.
+    const status = statusDaDoacao(doacao);
+    const podeSolicitar = status === "Disponível" && doacao.usuarioId !== getUsuarioLogado()?.id;
+
+    useEffect(() => {
+        const focoAnterior = document.activeElement;
+        const rolagemAnterior = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        botaoFecharRef.current?.focus();
+
+        function handleKeyDown(event) {
+            if (event.key === "Escape") fecharRef.current();
+        }
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.body.style.overflow = rolagemAnterior;
+            focoAnterior?.focus?.(); // devolve o foco para onde estava (ex.: o botão do card)
+        };
+    }, []);
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-            <div className="relative max-h-[95vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-5 shadow-xl">
-
-                <button
-                    type="button"
-                    onClick={onFechar}
-                    className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white text-xl text-ink-soft shadow-md hover:bg-gray-100"
-                    aria-label="Fechar"
-                >
-                    ×
-                </button>
-
-                <img
-                    src={doacao.imagem}
-                    alt={doacao.titulo}
-                    className="mb-4 h-40 w-full rounded-xl object-cover"
-                />
-
-                <div className="mb-2 flex items-center justify-between gap-3">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-terracotta">
-                        {doacao.categoria}
-                    </p>
-
-                    <span
-                        className={`rounded-full px-3 py-1 text-xs font-semibold ${estiloStatus}`}
+        <div
+            className="fixed inset-0 z-[60] flex items-end justify-center bg-ink/55 p-0 backdrop-blur-[2px] sm:items-center sm:p-4"
+            // clicar no fundo escuro (e não dentro da janela) fecha
+            onMouseDown={(event) => event.target === event.currentTarget && onFechar()}
+        >
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modal-doacao-titulo"
+                className="relative max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl"
+            >
+                <div className="relative">
+                    <FotoDoacao doacao={doacao} prioritaria className="h-48 w-full sm:h-56" />
+                    <SeloStatus status={status} sobreFoto className="absolute left-4 top-4" />
+                    <button
+                        ref={botaoFecharRef}
+                        type="button"
+                        onClick={onFechar}
+                        aria-label="Fechar"
+                        className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-xl leading-none text-ink shadow-card transition hover:bg-white"
                     >
-                        {doacao.status}
-                    </span>
+                        ×
+                    </button>
                 </div>
 
-                <h2 className="mb-2 text-xl font-bold">
-                    {doacao.titulo}
-                </h2>
-
-                <p className="mb-4 text-sm leading-relaxed text-ink-soft">
-                    {doacao.descricao}
-                </p>
-
-                <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
-                    <div>
-                        <span className="text-gray-500">Quantidade</span>
-                        <p className="font-medium">{doacao.quantidade}</p>
-                    </div>
-
-                    <div>
-                        <span className="text-gray-500">Validade</span>
-                        <p className="font-medium">{doacao.validade}</p>
-                    </div>
-
-                    <div>
-                        <span className="text-gray-500">Local</span>
-                        <p className="font-medium">{doacao.local}</p>
-                    </div>
-
-                    <div>
-                        <span className="text-gray-500">Retirada</span>
-                        <p className="font-medium">{doacao.tipoRetirada}</p>
-                    </div>
-                </div>
-
-                <div className="mb-4">
-                    <span className="text-sm text-gray-500">Observações</span>
-                    <p className="text-sm text-ink-soft">
-                        {doacao.observacoes}
-                    </p>
-                </div>
-
-                <div className="mb-4">
-                    <h3 className="mb-2 font-semibold">
-                        Informações do doador
-                    </h3>
-
-                    <div className="grid grid-cols-2 gap-3 text-sm">
-                        <div>
-                            <span className="text-gray-500">Doador</span>
-                            <p className="font-medium">{doacao.doador}</p>
-                        </div>
-
-                        <div>
-                            <span className="text-gray-500">Contato</span>
-                            <p className="font-medium">{doacao.contato}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                    {doacao.status === "Disponível" && (
-                        <button
-                            type="button"
-                            className="w-full rounded-xl bg-terracotta px-5 py-2.5 text-sm font-semibold text-white hover:bg-terracotta-dark"
-                        >
-                            Solicitar doação
-                        </button>
+                <div className="p-6">
+                    <p className="rotulo-categoria">{doacao.categoria}</p>
+                    <h2 id="modal-doacao-titulo" className="mt-1.5 text-2xl font-semibold">
+                        {doacao.titulo}
+                    </h2>
+                    {doacao.descricao && (
+                        <p className="mt-3 text-sm leading-relaxed text-ink-soft">{doacao.descricao}</p>
                     )}
 
-                    <Link
-                        to={`/detalhes/${doacao.id}`}
-                        className="w-full rounded-xl border border-terracotta px-5 py-2.5 text-center text-sm font-semibold text-terracotta hover:bg-terracotta/10"
-                    >
-                        Ver página completa
-                    </Link>
-                </div>
+                    <dl className="mt-5 grid grid-cols-2 gap-4 rounded-2xl bg-cream p-4">
+                        <InfoItem rotulo="Quantidade">{doacao.quantidade}</InfoItem>
+                        <InfoItem rotulo="Validade">{doacao.validade}</InfoItem>
+                        <InfoItem rotulo="Local">{doacao.local}</InfoItem>
+                        <InfoItem rotulo="Retirada">{doacao.tipoRetirada}</InfoItem>
+                        {doacao.conservacao && <InfoItem rotulo="Conservação">{doacao.conservacao}</InfoItem>}
+                        {doacao.alergenicos?.length > 0 && (
+                            <InfoItem rotulo="Alergênicos">{doacao.alergenicos.join(", ")}</InfoItem>
+                        )}
+                    </dl>
 
+                    {doacao.observacoes && (
+                        <p className="mt-4 text-sm text-ink-soft">
+                            <span className="font-semibold text-ink">Observações:</span> {doacao.observacoes}
+                        </p>
+                    )}
+
+                    <div className="mt-5 flex items-center justify-between gap-4 border-t border-line pt-4 text-sm">
+                        <div>
+                            <p className="font-semibold text-ink">{doacao.doador}</p>
+                            <p className="text-ink-soft">{doacao.contato}</p>
+                        </div>
+                    </div>
+
+                    <div className="mt-5 flex flex-col gap-2 sm:flex-row-reverse">
+                        {podeSolicitar && (
+                            <Link to={`/solicitacoes/nova?doacao=${doacao.id}`} className="btn-primary btn-sm sm:flex-1">
+                                Solicitar doação
+                            </Link>
+                        )}
+                        <Link to={`/detalhes/${doacao.id}`} className="btn-secundario btn-sm sm:flex-1">
+                            Ver página completa
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
     );

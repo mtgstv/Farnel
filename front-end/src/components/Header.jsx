@@ -1,15 +1,32 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { SiteLogo, ArrowIcon } from "./Icons";
+import { ArrowIcon } from "./Icons";
+import Marca from "./Marca";
 
+// "href": trechos desta página · "para": outra página do site
 const NAV_LINKS = [
+  { label: "Doações", para: "/doacoes" },
   { label: "Como Funciona", href: "#como-funciona" },
   { label: "Nossa Rede", href: "#nossa-rede" },
+  { label: "Onde Atuamos", href: "#onde-atuamos" },
   { label: "Transparência", href: "#transparencia" },
-  { label: "Quem Apoia", href: "#depoimentos" },
 ];
 
+// Link de página (Link do router) ou âncora para um trecho da home (<a href="#...">).
+function LinkNav({ link, className, onClick }) {
+  return link.para ? (
+    <Link to={link.para} onClick={onClick} className={className}>{link.label}</Link>
+  ) : (
+    <a href={link.href} onClick={onClick} className={className}>{link.label}</a>
+  );
+}
 
+const CLASSE_BOTAO_CONTORNO = "rounded-full border-2 border-forest/15 px-5 py-2.5 text-sm font-semibold text-forest-dark transition-colors hover:border-forest/30";
 
+/*
+ * Header da home de apresentação (visitantes): os links rolam para trechos da
+ * própria página. Quem está logado usa o HeaderNavegacao.
+ */
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -21,6 +38,10 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  function fecharMenu() {
+    setOpen(false);
+  }
+
   return (
     <header
       className={`sticky top-0 z-50 border-b backdrop-blur-xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-300 ${scrolled
@@ -30,53 +51,34 @@ export default function Header() {
     >
       <div className="container-page flex h-20 items-center justify-between">
         <a href="#top" className="flex items-center gap-3">
-          <SiteLogo className="relative -top-1 h-16 w-16" iconClassName="h-full w-full" />
-
-          <div className="flex flex-col items-center">
-            <span className="relative top-1 z-10 -mb-2 font-ballet text-[2.75rem] leading-none text-forest-dark [font-variation-settings:'opsz'_16] [-webkit-text-stroke:0.6px_currentColor] [text-shadow:0_0_8px_var(--color-cream),0_0_2px_var(--color-cream)]">
-              Farnel
-            </span>
-            <span className="pl-[0.2em] text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-ink">
-              Compartilhe. Alimente.
-            </span>
-          </div>
+          <Marca />
         </a>
-        <nav className="hidden items-center gap-8 lg:flex">
-          <a
-            href="/favoritos"
-            className="text-sm font-medium text-ink-soft transition-colors hover:text-forest-dark"
-          >
-            Favoritos
-          </a>
+
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Principal">
           {NAV_LINKS.map((link) => (
-            <a
+            <LinkNav
               key={link.label}
-              href={link.href}
+              link={link}
               className="text-sm font-medium text-ink-soft transition-colors hover:text-forest-dark"
-            >
-              {link.label}
-            </a>
+            />
           ))}
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <a
-            href="/login"
-            className="rounded-full border-2 border-forest/15 px-5 py-2.5 text-sm font-semibold text-forest-dark transition-colors hover:border-forest/30"
-          >
+          <Link to="/login" className={CLASSE_BOTAO_CONTORNO}>
             Entre
-          </a>
-          <a href="/signin" className="btn-primary">
+          </Link>
+          <Link to="/cadastro" className="btn-primary">
             Cadastre-se
             <ArrowIcon className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
 
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
           className="flex h-10 w-10 items-center justify-center rounded-full border border-forest/15 text-forest-dark lg:hidden"
-          aria-label="Abrir menu"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
         >
           <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
@@ -91,30 +93,28 @@ export default function Header() {
 
       {open && (
         <div className="border-t border-line/70 bg-cream px-6 pb-6 pt-2 lg:hidden">
-          <nav className="flex flex-col gap-1">
+          <nav className="flex flex-col gap-1" aria-label="Principal">
             {NAV_LINKS.map((link) => (
-              <a
+              <LinkNav
                 key={link.label}
-                href={link.href}
-                onClick={() => setOpen(false)}
+                link={link}
+                onClick={fecharMenu}
                 className="rounded-lg px-2 py-3 text-sm font-medium text-ink-soft hover:bg-cream-dark hover:text-forest-dark"
-              >
-                {link.label}
-              </a>
+              />
             ))}
           </nav>
+
           <div className="mt-3 flex flex-col gap-3">
-            <a
-              href="#area-ong"
-              onClick={() => setOpen(false)}
-              className="rounded-full border-2 border-forest/15 px-5 py-2.5 text-center text-sm font-semibold text-forest-dark"
-            >
-              Área da ONG
-            </a>
-            <a href="#doar" onClick={() => setOpen(false)} className="btn-primary justify-center">
+            <Link to="/login" onClick={fecharMenu} className={`${CLASSE_BOTAO_CONTORNO} text-center`}>
+              Entre
+            </Link>
+            <Link to="/cadastro" onClick={fecharMenu} className={`${CLASSE_BOTAO_CONTORNO} text-center`}>
+              Cadastre-se
+            </Link>
+            <Link to="/doacoes/nova" onClick={fecharMenu} className="btn-primary justify-center">
               Quero Doar
               <ArrowIcon className="h-4 w-4" />
-            </a>
+            </Link>
           </div>
         </div>
       )}

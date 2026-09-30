@@ -1,87 +1,96 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import PaginaCentralizada from "../../components/PaginaCentralizada";
+import CampoSenha from "../../components/CampoSenha";
+import { Campo } from "../../components/Formulario";
+import { getUsuarios } from "../../services/usuariosStorage";
+import { loginAutomatico } from "../../services/authStorage";
+import { useDestinoAposLogin } from "../../hooks/useDestinoAposLogin";
 
-export default function Login() {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
-  const navigate = useNavigate();
+function Login() {
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [erro, setErro] = useState("");
+    const navigate = useNavigate();
+    const location = useLocation();
+    const destino = useDestinoAposLogin();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setErro('');
+    function handleSubmit(event) {
+        event.preventDefault();
 
-    
-    if (!email || !senha) {
-      setErro('Por favor, preencha todos os campos.');
-      return;
+        const emailDigitado = email.trim().toLowerCase();
+
+        if (!emailDigitado || !senha) {
+            setErro("Preencha o e-mail e a senha.");
+            return;
+        }
+
+        const usuario = getUsuarios().find(
+            (item) => item.email.toLowerCase() === emailDigitado && item.senha === senha
+        );
+
+        if (!usuario) {
+            setErro("E-mail ou senha incorretos.");
+            return;
+        }
+
+        loginAutomatico(usuario);
+        navigate(destino, { replace: true });
     }
 
+    return (
+        <PaginaCentralizada
+            eyebrow="Bem-vindo de volta"
+            titulo="Entrar no Farnel"
+            descricao="Conectando solidariedade e combate ao desperdício."
+            largura="max-w-md"
+        >
+            <div className="cartao p-6 sm:p-8">
+                <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+                    {erro && (
+                        <p role="alert" className="aviso-erro">
+                            {erro}
+                        </p>
+                    )}
 
-    const usuarioLogado = { email, tipo: 'doador' };
-    localStorage.setItem('farnel_user', JSON.stringify(usuarioLogado));
+                    <Campo id="email" rotulo="E-mail">
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                            placeholder="seu.email@exemplo.com"
+                            autoComplete="email"
+                            className="campo"
+                        />
+                    </Campo>
 
-    
-    navigate('/'); 
-  };
+                    <Campo id="senha" rotulo="Senha">
+                        <CampoSenha
+                            id="senha"
+                            name="senha"
+                            value={senha}
+                            onChange={(event) => setSenha(event.target.value)}
+                            autoComplete="current-password"
+                        />
+                    </Campo>
 
-  return (
-    <div className="min-h-screen bg-emerald-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-emerald-100">
-        
-        
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-emerald-800 tracking-tight">🍎 Farnel</h1>
-          <p className="text-sm text-gray-600 mt-2">Conectando solidariedade e combate ao desperdício</p>
-        </div>
+                    <button type="submit" className="btn-primary mt-1 w-full">
+                        Entrar
+                    </button>
+                </form>
 
-        {erro && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
-            {erro}
-          </div>
-        )}
-
-        
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="seu.email@exemplo.com"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
-            <input
-              type="password"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg transition duration-200 shadow-md hover:shadow-lg cursor-pointer"
-          >
-            Entrar
-          </button>
-        </form>
-
-        
-        <div className="mt-6 text-center text-sm text-gray-600">
-          Ainda não tem uma conta?{' '}
-          <Link to="/cadastro" className="text-emerald-600 font-medium hover:underline">
-            Cadastre-se
-          </Link>
-        </div>
-
-      </div>
-    </div>
-  );
+                <p className="mt-6 border-t border-line pt-5 text-center text-sm text-ink-soft">
+                    Ainda não tem uma conta?{" "}
+                    {/* repassa a página de origem: depois do cadastro, a pessoa volta para ela */}
+                    <Link to="/cadastro" state={location.state} className="font-semibold text-forest-dark hover:underline">
+                        Cadastre-se
+                    </Link>
+                </p>
+            </div>
+        </PaginaCentralizada>
+    );
 }
+
+export default Login;

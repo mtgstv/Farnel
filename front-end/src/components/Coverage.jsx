@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 import { coverageRegions } from "../data/content";
 import { ArrowIcon, PinIcon } from "./Icons";
 
 export default function Coverage() {
   return (
-    <section id="transparencia" className="bg-cream-dark py-20 md:py-24">
+    <section id="onde-atuamos" className="scroll-mt-20 bg-cream-dark py-20 md:py-24">
       <div className="container-page grid gap-14 lg:grid-cols-2 lg:items-center">
         <div>
           <p className="eyebrow">Onde estamos atuando</p>
@@ -28,10 +29,10 @@ export default function Coverage() {
             ))}
           </ul>
 
-          <a href="/cidades" className="btn-primary mt-8">
+          <Link to="/sobre#cidades" className="btn-primary mt-8">
             Ver Cidades Atendidas
             <ArrowIcon className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
 
         <div className="relative mx-auto w-full max-w-md">

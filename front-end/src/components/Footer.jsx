@@ -1,5 +1,7 @@
-import { SiteLogo, InstagramIcon, FacebookIcon, LinkedinIcon } from "./Icons";
-import { footerLinks } from "../data/content";
+import { InstagramIcon, FacebookIcon, LinkedinIcon } from "./Icons";
+import Marca from "./Marca";
+import { Link } from "react-router-dom";
+import { contato, footerLinks } from "../data/content";
 
 function LinkColumn({ title, links }) {
   return (
@@ -7,10 +9,10 @@ function LinkColumn({ title, links }) {
       <p className="text-xs font-bold uppercase tracking-[0.14em] text-forest-dark">{title}</p>
       <ul className="mt-4 space-y-2.5">
         {links.map((link) => (
-          <li key={link}>
-            <a href="#" className="text-sm text-ink-soft transition-colors hover:text-forest-dark">
-              {link}
-            </a>
+          <li key={link.secao}>
+            <Link to={`/sobre#${link.secao}`} className="text-sm text-ink-soft transition-colors hover:text-forest-dark">
+              {link.label}
+            </Link>
           </li>
         ))}
       </ul>
@@ -25,14 +27,12 @@ export default function Footer() {
     <footer className="border-t border-line bg-cream-dark">
       <div className="container-page grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-5">
-            <SiteLogo className="h-16 w-16" iconClassName="h-full w-full" />
-            <span className="relative top-2 z-10 font-ballet text-[2.75rem] leading-none text-forest-dark [font-variation-settings:'opsz'_16] [-webkit-text-stroke:0.6px_currentColor] [text-shadow:0_0_8px_var(--color-cream),0_0_2px_var(--color-cream)]">
-              Farnel
-            </span>
-          </div>
+          <Link to="/" className="inline-flex items-center gap-3">
+            <Marca />
+          </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-soft">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique soluta nulla illo laboriosam consectetur suscipit nostrum aliquid cupiditate? Magnam, animi fugit dolorem pariatur architecto et ipsa tempore quae placeat nam.
+            Conectamos quem tem alimento sobrando a quem precisa dele, reduzindo o
+            desperdício e levando mais comida para a mesa de quem mais precisa.
           </p>
         </div>
 
@@ -44,19 +44,29 @@ export default function Footer() {
             Contato &amp; Apoio
           </p>
           <ul className="mt-4 space-y-2.5 text-sm text-ink-soft">
-            <li>contato@pratocheio.org</li>
-            <li>0800 555 3321</li>
+            <li>
+              <a href={`mailto:${contato.email}`} className="transition-colors hover:text-forest-dark">{contato.email}</a>
+            </li>
+            <li>
+              <a href={`tel:${contato.telefone.replace(/\D/g, "")}`} className="transition-colors hover:text-forest-dark">{contato.telefone}</a>
+            </li>
           </ul>
           <div className="mt-5 flex gap-3">
-            {[InstagramIcon, FacebookIcon, LinkedinIcon].map((Icon, index) => (
-              <a
-                key={index}
-                href="#"
+            {/* as redes ainda não existem: por enquanto levam ao contato */}
+            {[
+              ["Instagram", InstagramIcon],
+              ["Facebook", FacebookIcon],
+              ["LinkedIn", LinkedinIcon],
+            ].map(([rede, Icon]) => (
+              <Link
+                key={rede}
+                to="/sobre#contato"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-forest/15 text-forest-dark transition-colors hover:bg-forest hover:text-cream"
-                aria-label="Rede social"
+                aria-label={`${rede} do Farnel (em breve)`}
+                title={`${rede} (em breve)`}
               >
                 <Icon className="h-4 w-4" />
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -69,13 +79,11 @@ export default function Footer() {
             reservados. CNPJ: 00.123.456/0001-00
           </p>
           <div className="flex gap-5">
-            {/* Aqui eu preciso fazer uma página com essas informações abaixo */}
-            <a href="#" className="hover:text-forest-dark">
-              Política de Privacidade
-            </a>
-            <a href="#" className="hover:text-forest-dark">
-              Termos de Uso
-            </a>
+            {footerLinks.legal.map((link) => (
+              <Link key={link.secao} to={`/sobre#${link.secao}`} className="hover:text-forest-dark">
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

@@ -1,70 +1,79 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import FaixaTopo from "../../components/FaixaTopo";
+import FundoPagina from "../../components/FundoPagina";
+import EstadoVazio from "../../components/EstadoVazio";
 import DoacaoCard from "../../components/Doacoes/DoacaoCard";
-import {
-   getFavoritos,
-    removerFavorito,
-} from "../../services/favoritosStorage";
+import ModalDoacao from "../../components/Doacoes/ModalDoacao";
+import { ArrowIcon } from "../../components/Icons";
+import { EVENTO_FAVORITOS_ALTERADOS, getFavoritos } from "../../services/favoritosStorage";
+import { getDoacoes } from "../../services/doacoesStorage";
+
+/*
+ * Os favoritos guardam uma cópia da doação do momento em que foram salvos; aqui usamos
+ * a versão atual de cada uma (status, foto...), e a cópia só se a doação não existir mais.
+ */
+function lerFavoritos() {
+    const atuais = new Map(getDoacoes().map((doacao) => [doacao.id, doacao]));
+    return getFavoritos().map((favorito) => atuais.get(favorito.id) ?? favorito);
+}
 
 function Favoritos() {
-    const [favoritos, setFavoritos] = useState(getFavoritos());
+    const [favoritos, setFavoritos] = useState(lerFavoritos);
+    const [doacaoSelecionada, setDoacaoSelecionada] = useState(null);
 
-    function handleRemoverFavorito(id) {
-        removerFavorito(id);
-        setFavoritos(getFavoritos());
-    }
+    // Ao desfavoritar pelo card, a doação sai da lista na hora.
+    useEffect(() => {
+        function atualizar() {
+            setFavoritos(lerFavoritos());
+        }
+
+        window.addEventListener(EVENTO_FAVORITOS_ALTERADOS, atualizar);
+        return () => window.removeEventListener(EVENTO_FAVORITOS_ALTERADOS, atualizar);
+    }, []);
 
     return (
-        <main className="min-h-screen bg-cream py-12 md:py-20">
-            <div className="container-page">
-                <div className="mx-auto max-w-6xl">
-                    <p className="eyebrow mb-3">
-                        Meus favoritos
-                    </p>
+        <div className="min-h-screen">
+            <FaixaTopo
+                eyebrow="Minha lista"
+                titulo="Favoritos"
+                descricao="As doações que você salvou para acompanhar de perto."
+                acao={
+                    <Link to="/doacoes" className="btn-primary">
+                        Ver doações
+                        <ArrowIcon className="h-4 w-4" />
+                    </Link>
+                }
+            />
 
-                    <h1 className="text-3xl md:text-4xl">
-                        Favoritos
-                    </h1>
-
-                    <p className="mt-3 text-ink-soft">
-                        Aqui estão as doações que você marcou como favoritas.
-                    </p>
-
+            <FundoPagina>
+                <main className="container-largo py-10 md:py-14">
                     {favoritos.length === 0 ? (
-                        <div className="mt-10 rounded-2xl bg-white p-8 text-center shadow-card">
-                            <h2 className="text-xl font-bold">
-                                Nenhum favorito ainda
-                            </h2>
-
-                            <p className="mt-2 text-sm text-ink-soft">
-                                Quando você marcar uma doação como favorita,
-                                ela aparecerá aqui.
-                            </p>
-                        </div>
+                        <EstadoVazio
+                            eyebrow="Nenhum favorito ainda"
+                            titulo="Sua lista está vazia"
+                            texto="Toque em “♡ Adicionar aos favoritos” em qualquer doação para guardá-la aqui."
+                            acao={<Link to="/doacoes" className="btn-primary">Explorar doações</Link>}
+                        />
                     ) : (
-                        <section className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                            {favoritos.map((doacao) => (
-                                <div key={doacao.id}>
-                                    <DoacaoCard 
-                                        doacao={doacao}
-                                        mostrarFavorito={false}
-                                    />
-
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            handleRemoverFavorito(doacao.id)
-                                        }
-                                        className="mt-3 w-full rounded-xl border border-line bg-white px-5 py-3 text-sm font-semibold text-ink transition hover:border-terracotta hover:text-terracotta"
-                                    >
-                                        Remover dos favoritos
-                                    </button>
-                                </div>
-                            ))}
-                        </section>
+                        <>
+                            <p className="mb-6 text-sm font-medium text-ink-soft">
+                                {favoritos.length} {favoritos.length === 1 ? "doação salva" : "doações salvas"}
+                            </p>
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                {favoritos.map((doacao) => (
+                                    <DoacaoCard key={doacao.id} doacao={doacao} onVerDetalhes={setDoacaoSelecionada} />
+                                ))}
+                            </div>
+                        </>
                     )}
-                </div>
-            </div>
-        </main>
+                </main>
+            </FundoPagina>
+
+            {doacaoSelecionada && (
+                <ModalDoacao doacao={doacaoSelecionada} onFechar={() => setDoacaoSelecionada(null)} />
+            )}
+        </div>
     );
 }
 

@@ -1,0 +1,45 @@
+/* Usado em: components/OrangeRain.jsx */
+
+/* Giro da laranja ao ser clicada */
+.orange-spin {
+  animation: orange-spin 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes orange-spin {
+  from { transform: rotate(0deg) scale(1); }
+  40%  { transform: rotate(200deg) scale(1.12); }
+  to   { transform: rotate(360deg) scale(1); }
+}
+
+/* Cada laranja da "chuva"; --drift e --rot vêm do componente */
+.orange-drop {
+  position: absolute;
+  top: 0;
+  animation-name: orange-fall;
+  animation-timing-function: ease-in; /* acelera como uma queda de verdade */
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+@keyframes orange-fall {
+  from { transform: translate3d(0, -12vh, 0) rotate(0deg); }
+  to   { transform: translate3d(var(--drift), 112vh, 0) rotate(var(--rot)); }
+}
+
+/* Nuvem de pensamento: flutua devagar enquanto está visível */
+.nuvem-flutuar {
+  animation: nuvem-flutuar 3.2s ease-in-out infinite;
+}
+
+@keyframes nuvem-flutuar {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orange-spin,
+  .orange-drop,
+  .nuvem-flutuar {
+    animation: none;
+  }
+}

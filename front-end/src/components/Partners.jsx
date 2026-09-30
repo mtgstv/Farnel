@@ -21,7 +21,7 @@ export default function Partners() {
   };
 
   return (
-    <section id="nossa-rede" className="bg-cream-dark py-20 md:py-24">
+    <section id="nossa-rede" className="scroll-mt-20 bg-cream-dark py-20 md:py-24">
       <div className="container-page">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -66,7 +66,7 @@ export default function Partners() {
                 <PinIcon className="h-9 w-9 text-white/85" />
               </div>
               <div className="p-5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-terracotta">
+                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-terracotta-dark">
                   {partner.category}
                 </p>
                 <h3 className="mt-2 font-semibold text-forest-dark">{partner.name}</h3>

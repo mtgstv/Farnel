@@ -1,3 +1,16 @@
+import BarraFiltros from "../BarraFiltros";
+import { CATEGORIAS, STATUS_DOACAO } from "../../data/opcoesDoacao";
+
+const ORDENACOES = [
+    { valor: "validade", rotulo: "Validade mais próxima" },
+    { valor: "nome", rotulo: "Nome (A-Z)" },
+    { valor: "recentes", rotulo: "Mais recentes" },
+];
+
+/*
+ * Busca, categoria, status e ordenação das listas de doações.
+ * - ordenacaoPadrao: ordenação usada ao limpar os filtros (cada página tem a sua)
+ */
 function FiltrosDoacoes({
     busca,
     setBusca,
@@ -6,75 +19,73 @@ function FiltrosDoacoes({
     statusSelecionado,
     setStatusSelecionado,
     ordenacaoSelecionada,
-    setOrdenacaoSelecionada
-}){
-    
-    return(
-        <div className="flex flex-col gap-4 rounded-2xl bg-white p-5 shadow-card md:flex-row md:items-end">
+    setOrdenacaoSelecionada,
+    ordenacaoPadrao = "validade",
+}) {
+    const temFiltro =
+        busca !== "" ||
+        categoriaSelecionada !== "Todas" ||
+        statusSelecionado !== "Todos" ||
+        ordenacaoSelecionada !== ordenacaoPadrao;
 
+    function limpar() {
+        setBusca("");
+        setCategoriaSelecionada("Todas");
+        setStatusSelecionado("Todos");
+        setOrdenacaoSelecionada(ordenacaoPadrao);
+    }
+
+    return (
+        <BarraFiltros>
             <input
-                type="text"
+                type="search"
                 placeholder="Buscar alimento..."
+                aria-label="Buscar alimento"
                 value={busca}
                 onChange={(event) => setBusca(event.target.value)}
-                 className="w-full rounded-xl border border-line bg-cream/30 px-4 py-3 text-sm text-ink outline-none transition focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 md:flex-1"
+                className="campo-filtro"
             />
-            <select 
-                value={categoriaSelecionada}
-                onChange={(event)=> setCategoriaSelecionada(event.target.value)}
-                className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 md:w-auto"
-            >
-                <option value="Todas">Todas as Categorias</option>
-                <option value="Grãos">Grãos</option>
-                <option value="Frutas">Frutas</option>
-                <option value="Verduras">Verduras</option>
-                <option value="Legumes">Legumes</option>
-                <option value="Enlatados">Enlatados</option>
-                <option value="Massas">Massas</option>
-                <option value="Bebidas">Bebidas</option>
-                <option value="Laticínios">Laticínios</option>
-                <option value="Padaria">Padaria</option>
-                <option value="Outros">Outros</option>
-            </select>
 
-            <select 
-                value={statusSelecionado}
-                onChange={(event) => setStatusSelecionado(event.target.value)}
-                className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 md:w-auto"
-    
+            <select
+                aria-label="Categoria"
+                value={categoriaSelecionada}
+                onChange={(event) => setCategoriaSelecionada(event.target.value)}
+                className="campo-filtro lg:w-auto"
             >
-                <option value="Todos">Todos os status</option>
-                <option value="Disponível">Disponível</option>
-                <option value="Solicitada">Solicitada</option>
-                <option value="Concluída">Concluída</option>
-                <option value="Cancelada">Cancelada</option>
-                
+                <option value="Todas">Todas as categorias</option>
+                {CATEGORIAS.map((categoria) => (
+                    <option key={categoria} value={categoria}>{categoria}</option>
+                ))}
             </select>
 
             <select
-                value={ordenacaoSelecionada}
-                onChange={(event) => setOrdenacaoSelecionada(event.target.value)}
-                className="w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 md:w-auto"
+                aria-label="Status"
+                value={statusSelecionado}
+                onChange={(event) => setStatusSelecionado(event.target.value)}
+                className="campo-filtro lg:w-auto"
             >
-                <option value="validade">Validade mais próxima</option>
-                <option value="nome">Nome (A-Z)</option>
-                <option value="recentes">Mais recentes</option>
+                <option value="Todos">Todos os status</option>
+                {STATUS_DOACAO.map((status) => (
+                    <option key={status} value={status}>{status}</option>
+                ))}
             </select>
 
-            <button
-                type="button"
-                onClick={() => {
-                    setBusca("");
-                    setCategoriaSelecionada("Todas");
-                    setStatusSelecionado("Todos");
-                    setOrdenacaoSelecionada("validade");
-                }}
-                className="w-full rounded-xl border-2 border-forest/15 bg-white px-5 py-3 text-sm font-semibold text-forest-dark transition hover:-translate-y-0.5 hover:border-forest/30 md:w-auto"
+            <select
+                aria-label="Ordenar por"
+                value={ordenacaoSelecionada}
+                onChange={(event) => setOrdenacaoSelecionada(event.target.value)}
+                className="campo-filtro lg:w-auto"
             >
+                {ORDENACOES.map(({ valor, rotulo }) => (
+                    <option key={valor} value={valor}>{rotulo}</option>
+                ))}
+            </select>
+
+            <button type="button" onClick={limpar} disabled={!temFiltro} className="btn-outline btn-sm lg:flex-none">
                 Limpar filtros
             </button>
-        </div>
-    )
+        </BarraFiltros>
+    );
 }
 
 export default FiltrosDoacoes;

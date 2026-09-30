@@ -1,0 +1,63 @@
+/* Usado em: components/Hero.jsx e components/HomeLogado/HeroLogado.jsx
+   (a grade de pontos .dot-grid fica em components.css) */
+
+/* Link com sublinhado que cresce no hover */
+@property --cor-linha {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+.link-animado {
+  text-decoration: none;
+  background-image: linear-gradient(var(--cor-linha), var(--cor-linha));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size 0.4s ease, --cor-linha 0.4s ease;
+}
+
+.link-animado:hover,
+.link-animado:focus-visible {
+  --cor-linha: var(--color-sky);
+  background-size: 100% 2px;
+}
+
+/* Palavra em destaque no título ("ajudar") */
+.destaquetext {
+  color: var(--color-terracotta);
+  font-family: var(--font-parisienne);
+  font-weight: 600;
+  font-size: 4rem;
+}
+
+.destaquetitle {
+  position: relative;
+  z-index: 0;
+}
+
+/* Risco de caneta desenhado embaixo da palavra */
+.destaquetitle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0.25em;
+  width: 0;
+  height: 0.05em;
+  border-radius: 9999px;
+  background-color: var(--color-sky);
+  z-index: -1;
+  animation: riscar 0.9s ease-out 0.5s forwards;
+}
+
+@keyframes riscar {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .destaquetitle::after {
+    animation: none;
+    width: 100%;
+  }
+}

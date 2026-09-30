@@ -8,16 +8,6 @@ export function SiteLogo({ className = "h-9 w-9", iconClassName = "h-[55%] w-[55
   );
 }
 
-export function CalendarIcon(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <rect x="3.5" y="5" width="17" height="15" rx="2.5" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M3.5 9.5h17" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M8 3v3.2M16 3v3.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 export function HandshakeIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
@@ -129,6 +119,22 @@ export function ArrowIcon(props) {
   );
 }
 
+export function CameraOffIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M9.5 5h5l1.5 2h3A1.5 1.5 0 0 1 20.5 8.5v8.4M17.6 19H5A1.5 1.5 0 0 1 3.5 17.5v-9A1.5 1.5 0 0 1 5 7h2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M10.2 10.2a3 3 0 0 0 4.2 4.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M3 3l18 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function CheckBadge(props) {
   return (
     <svg viewBox="0 0 20 20" fill="none" {...props}>
@@ -164,6 +170,100 @@ export function LinkedinIcon(props) {
     <svg viewBox="0 0 24 24" fill="none" {...props}>
       <rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" strokeWidth="1.6" />
       <path d="M8 10.5v6M8 7.8v.1M12 16.5v-3.6c0-1.2.8-2 2-2s1.8.8 1.8 2v3.6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// ---------- Ícones do formulário de doação ----------
+
+export function CameraIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M9.5 5h5l1.5 2h3A1.5 1.5 0 0 1 20.5 8.5v9a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 5 7h3l1.5-2Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="12.5" r="3.2" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
+export function CalendarIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function SunIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function ThermometerIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M10 4.5a2 2 0 1 1 4 0v9.3a4 4 0 1 1-4 0V4.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M12 10v6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function SnowflakeIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M12 2.5v19M3.8 7.25l16.4 9.5M3.8 16.75l16.4-9.5M9.5 4l2.5 2.2L14.5 4M9.5 20l2.5-2.2 2.5 2.2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function UserIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <circle cx="12" cy="8" r="3.8" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M4.5 20c.9-3.7 3.9-6 7.5-6s6.6 2.3 7.5 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function AlertIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M12 7.5v5.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="12" cy="16.3" r="1.1" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function CheckIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
