@@ -249,9 +249,6 @@ A AV1 não depende de rede, então funciona igualmente sem internet (exceto as f
 
 A equipe usou ferramentas como: Claude, ChatGPT, Gemini, Gemma, como assistente de desenvolvimento e Recraft, Upscale.media e Magnific para edição de Assets.
 
-
-> **A preencher pela equipe:** como as sugestões da IA foram revisadas e testadas, e qual integrante é responsável por explicar cada parte na apresentação.
-
 ---
 
 ## Evolução planejada para a AV2
