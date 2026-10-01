@@ -1,10 +1,10 @@
 import { useState } from "react";
 import DoacaoCard from "../../components/Doacoes/DoacaoCard";
 import FiltrosDoacoes from "../../components/Doacoes/FiltrosDoacoes";
-import ContadorResultados from "../../components/ContadorResultados";
-import EstadoVazio from "../../components/EstadoVazio";
-import FaixaTopo from "../../components/FaixaTopo";
-import FundoPagina from "../../components/FundoPagina";
+import ContadorResultados from "../../components/Comuns/ContadorResultados";
+import EstadoVazio from "../../components/Comuns/EstadoVazio";
+import FaixaTopo from "../../components/Layout/FaixaTopo";
+import FundoPagina from "../../components/Layout/FundoPagina";
 import EsteiraDoacoes from "../../components/Doacoes/EsteiraDoacoes";
 import CartaoCompacto from "../../components/Doacoes/CartaoCompacto";
 import CartaoComBalao from "../../components/Doacoes/CartaoComBalao";

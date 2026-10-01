@@ -1,4 +1,4 @@
-import BarraFiltros from "../BarraFiltros";
+import BarraFiltros from "../Comuns/BarraFiltros";
 import { CATEGORIAS, STATUS_DOACAO } from "../../data/opcoesDoacao";
 
 const ORDENACOES = [

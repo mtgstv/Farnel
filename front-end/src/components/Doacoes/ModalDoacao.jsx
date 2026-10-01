@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import FotoDoacao from "./FotoDoacao";
 import SeloStatus from "./SeloStatus";
-import InfoItem from "../InfoItem";
-import { statusDaDoacao } from "../../services/ordenacaoDoacoes";
+import InfoItem from "../Comuns/InfoItem";
+import { ehExemplo, podeSerSolicitada, statusDaDoacao } from "../../services/ordenacaoDoacoes";
 import { getUsuarioLogado } from "../../services/authStorage";
 
 /*
@@ -20,7 +20,7 @@ function ModalDoacao({ doacao, onFechar }) {
 
     // "Vencida" é calculada pela validade; as outras vêm do status salvo.
     const status = statusDaDoacao(doacao);
-    const podeSolicitar = status === "Disponível" && doacao.usuarioId !== getUsuarioLogado()?.id;
+    const podeSolicitar = podeSerSolicitada(doacao, getUsuarioLogado());
 
     useEffect(() => {
         const focoAnterior = document.activeElement;
@@ -98,6 +98,12 @@ function ModalDoacao({ doacao, onFechar }) {
                             <p className="text-ink-soft">{doacao.contato}</p>
                         </div>
                     </div>
+
+                    {status === "Disponível" && ehExemplo(doacao) && (
+                        <p className="mt-4 rounded-xl bg-cream px-4 py-3 text-xs text-ink-soft">
+                            Doação de demonstração: não pode ser solicitada.
+                        </p>
+                    )}
 
                     <div className="mt-5 flex flex-col gap-2 sm:flex-row-reverse">
                         {podeSolicitar && (

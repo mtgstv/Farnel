@@ -1,4 +1,4 @@
-import icon from "../assets/icon.svg";
+import icon from "../../assets/icon.svg";
 
 export function SiteLogo({ className = "h-9 w-9", iconClassName = "h-[55%] w-[55%]" }) {
   return (

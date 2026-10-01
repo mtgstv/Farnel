@@ -1,4 +1,4 @@
-import EmBreve from "../../components/EmBreve";
+import EmBreve from "../../components/Comuns/EmBreve";
 
 function InstSolic() {
     return <EmBreve titulo="Solicitações da instituição" />;

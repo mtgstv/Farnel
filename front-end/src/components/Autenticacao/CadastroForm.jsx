@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Campo } from "../Formulario";
-import CampoSenha from "../CampoSenha";
-import { atributosErro } from "../atributosErro";
+import { Campo } from "../Formulario/Formulario";
+import CampoSenha from "../Formulario/CampoSenha";
+import { atributosErro } from "../Formulario/atributosErro";
 import { emailEmUso, getUsuarios, saveUsuarios } from "../../services/usuariosStorage";
 import { loginAutomatico } from "../../services/authStorage";
 import { useDestinoAposLogin } from "../../hooks/useDestinoAposLogin";
+import { emailValido } from "../../services/formatacao";
 
 // Retorna { campo: "mensagem" } com os erros, na ordem em que aparecem na tela.
 function validar(form) {
@@ -14,7 +15,7 @@ function validar(form) {
     if (!form.nome.trim()) erros.nome = "O nome é obrigatório.";
 
     if (!form.email.trim()) erros.email = "O e-mail é obrigatório.";
-    else if (!form.email.includes("@")) erros.email = "Digite um e-mail válido.";
+    else if (!emailValido(form.email)) erros.email = "Digite um e-mail válido.";
     else if (emailEmUso(form.email)) erros.email = "Este e-mail já está cadastrado.";
 
     if (form.senha.length < 6) erros.senha = "A senha deve ter pelo menos 6 caracteres.";
@@ -60,7 +61,7 @@ function CadastroForm() {
             tipo: "doador",
         };
 
-        saveUsuarios([...getUsuarios(), novoUsuario]);
+        if (!saveUsuarios([...getUsuarios(), novoUsuario])) return; // armazenamento cheio: o aviso aparece sozinho
         loginAutomatico(novoUsuario);
 
         // já entra na conta e segue para a home (ou para a página que tentou abrir)

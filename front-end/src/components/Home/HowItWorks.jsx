@@ -1,12 +1,12 @@
-import { BasketIcon, HandshakeIcon } from "./Icons";
-import { donorSteps, receiverSteps } from "../data/content";
+import { BasketIcon, HandshakeIcon } from "../Comuns/Icons";
+import { donorSteps, receiverSteps } from "../../data/content";
 
 function StepList({ steps }) {
   return (
     <ol className="mt-6 space-y-5">
       {steps.map((step, index) => (
         <li key={step.title} className="flex gap-4">
-          <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-terracotta/12 text-sm font-bold text-terracotta">
+          <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-terracotta-dark text-sm font-bold text-white">
             {index + 1}
           </span>
           <div>

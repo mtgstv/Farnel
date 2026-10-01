@@ -1,4 +1,4 @@
-import EmBreve from "../../components/EmBreve";
+import EmBreve from "../../components/Comuns/EmBreve";
 
 function Dashboard() {
     return <EmBreve titulo="Dashboard" />;

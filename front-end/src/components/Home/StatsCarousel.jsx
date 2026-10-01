@@ -1,4 +1,4 @@
-import "../styles/stats-carousel.css";
+import "../../styles/stats-carousel.css";
 
 const STATS = [
     { value: "+1.200", label: "Doações realizadas" },

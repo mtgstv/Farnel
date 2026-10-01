@@ -1,5 +1,5 @@
-import { trustFeatures } from "../data/content";
-import { ShieldIcon, ReceiptIcon, TruckIcon } from "./Icons";
+import { trustFeatures } from "../../data/content";
+import { ShieldIcon, ReceiptIcon, TruckIcon } from "../Comuns/Icons";
 
 const ICONS = [ShieldIcon, ReceiptIcon, TruckIcon];
 

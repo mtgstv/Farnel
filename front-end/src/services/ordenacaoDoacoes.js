@@ -47,6 +47,19 @@ export function statusDaDoacao(doacao) {
 // Encerradas não podem mais ser favoritadas nem solicitadas.
 export const STATUS_ENCERRADOS = ["Vencida", "Concluída", "Cancelada"];
 
+/*
+ * As doações de exemplo (data/content.js) não têm uma conta de doador por trás:
+ * ninguém responderia a um pedido, que ficaria pendente para sempre.
+ */
+export function ehExemplo(doacao) {
+    return !doacao.usuarioId;
+}
+
+// Se a doação pode ser pedida por este usuário (ou visitante, quando null).
+export function podeSerSolicitada(doacao, usuario) {
+    return statusDaDoacao(doacao) === "Disponível" && !ehExemplo(doacao) && doacao.usuarioId !== usuario?.id;
+}
+
 export function estaEncerrada(doacao) {
     return STATUS_ENCERRADOS.includes(statusDaDoacao(doacao));
 }

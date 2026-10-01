@@ -8,6 +8,7 @@ function EmBreve({ titulo }) {
             <EstadoVazio
                 eyebrow="Em construção"
                 titulo={titulo}
+                tituloDaPagina
                 texto="Esta página ainda está sendo desenvolvida. Enquanto isso, que tal ver as doações disponíveis?"
                 acao={
                     <div className="flex flex-col justify-center gap-3 sm:flex-row">

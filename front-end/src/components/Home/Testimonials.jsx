@@ -1,5 +1,5 @@
-import { testimonials } from "../data/content";
-import { QuoteMark } from "./Icons";
+import { testimonials } from "../../data/content";
+import { QuoteMark } from "../Comuns/Icons";
 
 export default function Testimonials() {
   return (

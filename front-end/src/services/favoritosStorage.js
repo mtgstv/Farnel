@@ -1,3 +1,5 @@
+import { ehLista, lerJSON, salvarJSON } from "./armazenamento";
+
 const CHAVE_FAVORITOS = "favoritos";
 
 // Avisado sempre que os favoritos mudam, para todos os cards na tela se atualizarem
@@ -5,23 +7,13 @@ const CHAVE_FAVORITOS = "favoritos";
 export const EVENTO_FAVORITOS_ALTERADOS = "favoritos-alterados";
 
 export function getFavoritos() {
-    const dadosSalvos = localStorage.getItem(CHAVE_FAVORITOS);
-
-    if (dadosSalvos) {
-        return JSON.parse(dadosSalvos);
-    }
-
-    localStorage.setItem(CHAVE_FAVORITOS, JSON.stringify([]));
-
-    return [];
+    return lerJSON(CHAVE_FAVORITOS, [], ehLista);
 }
 
 export function saveFavoritos(favoritos) {
-    localStorage.setItem(
-        CHAVE_FAVORITOS,
-        JSON.stringify(favoritos)
-    );
-    window.dispatchEvent(new Event(EVENTO_FAVORITOS_ALTERADOS));
+    if (salvarJSON(CHAVE_FAVORITOS, favoritos)) {
+        window.dispatchEvent(new Event(EVENTO_FAVORITOS_ALTERADOS));
+    }
 }
 
 export function limparFavoritos() {

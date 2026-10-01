@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { coverageRegions } from "../data/content";
-import { ArrowIcon, PinIcon } from "./Icons";
+import { coverageRegions } from "../../data/content";
+import { ArrowIcon, PinIcon } from "../Comuns/Icons";
 
 export default function Coverage() {
   return (

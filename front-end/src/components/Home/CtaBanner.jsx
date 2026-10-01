@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowIcon, CheckBadge } from "./Icons";
+import { ArrowIcon, CheckBadge } from "../Comuns/Icons";
 
 export default function CtaBanner() {
   return (

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import FaixaTopo from "../../components/FaixaTopo";
-import FundoPagina from "../../components/FundoPagina";
-import EstadoVazio from "../../components/EstadoVazio";
+import FaixaTopo from "../../components/Layout/FaixaTopo";
+import FundoPagina from "../../components/Layout/FundoPagina";
+import EstadoVazio from "../../components/Comuns/EstadoVazio";
 import DoacaoCard from "../../components/Doacoes/DoacaoCard";
 import ModalDoacao from "../../components/Doacoes/ModalDoacao";
-import { ArrowIcon } from "../../components/Icons";
+import { ArrowIcon } from "../../components/Comuns/Icons";
 import { EVENTO_FAVORITOS_ALTERADOS, getFavoritos } from "../../services/favoritosStorage";
 import { getDoacoes } from "../../services/doacoesStorage";
 

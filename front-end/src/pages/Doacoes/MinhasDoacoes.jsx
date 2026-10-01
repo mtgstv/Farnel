@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import FaixaTopo from "../../components/FaixaTopo";
-import FundoPagina from "../../components/FundoPagina";
+import FaixaTopo from "../../components/Layout/FaixaTopo";
+import FundoPagina from "../../components/Layout/FundoPagina";
 import DoacaoCard from "../../components/Doacoes/DoacaoCard";
 import FiltrosDoacoes from "../../components/Doacoes/FiltrosDoacoes";
 import ModalDoacao from "../../components/Doacoes/ModalDoacao";
-import { ArrowIcon } from "../../components/Icons";
-import EstadoVazio from "../../components/EstadoVazio";
-import BotaoConfirmar from "../../components/BotaoConfirmar";
-import ContadorResultados from "../../components/ContadorResultados";
+import { ArrowIcon } from "../../components/Comuns/Icons";
+import EstadoVazio from "../../components/Comuns/EstadoVazio";
+import BotaoConfirmar from "../../components/Comuns/BotaoConfirmar";
+import ContadorResultados from "../../components/Comuns/ContadorResultados";
 import { getUsuarioLogado } from "../../services/authStorage";
 import { getDoacoes } from "../../services/doacoesStorage";
 import { encerrarDoacao, getSolicitacoes } from "../../services/solicitacoesStorage";
@@ -54,7 +54,7 @@ function AcoesDoacao({ doacao, pedidosEmAberto, onEncerrar }) {
                 <BotaoConfirmar
                     texto="Cancelar"
                     pergunta="Cancelar esta doação?"
-                    className="btn-outline btn-sm flex-1 hover:border-red-300 hover:text-red-700"
+                    className="btn-outline btn-sm flex-1 hover:border-terracotta-dark/40 hover:text-terracotta-dark"
                     onConfirmar={() => onEncerrar(doacao.id, "Cancelada")}
                 />
             </div>

@@ -1,4 +1,4 @@
-import BotaoSeta from "../BotaoSeta";
+import BotaoSeta from "../Comuns/BotaoSeta";
 import { useCarrosselAutomatico } from "../../hooks/useCarrosselAutomatico";
 import { useLadoDoMouse } from "../../hooks/useLadoDoMouse";
 import "../../styles/fileira-doacoes.css";

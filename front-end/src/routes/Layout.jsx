@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import HeaderNavegacao from "../components/HeaderNavegacao";
-import Footer from "../components/Footer";
+import HeaderNavegacao from "../components/Layout/HeaderNavegacao";
+import Footer from "../components/Layout/Footer";
 import ControleRolagem from "./ControleRolagem";
 
 // Mostrado enquanto a página (carregada sob demanda) é baixada; header e rodapé continuam na tela.

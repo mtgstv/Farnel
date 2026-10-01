@@ -25,7 +25,7 @@
 
   /* sobre fundos verdes (faixas), o laranja escuro não aparece: usa o claro */
   .eyebrow-claro {
-    @apply text-xs font-semibold uppercase tracking-[0.18em] text-terracotta-light;
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-cream;
   }
 
   /* categoria da doação nos cards ("FRUTAS", "PADARIA"...) */

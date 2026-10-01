@@ -1,4 +1,4 @@
-import EmBreve from "../../components/EmBreve";
+import EmBreve from "../../components/Comuns/EmBreve";
 
 function GerInst() {
     return <EmBreve titulo="Gerenciar instituições" />;

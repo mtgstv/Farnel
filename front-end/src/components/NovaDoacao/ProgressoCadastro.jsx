@@ -1,4 +1,4 @@
-import { CheckIcon } from "../Icons";
+import { CheckIcon } from "../Comuns/Icons";
 
 // Marcador de uma etapa: número enquanto falta algo, "✓" quando está completa.
 function MarcadorEtapa({ numero, completa, claro = false }) {

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ArrowIcon } from "./Icons";
+import { ArrowIcon } from "../Comuns/Icons";
 import Marca from "./Marca";
 import MenuSuspenso, { Seta } from "./MenuSuspenso";
-import { logout } from "../services/authStorage";
-import { useUsuarioLogado } from "../hooks/useUsuarioLogado";
+import { logout } from "../../services/authStorage";
+import { useUsuarioLogado } from "../../hooks/useUsuarioLogado";
 
 /*
  * Header enxuto das páginas internas e da home de quem está logado.

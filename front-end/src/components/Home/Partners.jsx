@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { partners } from "../data/content";
-import { ArrowIcon, PinIcon } from "./Icons";
+import { partners } from "../../data/content";
+import { ArrowIcon, PinIcon } from "../Comuns/Icons";
 
 const TONE_STYLES = {
   forest: "from-forest to-forest-light",

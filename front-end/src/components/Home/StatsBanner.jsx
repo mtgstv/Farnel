@@ -1,4 +1,4 @@
-import { stats } from "../data/content";
+import { stats } from "../../data/content";
 
 export default function StatsBanner() {
   return (

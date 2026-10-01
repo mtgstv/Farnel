@@ -1,4 +1,4 @@
-/* Usado em: components/Hero.jsx e components/HomeLogado/HeroLogado.jsx
+/* Usado em: components/Home/Hero.jsx e components/HomeLogado/HeroLogado.jsx
    (a grade de pontos .dot-grid fica em components.css) */
 
 /* Link com sublinhado que cresce no hover */
@@ -25,7 +25,7 @@
 
 /* Palavra em destaque no título ("ajudar") */
 .destaquetext {
-  color: var(--color-terracotta);
+  color: var(--color-terracotta-vivo);
   font-family: var(--font-parisienne);
   font-weight: 600;
   font-size: 4rem;

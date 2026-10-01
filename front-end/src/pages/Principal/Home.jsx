@@ -1,14 +1,14 @@
 import { useLocation } from "react-router-dom";
-import Header from "../../components/Header";
-import HeaderNavegacao from "../../components/HeaderNavegacao";
-import Hero from "../../components/Hero";
-import StatsBanner from "../../components/StatsBanner";
-import HowItWorks from "../../components/HowItWorks";
-import Partners from "../../components/Partners";
-import Testimonials from "../../components/Testimonials";
-import Coverage from "../../components/Coverage";
-import TrustFeatures from "../../components/TrustFeatures";
-import CtaBanner from "../../components/CtaBanner";
+import Header from "../../components/Layout/Header";
+import HeaderNavegacao from "../../components/Layout/HeaderNavegacao";
+import Hero from "../../components/Home/Hero";
+import StatsBanner from "../../components/Home/StatsBanner";
+import HowItWorks from "../../components/Home/HowItWorks";
+import Partners from "../../components/Home/Partners";
+import Testimonials from "../../components/Home/Testimonials";
+import Coverage from "../../components/Home/Coverage";
+import TrustFeatures from "../../components/Home/TrustFeatures";
+import CtaBanner from "../../components/Home/CtaBanner";
 import HomeLogado from "./HomeLogado";
 import { getUsuarioLogado } from "../../services/authStorage";
 

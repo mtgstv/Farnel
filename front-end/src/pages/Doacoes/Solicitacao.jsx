@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import FaixaTopo from "../../components/FaixaTopo";
-import FundoPagina from "../../components/FundoPagina";
+import FaixaTopo from "../../components/Layout/FaixaTopo";
+import FundoPagina from "../../components/Layout/FundoPagina";
 import FotoDoacao from "../../components/Doacoes/FotoDoacao";
 import SeloStatus from "../../components/Doacoes/SeloStatus";
-import BarraFiltros from "../../components/BarraFiltros";
-import BotaoConfirmar from "../../components/BotaoConfirmar";
-import ContadorResultados from "../../components/ContadorResultados";
-import EstadoVazio from "../../components/EstadoVazio";
-import { ArrowIcon } from "../../components/Icons";
+import BarraFiltros from "../../components/Comuns/BarraFiltros";
+import BotaoConfirmar from "../../components/Comuns/BotaoConfirmar";
+import ContadorResultados from "../../components/Comuns/ContadorResultados";
+import EstadoVazio from "../../components/Comuns/EstadoVazio";
+import { ArrowIcon } from "../../components/Comuns/Icons";
 import { getUsuarioLogado } from "../../services/authStorage";
 import { getDoacoes } from "../../services/doacoesStorage";
 import { alterarStatusSolicitacao, getSolicitacoes } from "../../services/solicitacoesStorage";
@@ -27,7 +27,7 @@ const ORDENACOES = {
     retirada: (a, b) => converterData(a.dataRetirada) - converterData(b.dataRetirada),
 };
 
-const BOTAO_CANCELAR = "btn-outline btn-sm flex-1 hover:border-red-300 hover:text-red-700";
+const BOTAO_CANCELAR = "btn-outline btn-sm flex-1 hover:border-terracotta-dark/40 hover:text-terracotta-dark";
 const BOTAO_PRINCIPAL = "btn-primary btn-sm flex-1";
 
 function Detalhe({ rotulo, children }) {

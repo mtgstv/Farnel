@@ -1,5 +1,5 @@
 import SeloStatus from "../Doacoes/SeloStatus";
-import { CalendarIcon, CameraOffIcon, PinIcon } from "../Icons";
+import { CalendarIcon, CameraOffIcon, PinIcon } from "../Comuns/Icons";
 import { hojeISO, paraDataBR } from "../../services/formatacao";
 import { diasAteVencer, textoVencimento } from "../../services/ordenacaoDoacoes";
 

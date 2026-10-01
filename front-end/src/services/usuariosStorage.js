@@ -1,22 +1,14 @@
+import { ehLista, lerJSON, salvarJSON } from "./armazenamento";
+
 const CHAVE_USUARIOS = "usuarios";
 
 export function getUsuarios() {
-    const dadosSalvos = localStorage.getItem(CHAVE_USUARIOS);
-
-    if (dadosSalvos) {
-        return JSON.parse(dadosSalvos);
-    }
-
-    localStorage.setItem(CHAVE_USUARIOS, JSON.stringify([]));
-
-    return [];
+    return lerJSON(CHAVE_USUARIOS, [], ehLista);
 }
 
+// Devolve true se salvou.
 export function saveUsuarios(usuarios) {
-    localStorage.setItem(
-        CHAVE_USUARIOS,
-        JSON.stringify(usuarios)
-    );
+    return salvarJSON(CHAVE_USUARIOS, usuarios);
 }
 
 // Cadastro completo de um usuário (com os dados do perfil), ou null.
@@ -32,14 +24,12 @@ export function emailEmUso(email, exceto) {
     );
 }
 
-// Junta as alterações ao cadastro do usuário e devolve o cadastro atualizado.
+// Junta as alterações ao cadastro do usuário e devolve o cadastro atualizado (ou null, se não salvou).
 export function atualizarUsuario(id, alteracoes) {
     const usuarios = getUsuarios();
     const indice = usuarios.findIndex((usuario) => usuario.id === id);
     if (indice === -1) return null;
 
     usuarios[indice] = { ...usuarios[indice], ...alteracoes };
-    saveUsuarios(usuarios);
-
-    return usuarios[indice];
+    return saveUsuarios(usuarios) ? usuarios[indice] : null;
 }

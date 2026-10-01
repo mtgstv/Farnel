@@ -15,7 +15,8 @@
   /* laranja vivo para preenchimentos e ícones; o escuro para textos (5:1 sobre branco) */
   --color-terracotta-dark: #b3530b;
   --color-terracotta-hover: #f27a0c;
-  --color-terracotta-light: #ffc080; /* textos laranja sobre fundos verdes */
+  --color-terracotta-light: #ffc080; /* ícones e detalhes laranja sobre fundos verdes */
+  --color-terracotta-vivo: #d9650a; /* textos grandes em laranja sobre o creme (contraste 3,2:1) */
   --color-sky: #8ecae6;
   --color-ink: #2a2a24;
   --color-ink-soft: #5c584e;

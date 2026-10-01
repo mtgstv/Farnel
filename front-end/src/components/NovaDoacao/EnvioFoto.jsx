@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CameraIcon } from "../Icons";
+import { CameraIcon } from "../Comuns/Icons";
 
 /*
  * Área para enviar a foto do alimento: clicar ou arrastar um arquivo.

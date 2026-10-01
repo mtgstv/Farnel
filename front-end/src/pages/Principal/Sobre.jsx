@@ -7,7 +7,7 @@ import {
     receiverSteps,
     stats,
 } from "../../data/content";
-import { ArrowIcon, PinIcon } from "../../components/Icons";
+import { ArrowIcon, PinIcon } from "../../components/Comuns/Icons";
 
 /*
  * Os ids das seções precisam ser iguais aos "secao" de footerLinks

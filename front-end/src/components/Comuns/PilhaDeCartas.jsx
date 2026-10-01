@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import '../styles/hero-card-stack.css'
+import '../../styles/hero-card-stack.css'
 
 const INTERVAL_MS = 4000 // tempo entre trocas
 const MOVE_MS = 700 // duração da animação de troca

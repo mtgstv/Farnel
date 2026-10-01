@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { ArrowIcon, CheckBadge } from "./Icons";
+import { ArrowIcon, CheckBadge } from "../Comuns/Icons";
 import HeroCardStack from "./HeroCardStack";
-import OrangeRain from "./OrangeRain";
-import FloatingOranges from "./FloatingOranges";
+import OrangeRain from "../Decoracao/OrangeRain";
+import FloatingOranges from "../Decoracao/FloatingOranges";
 import StatsCarousel from "./StatsCarousel";
-import "../styles/hero.css";
+import "../../styles/hero.css";
 
 export default function Hero() {
     return (

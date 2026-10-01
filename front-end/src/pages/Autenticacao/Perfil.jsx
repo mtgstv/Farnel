@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Campo, Secao } from "../../components/Formulario";
-import FaixaTopo from "../../components/FaixaTopo";
-import { atributosErro } from "../../components/atributosErro";
-import CampoSenha from "../../components/CampoSenha";
+import { Campo, Secao } from "../../components/Formulario/Formulario";
+import FaixaTopo from "../../components/Layout/FaixaTopo";
+import { atributosErro } from "../../components/Formulario/atributosErro";
+import CampoSenha from "../../components/Formulario/CampoSenha";
 import { getUsuarioLogado, loginAutomatico } from "../../services/authStorage";
 import { atualizarUsuario, emailEmUso, getUsuarioPorId } from "../../services/usuariosStorage";
 import { getDoacoes } from "../../services/doacoesStorage";
 import { getSolicitacoes } from "../../services/solicitacoesStorage";
 import { getFavoritos } from "../../services/favoritosStorage";
 import { comprimirImagem } from "../../services/imagem";
-import { formatarTelefone, telefoneValido } from "../../services/formatacao";
+import { emailValido, formatarTelefone, telefoneValido } from "../../services/formatacao";
 import { CATEGORIAS, ESTADOS, PERFIS_USUARIO } from "../../data/opcoesDoacao";
 
 const AVISOS = [
@@ -45,7 +45,7 @@ function validarPerfil(form, usuarioId) {
 
     if (form.nome.trim().length < 2) erros.nome = "Informe seu nome.";
 
-    if (!form.email.includes("@")) erros.email = "Digite um e-mail válido.";
+    if (!emailValido(form.email)) erros.email = "Digite um e-mail válido.";
     else if (emailEmUso(form.email, usuarioId)) erros.email = "Este e-mail já está em uso por outra conta.";
 
     if (form.telefone && !telefoneValido(form.telefone)) erros.telefone = "Informe o telefone com DDD.";
@@ -83,7 +83,7 @@ function CartaoApresentacao({ usuario, form, onFoto, onRemoverFoto, erroFoto, ca
 
             <div className="-mt-14 flex flex-col items-center px-6 pb-6 text-center">
                 <div className="relative">
-                    <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-forest-light ring-4 ring-white">
+                    <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-forest ring-4 ring-white">
                         {form.foto ? (
                             <img src={form.foto} alt="Sua foto de perfil" className="h-full w-full object-cover" />
                         ) : (
@@ -169,7 +169,7 @@ function TrocarSenha({ usuarioId }) {
         setErros(novosErros);
         if (Object.keys(novosErros).length > 0) return;
 
-        atualizarUsuario(usuarioId, { senha: senhas.nova });
+        if (!atualizarUsuario(usuarioId, { senha: senhas.nova })) return; // armazenamento cheio: o aviso aparece sozinho
         setSenhas({ atual: "", nova: "", confirmacao: "" });
         setSucesso(true);
     }
@@ -295,6 +295,9 @@ function Perfil() {
             endereco: form.endereco.trim(),
             horario: form.horario.trim(),
         });
+
+        // O cadastro existe mas não foi salvo (armazenamento cheio): o aviso aparece sozinho.
+        if (!atualizado && getUsuarioPorId(usuario.id)) return;
 
         // atualiza a sessão (e o header) com o nome, e-mail e foto novos
         loginAutomatico(atualizado ?? { ...sessao, ...form });

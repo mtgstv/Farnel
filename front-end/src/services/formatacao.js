@@ -33,3 +33,8 @@ export function formatarTelefone(valor) {
 export function telefoneValido(valor) {
     return valor.replace(/\D/g, "").length >= 10;
 }
+
+// Formato básico de e-mail: algo@dominio.ext, sem espaços.
+export function emailValido(valor) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim());
+}

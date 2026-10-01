@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import FaixaTopo from "../../components/FaixaTopo";
-import FundoPagina from "../../components/FundoPagina";
-import { Campo } from "../../components/Formulario";
-import { atributosErro } from "../../components/atributosErro";
+import FaixaTopo from "../../components/Layout/FaixaTopo";
+import FundoPagina from "../../components/Layout/FundoPagina";
+import { Campo } from "../../components/Formulario/Formulario";
+import { atributosErro } from "../../components/Formulario/atributosErro";
 import EnvioFoto from "../../components/NovaDoacao/EnvioFoto";
 import OpcoesCartao from "../../components/NovaDoacao/OpcoesCartao";
 import PreviaDoacao from "../../components/NovaDoacao/PreviaDoacao";
@@ -24,7 +24,7 @@ import {
     ThermometerIcon,
     TruckIcon,
     UserIcon,
-} from "../../components/Icons";
+} from "../../components/Comuns/Icons";
 import { getUsuarioLogado } from "../../services/authStorage";
 import { getUsuarioPorId } from "../../services/usuariosStorage";
 import { adicionarDoacao } from "../../services/doacoesStorage";
@@ -32,7 +32,6 @@ import { comprimirImagem } from "../../services/imagem";
 import { formatarTelefone, hojeISO, paraDataBR } from "../../services/formatacao";
 import { diasAteVencer, textoVencimento } from "../../services/ordenacaoDoacoes";
 import { ALERGENICOS, CATEGORIAS, ESTADOS, UNIDADES } from "../../data/opcoesDoacao";
-import imagemPadrao from "../../assets/ImgDescricao/imgtest.jpg";
 
 const TAMANHO_MAXIMO_IMAGEM = 10 * 1024 * 1024; // 10 MB, antes da compressão
 const MAX_DESCRICAO = 500;
@@ -189,7 +188,7 @@ function NovaDoacao() {
             id: Date.now(),
             titulo: form.titulo.trim(),
             categoria: form.categoria,
-            imagem: form.imagem ?? imagemPadrao,
+            imagem: form.imagem, // null quando não há foto
             descricao: form.descricao.trim(),
             quantidade: `${Number(form.quantidade)} ${form.unidade}`,
             validade: paraDataBR(form.validade),
@@ -207,10 +206,8 @@ function NovaDoacao() {
             usuarioId: usuario.id,
         };
 
-        try {
-            adicionarDoacao(novaDoacao);
-        } catch {
-            // O localStorage lança erro quando fica cheio (geralmente por causa das fotos).
+        // Falha quando o armazenamento do navegador está cheio (geralmente por causa das fotos).
+        if (!adicionarDoacao(novaDoacao)) {
             setErroGeral("Não foi possível salvar a doação. Tente usar uma foto menor ou remover a foto.");
             return;
         }

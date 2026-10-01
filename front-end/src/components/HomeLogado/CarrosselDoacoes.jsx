@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import PilhaDeCartas from "../PilhaDeCartas";
+import PilhaDeCartas from "../Comuns/PilhaDeCartas";
 import FotoDoacao from "../Doacoes/FotoDoacao";
 import SeloStatus from "../Doacoes/SeloStatus";
 import { statusDaDoacao } from "../../services/ordenacaoDoacoes";
-import { ArrowIcon } from "../Icons";
+import { ArrowIcon } from "../Comuns/Icons";
 
 function CartaDoacao({ doacao }) {
     const status = statusDaDoacao(doacao);

@@ -3,12 +3,12 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import FotoDoacao from "../../components/Doacoes/FotoDoacao";
 import SeloStatus from "../../components/Doacoes/SeloStatus";
 import { useFavorito } from "../../components/Doacoes/useFavorito";
-import EstadoVazio from "../../components/EstadoVazio";
-import InfoItem from "../../components/InfoItem";
-import { ArrowIcon, CheckBadge, PinIcon } from "../../components/Icons";
+import EstadoVazio from "../../components/Comuns/EstadoVazio";
+import InfoItem from "../../components/Comuns/InfoItem";
+import { ArrowIcon, CheckBadge, PinIcon } from "../../components/Comuns/Icons";
 import { getDoacoes } from "../../services/doacoesStorage";
 import { getUsuarioLogado } from "../../services/authStorage";
-import { diasAteVencer, textoVencimento } from "../../services/ordenacaoDoacoes";
+import { diasAteVencer, ehExemplo, podeSerSolicitada, textoVencimento } from "../../services/ordenacaoDoacoes";
 
 // Por que a doação não pode ser solicitada, conforme o status.
 const MOTIVO_INDISPONIVEL = {
@@ -64,6 +64,7 @@ function DetalhesDoacao() {
                 <EstadoVazio
                     eyebrow="Doação não encontrada"
                     titulo="Não encontramos esta doação"
+                    tituloDaPagina
                     texto="Ela pode ter sido removida, ou o endereço está incorreto."
                     acao={<Link to="/doacoes" className="btn-primary">Ver doações disponíveis</Link>}
                 />
@@ -79,7 +80,7 @@ function Detalhes({ doacao }) {
     const { status, favoritado, bloqueado, alternar } = useFavorito(doacao);
     const usuario = getUsuarioLogado();
     const minhaDoacao = Boolean(usuario) && doacao.usuarioId === usuario.id;
-    const podeSolicitar = status === "Disponível" && !minhaDoacao;
+    const podeSolicitar = podeSerSolicitada(doacao, usuario);
     const dias = doacao.validade ? diasAteVencer(doacao.validade) : null;
     const ativa = status === "Disponível" || status === "Solicitada";
     const acabouDePublicar = useLocation().state?.publicada === true;
@@ -126,7 +127,7 @@ function Detalhes({ doacao }) {
                                 <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Contém</p>
                                 <ul className="mt-2 flex flex-wrap gap-2">
                                     {doacao.alergenicos.map((alergenico) => (
-                                        <li key={alergenico} className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+                                        <li key={alergenico} className="rounded-full bg-terracotta/10 px-3 py-1 text-xs font-semibold text-terracotta-dark">
                                             {alergenico}
                                         </li>
                                     ))}
@@ -139,6 +140,11 @@ function Detalhes({ doacao }) {
                                 <p className="aviso-sucesso font-medium">
                                     Esta doação é sua.{" "}
                                     <Link to="/minhas-doacoes" className="underline">Ver no histórico</Link>
+                                </p>
+                            )}
+                            {status === "Disponível" && ehExemplo(doacao) && (
+                                <p className="rounded-xl bg-cream px-4 py-3 text-sm text-ink-soft">
+                                    Esta é uma doação de demonstração, sem um doador cadastrado por trás, por isso não pode ser solicitada.
                                 </p>
                             )}
                             {!minhaDoacao && MOTIVO_INDISPONIVEL[status] && (

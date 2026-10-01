@@ -1,3 +1,4 @@
+import { ehLista, lerJSON, salvarJSON } from "./armazenamento";
 import { getDoacoes, saveDoacoes } from "./doacoesStorage";
 
 export const CHAVE_SOLICITACOES = "solicitacoes";
@@ -6,12 +7,11 @@ export const CHAVE_SOLICITACOES = "solicitacoes";
 const STATUS_ATIVOS = ["Pendente", "Aceita"];
 
 export function getSolicitacoes() {
-    const dadosSalvos = localStorage.getItem(CHAVE_SOLICITACOES);
-    return dadosSalvos ? JSON.parse(dadosSalvos) : [];
+    return lerJSON(CHAVE_SOLICITACOES, [], ehLista);
 }
 
 function salvarSolicitacoes(solicitacoes) {
-    localStorage.setItem(CHAVE_SOLICITACOES, JSON.stringify(solicitacoes));
+    return salvarJSON(CHAVE_SOLICITACOES, solicitacoes);
 }
 
 function alterarDoacao(doacaoId, alterar) {
@@ -38,9 +38,11 @@ function sincronizarStatusDaDoacao(doacaoId) {
     });
 }
 
+// Devolve true se salvou.
 export function adicionarSolicitacao(solicitacao) {
-    salvarSolicitacoes([...getSolicitacoes(), solicitacao]);
+    if (!salvarSolicitacoes([...getSolicitacoes(), solicitacao])) return false;
     sincronizarStatusDaDoacao(solicitacao.doacaoId);
+    return true;
 }
 
 // Muda o status de um pedido. Marcar como "Concluída" (entregue) também conclui a doação.

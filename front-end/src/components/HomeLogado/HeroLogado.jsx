@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { ArrowIcon } from "../Icons";
-import FloatingOranges from "../FloatingOranges";
-import OrangeRain from "../OrangeRain";
+import { ArrowIcon } from "../Comuns/Icons";
+import FloatingOranges from "../Decoracao/FloatingOranges";
+import OrangeRain from "../Decoracao/OrangeRain";
 import CarrosselDoacoes from "./CarrosselDoacoes";
 import "../../styles/hero.css";
 

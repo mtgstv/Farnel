@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import PaginaCentralizada from "../../components/PaginaCentralizada";
-import CampoSenha from "../../components/CampoSenha";
-import { Campo } from "../../components/Formulario";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import PaginaCentralizada from "../../components/Layout/PaginaCentralizada";
+import CampoSenha from "../../components/Formulario/CampoSenha";
+import { Campo } from "../../components/Formulario/Formulario";
 import { getUsuarios } from "../../services/usuariosStorage";
 import { loginAutomatico } from "../../services/authStorage";
 import { useDestinoAposLogin } from "../../hooks/useDestinoAposLogin";
+import { useUsuarioLogado } from "../../hooks/useUsuarioLogado";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -14,6 +15,10 @@ function Login() {
     const navigate = useNavigate();
     const location = useLocation();
     const destino = useDestinoAposLogin();
+    const jaLogado = useUsuarioLogado();
+
+    // Quem já está logado não precisa entrar de novo.
+    if (jaLogado) return <Navigate to={destino} replace />;
 
     function handleSubmit(event) {
         event.preventDefault();

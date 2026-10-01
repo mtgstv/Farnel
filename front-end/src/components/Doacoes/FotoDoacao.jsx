@@ -1,14 +1,14 @@
-import imagemPadrao from "../../assets/ImgDescricao/imgtest.jpg";
-import { CameraOffIcon } from "../Icons";
+import { CameraOffIcon } from "../Comuns/Icons";
 
 /*
- * Foto da doação. As doações sem foto guardam a imagem padrão (imgtest.jpg);
- * nesse caso mostramos o placeholder "sem imagem" no lugar.
+ * Foto da doação. Sem foto (imagem null), mostra o placeholder "sem imagem".
+ * Doações antigas guardavam uma imagem de teste (imgtest.jpg) no lugar: ela também
+ * conta como "sem foto".
  * - prioritaria: carrega na hora (foto principal da página); as demais só carregam
  *   quando chegam perto da tela, o que alivia as listas com muitas fotos.
  */
 function FotoDoacao({ doacao, className = "", prioritaria = false }) {
-    const temFoto = Boolean(doacao.imagem) && doacao.imagem !== imagemPadrao;
+    const temFoto = Boolean(doacao.imagem) && !doacao.imagem.includes("imgtest");
 
     if (!temFoto) {
         return (

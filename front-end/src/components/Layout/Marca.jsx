@@ -1,4 +1,4 @@
-import { SiteLogo } from "./Icons";
+import { SiteLogo } from "../Comuns/Icons";
 
 // Logo + nome "Farnel" + slogan, usado nos headers. "compacta" é a versão menor, sem slogan.
 function Marca({ compacta = false }) {

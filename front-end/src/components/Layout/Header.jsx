@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ArrowIcon } from "./Icons";
+import { ArrowIcon } from "../Comuns/Icons";
 import Marca from "./Marca";
 
 // "href": trechos desta página · "para": outra página do site

@@ -1,4 +1,4 @@
-import FloatingOranges from "./FloatingOranges";
+import FloatingOranges from "../Decoracao/FloatingOranges";
 
 // Fundo das páginas de listagem: o mesmo pontilhado da home e fatias de laranja bem suaves.
 // overflow-clip (e não hidden) corta as laranjas sem impedir elementos "sticky" dentro da página.

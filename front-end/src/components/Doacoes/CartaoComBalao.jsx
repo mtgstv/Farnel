@@ -3,7 +3,7 @@ import BotaoFavorito from "./BotaoFavorito";
 import { useFavorito } from "./useFavorito";
 import SeloStatus from "./SeloStatus";
 import { ESTILOS_ENCERRADA } from "./estilosDoacao";
-import { PinIcon } from "../Icons";
+import { PinIcon } from "../Comuns/Icons";
 import { diasAteVencer, textoVencimento } from "../../services/ordenacaoDoacoes";
 
 /*

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import laranjainteira from "../assets/laranjainteira.png";
-import laranja from "../assets/Laranja.png";
-import { getDoacoes } from "../services/doacoesStorage";
-import { statusDaDoacao } from "../services/ordenacaoDoacoes";
-import "../styles/orange-rain.css";
+import laranjainteira from "../../assets/laranjainteira.png";
+import laranja from "../../assets/Laranja.png";
+import { getDoacoes } from "../../services/doacoesStorage";
+import { statusDaDoacao } from "../../services/ordenacaoDoacoes";
+import "../../styles/orange-rain.css";
 
 let uid = 0;
 

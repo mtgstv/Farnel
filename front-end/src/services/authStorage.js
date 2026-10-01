@@ -1,3 +1,5 @@
+import { ehObjeto, lerJSON, removerChave, salvarJSON } from "./armazenamento";
+
 const CHAVE_USUARIO_LOGADO = "usuarioLogado";
 
 // Avisado quando o usuário entra, sai ou atualiza o perfil (o header se atualiza sozinho).
@@ -7,14 +9,10 @@ function avisarMudanca() {
     window.dispatchEvent(new Event(EVENTO_SESSAO_ALTERADA));
 }
 
+// Sessão corrompida conta como "ninguém logado".
 export function getUsuarioLogado() {
-    const dadosSalvos = localStorage.getItem(CHAVE_USUARIO_LOGADO);
-
-    if (!dadosSalvos) {
-        return null;
-    }
-
-    return JSON.parse(dadosSalvos);
+    const usuario = lerJSON(CHAVE_USUARIO_LOGADO, null, ehObjeto);
+    return usuario?.id ? usuario : null;
 }
 
 // Guarda na sessão só o necessário (nunca a senha). Também usado depois de editar o perfil.
@@ -28,14 +26,11 @@ export function loginAutomatico(usuario) {
         foto: usuario.foto ?? null,
     };
 
-    localStorage.setItem(
-        CHAVE_USUARIO_LOGADO,
-        JSON.stringify(usuarioSeguro)
-    );
+    salvarJSON(CHAVE_USUARIO_LOGADO, usuarioSeguro);
     avisarMudanca();
 }
 
 export function logout() {
-    localStorage.removeItem(CHAVE_USUARIO_LOGADO);
+    removerChave(CHAVE_USUARIO_LOGADO);
     avisarMudanca();
 }

@@ -1,4 +1,4 @@
-import { CheckIcon } from "../Icons";
+import { CheckIcon } from "../Comuns/Icons";
 
 /*
  * Cartão de uma etapa do formulário: ícone, número da etapa, título e descrição.

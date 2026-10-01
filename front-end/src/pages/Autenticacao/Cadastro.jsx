@@ -1,9 +1,17 @@
-import { Link, useLocation } from "react-router-dom";
-import PaginaCentralizada from "../../components/PaginaCentralizada";
-import CadastroForm from "../../components/Cadastro/CadastroForm";
+import { Link, Navigate, useLocation } from "react-router-dom";
+import PaginaCentralizada from "../../components/Layout/PaginaCentralizada";
+import CadastroForm from "../../components/Autenticacao/CadastroForm";
+import { useDestinoAposLogin } from "../../hooks/useDestinoAposLogin";
+import { useUsuarioLogado } from "../../hooks/useUsuarioLogado";
 
 function Cadastro() {
     const location = useLocation();
+    const destino = useDestinoAposLogin();
+
+    const jaLogado = useUsuarioLogado();
+
+    // Quem já está logado não precisa criar outra conta.
+    if (jaLogado) return <Navigate to={destino} replace />;
 
     return (
         <PaginaCentralizada

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import CarrosselVencimento from "./CarrosselVencimento";
-import { ArrowIcon } from "../Icons";
+import { ArrowIcon } from "../Comuns/Icons";
 import { doacoesQueVencemPrimeiro } from "../../services/ordenacaoDoacoes";
 
 const QUANTIDADE = 8;

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import FotoDoacao from "../Doacoes/FotoDoacao";
 import SeloStatus from "../Doacoes/SeloStatus";
-import BotaoSeta from "../BotaoSeta";
+import BotaoSeta from "../Comuns/BotaoSeta";
 import { useCarrosselAutomatico } from "../../hooks/useCarrosselAutomatico";
 import { useLadoDoMouse } from "../../hooks/useLadoDoMouse";
 import { diasAteVencer, textoVencimento } from "../../services/ordenacaoDoacoes";
-import { ArrowIcon, PinIcon } from "../Icons";
+import { ArrowIcon, PinIcon } from "../Comuns/Icons";
 import "../../styles/hero-card-stack.css";
 import "../../styles/carrossel-vencimento.css";
 

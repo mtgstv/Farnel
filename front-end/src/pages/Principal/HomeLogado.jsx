@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import HeroLogado from "../../components/HomeLogado/HeroLogado";
 import ResumoUsuario from "../../components/HomeLogado/ResumoUsuario";
 import DoacoesDisponiveis from "../../components/HomeLogado/DoacoesDisponiveis";
-import { ArrowIcon } from "../../components/Icons";
+import { ArrowIcon } from "../../components/Comuns/Icons";
 import { getDoacoes } from "../../services/doacoesStorage";
 import { getFavoritos } from "../../services/favoritosStorage";
 

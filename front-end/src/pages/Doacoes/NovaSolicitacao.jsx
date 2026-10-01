@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Campo, Secao } from "../../components/Formulario";
-import PaginaCentralizada from "../../components/PaginaCentralizada";
-import { atributosErro } from "../../components/atributosErro";
+import { Campo, Secao } from "../../components/Formulario/Formulario";
+import PaginaCentralizada from "../../components/Layout/PaginaCentralizada";
+import { atributosErro } from "../../components/Formulario/atributosErro";
 import FotoDoacao from "../../components/Doacoes/FotoDoacao";
-import { PinIcon } from "../../components/Icons";
+import { PinIcon } from "../../components/Comuns/Icons";
 import { getUsuarioLogado } from "../../services/authStorage";
 import { getUsuarioPorId } from "../../services/usuariosStorage";
 import { getDoacoes } from "../../services/doacoesStorage";
 import { adicionarSolicitacao, pedidoEmAberto } from "../../services/solicitacoesStorage";
-import { diasAteVencer, ordenarDoacoes, statusDaDoacao, textoVencimento } from "../../services/ordenacaoDoacoes";
+import { diasAteVencer, ordenarDoacoes, podeSerSolicitada, textoVencimento } from "../../services/ordenacaoDoacoes";
 import { formatarTelefone, hojeISO, paraDataBR, paraDataISO, telefoneValido } from "../../services/formatacao";
 import { FORMAS_RECEBIMENTO, TIPOS_SOLICITANTE } from "../../data/opcoesDoacao";
 
@@ -77,9 +77,9 @@ function NovaSolicitacao() {
     const navigate = useNavigate();
     const [parametros] = useSearchParams();
 
-    // Só dá para pedir doações disponíveis de outras pessoas.
+    // Só dá para pedir doações disponíveis de outras pessoas (as de demonstração ficam de fora).
     const disponiveis = ordenarDoacoes(
-        getDoacoes().filter((doacao) => statusDaDoacao(doacao) === "Disponível" && doacao.usuarioId !== usuario.id),
+        getDoacoes().filter((doacao) => podeSerSolicitada(doacao, usuario)),
         "validade"
     );
     const pedida = Number(parametros.get("doacao"));
@@ -133,7 +133,7 @@ function NovaSolicitacao() {
             return;
         }
 
-        adicionarSolicitacao({
+        const salvou = adicionarSolicitacao({
             id: Date.now(),
             doacaoId: doacao.id,
             doacaoTitulo: doacao.titulo,
@@ -151,6 +151,7 @@ function NovaSolicitacao() {
             status: "Pendente",
             dataCriacao: paraDataBR(hojeISO()),
         });
+        if (!salvou) return; // o aviso de armazenamento cheio aparece sozinho
 
         navigate("/solicitacoes?aba=feitas", {
             state: { aviso: `Pedido enviado! O doador de "${doacao.titulo}" vai receber a sua solicitação.` },

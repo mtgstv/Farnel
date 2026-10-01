@@ -1,4 +1,4 @@
-import { CheckIcon } from "../Icons";
+import { CheckIcon } from "../Comuns/Icons";
 
 /*
  * Grupo de opções únicas (radio) mostradas como cartões com ícone e explicação.

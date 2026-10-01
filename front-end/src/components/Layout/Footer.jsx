@@ -1,7 +1,7 @@
-import { InstagramIcon, FacebookIcon, LinkedinIcon } from "./Icons";
+import { InstagramIcon, FacebookIcon, LinkedinIcon } from "../Comuns/Icons";
 import Marca from "./Marca";
 import { Link } from "react-router-dom";
-import { contato, footerLinks } from "../data/content";
+import { contato, footerLinks } from "../../data/content";
 
 function LinkColumn({ title, links }) {
   return (

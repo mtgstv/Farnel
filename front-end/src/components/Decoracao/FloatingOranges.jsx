@@ -1,7 +1,7 @@
-import fatiaum from "../assets/fatia1.png";
-import fatiadois from "../assets/fatia2.png";
-import fatiatres from "../assets/fatia3.png";
-import "../styles/floating-oranges.css";
+import fatiaum from "../../assets/fatia1.png";
+import fatiadois from "../../assets/fatia2.png";
+import fatiatres from "../../assets/fatia3.png";
+import "../../styles/floating-oranges.css";
 
 // Posições no topo das homes (hero)
 const ITENS_HERO = [
