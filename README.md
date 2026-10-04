@@ -1,4 +1,4 @@
-# 🍎 Farnel
+# 🍊 Farnel
 
 Plataforma web de doação de alimentos, desenvolvida para as disciplinas de **Front-end Frameworks** (AV1 e AV2) e **Back-end Frameworks** (AV2).
 
