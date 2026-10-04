@@ -4,6 +4,8 @@ Plataforma web de doação de alimentos, desenvolvida para as disciplinas de **F
 
 > **Entrega atual: AV1.** Protótipo funcional em React com dados locais e persistência no `localStorage`, sem API e sem back-end.
 
+![Demonstração do Farnel](front-end/src/assets/previewfarnel.gif)
+
 ## Sumário
 
 1. [Problema e público](#problema-e-público)
