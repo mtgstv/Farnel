@@ -69,7 +69,7 @@ O sistema facilita a **doação e a distribuição de alimentos**, conectando qu
 | Emilyano Vasconcelos | [@emilyano-vasconcelos](https://github.com/emilyano-vasconcelos)| Estrutura inicial do projeto React; React Router; dados das doações; página de doações (listagem dinâmica, filtros e ordenação); persistência das doações no `localStorage`; detalhes da doação; layout com rodapé; opção de favoritar doações |
 | Mateus Gustavo | [@mtgstv](https://github.com/mtgstv) | Repositório e README; identidade visual e página inicial (componentes, animações, imagens e fontes); página 404; organização das rotas e das páginas; integração entre as branches; reformulação do design e novas páginas |
 | Hewerton Phillips | [@hewertonphillips-wq](https://github.com/hewertonphillips-wq) | Cadastro de usuário: formulário, validação de e-mail, bloqueio de e-mail duplicado, gravação no `localStorage`, login automático e mensagens de sucesso |
-| Maria Dalila | [@brtkuma](https://github.com/brtkuma) | Página de favoritos, sua rota e o link no menu |
+| Gabriel | [@brtkuma](https://github.com/brtkuma) | Página de favoritos, sua rota e o link no menu |
 | Luann Gabriell | — | Página de login e configuração das rotas |
 
 ---
