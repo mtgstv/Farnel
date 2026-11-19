@@ -1,6 +1,6 @@
 # Farnel API (back-end)
 
-API REST do Farnel, feita com **Java 21**, **Spring Boot 4**, **PostgreSQL** e **Flyway**. Ela vai substituir o `localStorage` do front-end na AV2.
+API REST do Farnel, feita com **Java 21**, **Spring Boot 4**, **PostgreSQL** e **Flyway**. Na AV2, ela substituiu o `localStorage` do front-end.
 A arquitetura segue a do back-end do projeto Magnolia: pacotes por funcionalidade, login com JWT em cookie HttpOnly,
 migrations do Flyway e testes de integração com Testcontainers.
 
@@ -76,7 +76,7 @@ Com o Docker Desktop aberto, dentro de `back-end/`:
 Os testes sobem a API inteira com um PostgreSQL descartável próprio (Testcontainers), então não mexem no banco do
 `docker compose`.
 
-## Rotas da API (até agora)
+## Rotas da API
 
 Todas começam com `/api/v1`. Os erros sempre vêm no formato `{ "message": "...", "campos": { "email": "..." } }`
 (`campos` só aparece quando algum campo do formulário está inválido).
