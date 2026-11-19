@@ -3,8 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowIcon } from "../Comuns/Icons";
 import Marca from "./Marca";
 import MenuSuspenso, { Seta } from "./MenuSuspenso";
-import { logout } from "../../services/authStorage";
-import { useUsuarioLogado } from "../../hooks/useUsuarioLogado";
+import { useAuth } from "../../hooks/useAuth";
 
 /*
  * Header enxuto das páginas internas e da home de quem está logado.
@@ -83,7 +82,7 @@ function HeaderNavegacao() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const usuario = useUsuarioLogado(); // atualiza ao entrar, sair ou editar o perfil
+  const { usuario, sair } = useAuth(); // atualiza sozinho ao entrar ou sair
   const grupos = gruposDoMenu(usuario);
   const primeiroNome = usuario?.nome.split(" ")[0];
 
@@ -108,8 +107,10 @@ function HeaderNavegacao() {
     setMobileAberto(false);
   }
 
+  // Sai da conta (a API apaga os cookies de login) e volta para a página inicial.
+  // Tudo no mesmo clique: a tela já troca para o modo visitante na página inicial.
   function handleSair() {
-    logout();
+    sair();
     fecharTudo();
     navigate("/");
   }

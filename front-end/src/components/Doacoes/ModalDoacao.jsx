@@ -4,7 +4,7 @@ import FotoDoacao from "./FotoDoacao";
 import SeloStatus from "./SeloStatus";
 import InfoItem from "../Comuns/InfoItem";
 import { ehExemplo, podeSerSolicitada, statusDaDoacao } from "../../services/ordenacaoDoacoes";
-import { getUsuarioLogado } from "../../services/authStorage";
+import { useUsuarioLogado } from "../../hooks/useUsuarioLogado";
 
 /*
  * Janela com o resumo de uma doação, aberta a partir dos cards.
@@ -20,7 +20,8 @@ function ModalDoacao({ doacao, onFechar }) {
 
     // "Vencida" é calculada pela validade; as outras vêm do status salvo.
     const status = statusDaDoacao(doacao);
-    const podeSolicitar = podeSerSolicitada(doacao, getUsuarioLogado());
+    const usuario = useUsuarioLogado();
+    const podeSolicitar = podeSerSolicitada(doacao, usuario);
 
     useEffect(() => {
         const focoAnterior = document.activeElement;
@@ -95,7 +96,13 @@ function ModalDoacao({ doacao, onFechar }) {
                     <div className="mt-5 flex items-center justify-between gap-4 border-t border-line pt-4 text-sm">
                         <div>
                             <p className="font-semibold text-ink">{doacao.doador}</p>
-                            <p className="text-ink-soft">{doacao.contato}</p>
+                            {/* A API só envia o telefone para o próprio doador e para quem teve o pedido aceito */}
+                            <p className="text-ink-soft">
+                                {doacao.contato ??
+                                    (usuario
+                                        ? "O telefone aparece quando o doador aceitar o seu pedido."
+                                        : "Entre e peça a doação para ver o telefone.")}
+                            </p>
                         </div>
                     </div>
 

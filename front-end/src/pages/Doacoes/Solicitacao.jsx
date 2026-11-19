@@ -8,10 +8,10 @@ import BarraFiltros from "../../components/Comuns/BarraFiltros";
 import BotaoConfirmar from "../../components/Comuns/BotaoConfirmar";
 import ContadorResultados from "../../components/Comuns/ContadorResultados";
 import EstadoVazio from "../../components/Comuns/EstadoVazio";
+import { Carregando, ErroAoCarregar } from "../../components/Comuns/EstadoRequisicao";
 import { ArrowIcon } from "../../components/Comuns/Icons";
-import { getUsuarioLogado } from "../../services/authStorage";
-import { getDoacoes } from "../../services/doacoesStorage";
-import { alterarStatusSolicitacao, getSolicitacoes } from "../../services/solicitacoesStorage";
+import { useCarregar } from "../../hooks/useCarregar";
+import { alterarStatusSolicitacao, listarSolicitacoes } from "../../services/solicitacoesService";
 import { converterData } from "../../services/ordenacaoDoacoes";
 import { STATUS_SOLICITACAO } from "../../data/opcoesDoacao";
 
@@ -79,7 +79,7 @@ function CartaoSolicitacao({ solicitacao, doacao, aba, onAlterarStatus }) {
                     </Detalhe>
                     <Detalhe rotulo="Forma">{solicitacao.forma}</Detalhe>
 
-                    {/* quem pediu recebe o contato do doador quando o pedido é aceito */}
+                    {/* quem pediu recebe o contato do doador quando o pedido é aceito (a API só envia depois do aceite) */}
                     {aba === "feitas" && status === "Aceita" && doacao?.contato && (
                         <p className="mt-1 rounded-lg bg-forest/10 px-3 py-2 text-sm font-semibold text-forest-dark">
                             Pedido aceito! Combine com o doador: {doacao.contato}
@@ -144,25 +144,19 @@ function CartaoSolicitacao({ solicitacao, doacao, aba, onAlterarStatus }) {
 }
 
 function Solicitacao() {
-    const usuario = getUsuarioLogado();
     const location = useLocation();
     const [parametros, setParametros] = useSearchParams();
     const aba = parametros.get("aba") === "recebidas" ? "recebidas" : "feitas";
 
-    const [, setAtualizacoes] = useState(0); // força reler os dados depois de uma ação
+    // As duas abas vêm da API: pedidos que a pessoa fez e pedidos recebidos nas doações dela
+    const { dados, erro, recarregar } = useCarregar(listarSolicitacoes);
+    const [erroAcao, setErroAcao] = useState("");
     const [busca, setBusca] = useState("");
     const [statusSelecionado, setStatusSelecionado] = useState("Todos");
     const [ordenacao, setOrdenacao] = useState("recentes");
     const [aviso, setAviso] = useState(location.state?.aviso ?? "");
 
-    const doacoes = getDoacoes();
-    const doacaoPorId = new Map(doacoes.map((doacao) => [doacao.id, doacao]));
-    const todas = getSolicitacoes();
-
-    const porAba = {
-        feitas: todas.filter((solicitacao) => solicitacao.solicitanteId === usuario.id),
-        recebidas: todas.filter((solicitacao) => doacaoPorId.get(solicitacao.doacaoId)?.usuarioId === usuario.id),
-    };
+    const porAba = dados ?? { feitas: [], recebidas: [] };
 
     const termo = busca.trim().toLowerCase();
     const lista = porAba[aba]
@@ -178,9 +172,16 @@ function Solicitacao() {
         setAviso("");
     }
 
-    function handleAlterarStatus(id, status) {
-        alterarStatusSolicitacao(id, status);
-        setAtualizacoes((valor) => valor + 1);
+    // A API confere quem pode fazer o quê (403) e se o pedido ainda pode mudar (409)
+    async function handleAlterarStatus(id, status) {
+        setErroAcao("");
+        setAviso("");
+        try {
+            await alterarStatusSolicitacao(id, status);
+            recarregar();
+        } catch (erroApi) {
+            setErroAcao(erroApi.message);
+        }
     }
 
     return (
@@ -263,7 +264,17 @@ function Solicitacao() {
                         </div>
                     )}
 
-                    {porAba[aba].length === 0 ? (
+                    {erroAcao && (
+                        <p role="alert" className="aviso-erro mb-6">
+                            {erroAcao}
+                        </p>
+                    )}
+
+                    {erro ? (
+                        <ErroAoCarregar erro={erro} onTentarNovamente={recarregar} titulo="Não foi possível carregar os pedidos" />
+                    ) : !dados ? (
+                        <Carregando texto="Carregando pedidos..." />
+                    ) : porAba[aba].length === 0 ? (
                         aba === "feitas" ? (
                             <EstadoVazio
                                 eyebrow="Nenhum pedido ainda"
@@ -301,7 +312,7 @@ function Solicitacao() {
                                         <CartaoSolicitacao
                                             key={solicitacao.id}
                                             solicitacao={solicitacao}
-                                            doacao={doacaoPorId.get(solicitacao.doacaoId)}
+                                            doacao={solicitacao.doacao}
                                             aba={aba}
                                             onAlterarStatus={handleAlterarStatus}
                                         />

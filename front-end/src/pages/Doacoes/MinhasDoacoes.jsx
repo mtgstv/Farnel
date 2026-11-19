@@ -9,9 +9,10 @@ import { ArrowIcon } from "../../components/Comuns/Icons";
 import EstadoVazio from "../../components/Comuns/EstadoVazio";
 import BotaoConfirmar from "../../components/Comuns/BotaoConfirmar";
 import ContadorResultados from "../../components/Comuns/ContadorResultados";
-import { getUsuarioLogado } from "../../services/authStorage";
-import { getDoacoes } from "../../services/doacoesStorage";
-import { encerrarDoacao, getSolicitacoes } from "../../services/solicitacoesStorage";
+import { Carregando, ErroAoCarregar } from "../../components/Comuns/EstadoRequisicao";
+import { useCarregar } from "../../hooks/useCarregar";
+import { encerrarDoacao, listarMinhasDoacoes } from "../../services/doacoesService";
+import { listarSolicitacoesRecebidas } from "../../services/solicitacoesService";
 import { ordenarDoacoes, statusDaDoacao } from "../../services/ordenacaoDoacoes";
 
 // Atalhos do topo: cada número também filtra a lista por aquele status.
@@ -63,8 +64,10 @@ function AcoesDoacao({ doacao, pedidosEmAberto, onEncerrar }) {
 }
 
 function MinhasDoacoes() {
-    const usuario = getUsuarioLogado();
-    const [, setAtualizacoes] = useState(0); // força reler os dados depois de uma ação
+    const { dados, erro, recarregar } = useCarregar(listarMinhasDoacoes);
+    // Pedidos recebidos, para mostrar quantos estão em aberto em cada doação
+    const { dados: recebidas, recarregar: recarregarPedidos } = useCarregar(listarSolicitacoesRecebidas);
+    const [erroAcao, setErroAcao] = useState("");
 
     const [categoriaSelecionada, setCategoriaSelecionada] = useState("Todas");
     const [statusSelecionado, setStatusSelecionado] = useState("Todos");
@@ -72,8 +75,7 @@ function MinhasDoacoes() {
     const [busca, setBusca] = useState("");
     const [doacaoSelecionada, setDoacaoSelecionada] = useState(null);
 
-    const minhas = getDoacoes().filter((doacao) => doacao.usuarioId === usuario.id);
-    const solicitacoes = getSolicitacoes();
+    const minhas = dados ?? [];
 
     const contagem = (status) =>
         status === "Todos" ? minhas.length : minhas.filter((doacao) => statusDaDoacao(doacao) === status).length;
@@ -86,14 +88,22 @@ function MinhasDoacoes() {
     const ordenadas = ordenarDoacoes(filtradas, ordenacaoSelecionada);
 
     function pedidosEmAberto(doacaoId) {
-        return solicitacoes.filter(
+        return (recebidas ?? []).filter(
             (solicitacao) => solicitacao.doacaoId === doacaoId && ["Pendente", "Aceita"].includes(solicitacao.status)
         ).length;
     }
 
-    function handleEncerrar(doacaoId, status) {
-        encerrarDoacao(doacaoId, status);
-        setAtualizacoes((valor) => valor + 1);
+    // Entregue ou cancelada: a API confere se a doação é sua e se ainda pode mudar (403/409 explicam o motivo).
+    // Os pedidos em aberto dela também são encerrados, por isso as duas listas são buscadas de novo.
+    async function handleEncerrar(doacaoId, status) {
+        setErroAcao("");
+        try {
+            await encerrarDoacao(doacaoId, status);
+            recarregar();
+            recarregarPedidos();
+        } catch (erroApi) {
+            setErroAcao(erroApi.message);
+        }
     }
 
     return (
@@ -146,7 +156,17 @@ function MinhasDoacoes() {
 
             <FundoPagina>
                 <main className="container-largo py-10 md:py-14">
-                    {minhas.length === 0 ? (
+                    {erroAcao && (
+                        <p role="alert" className="aviso-erro mb-6">
+                            {erroAcao}
+                        </p>
+                    )}
+
+                    {erro ? (
+                        <ErroAoCarregar erro={erro} onTentarNovamente={recarregar} titulo="Não foi possível carregar suas doações" />
+                    ) : !dados ? (
+                        <Carregando texto="Carregando suas doações..." />
+                    ) : minhas.length === 0 ? (
                         <EstadoVazio
                             eyebrow="Seu histórico começa aqui"
                             titulo="Você ainda não fez nenhuma doação"

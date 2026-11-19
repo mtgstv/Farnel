@@ -8,7 +8,10 @@ import FundoPagina from "../../components/Layout/FundoPagina";
 import EsteiraDoacoes from "../../components/Doacoes/EsteiraDoacoes";
 import CartaoCompacto from "../../components/Doacoes/CartaoCompacto";
 import CartaoComBalao from "../../components/Doacoes/CartaoComBalao";
-import { getDoacoes } from "../../services/doacoesStorage";
+import { Carregando, ErroAoCarregar } from "../../components/Comuns/EstadoRequisicao";
+import { useCarregar } from "../../hooks/useCarregar";
+import { useUsuarioLogado } from "../../hooks/useUsuarioLogado";
+import { listarDoacoes } from "../../services/doacoesService";
 import { doacoesQueVencemPrimeiro, ordenarDoacoes, statusDaDoacao } from "../../services/ordenacaoDoacoes";
 import { CATEGORIAS } from "../../data/opcoesDoacao";
 import ModalDoacao from "../../components/Doacoes/ModalDoacao";
@@ -133,7 +136,10 @@ function SecoesPorCategoria({ doacoes, onVerDetalhes }) {
 }
 
 function Doacoes() {
-    const [doacoes] = useState(getDoacoes());
+    const usuario = useUsuarioLogado();
+    // Busca de novo quando alguém entra ou sai: quem está logado também recebe o telefone dos doadores
+    const { dados, erro, recarregar } = useCarregar(listarDoacoes, usuario?.id ?? null);
+    const doacoes = dados ?? [];
 
     const [categoriaSelecionada, setCategoriaSelecionada] = useState("Todas");
     const [statusSelecionado, setStatusSelecionado] = useState("Todos");
@@ -192,7 +198,26 @@ function Doacoes() {
             <FundoPagina>
 
                 <main className="pb-10 md:pb-14">
-                    {filtrando ? (
+                    {erro ? (
+                        <div className="container-largo pt-10 md:pt-14">
+                            <ErroAoCarregar
+                                erro={erro}
+                                onTentarNovamente={recarregar}
+                                titulo="Não foi possível carregar as doações"
+                            />
+                        </div>
+                    ) : !dados ? (
+                        <Carregando texto="Carregando doações..." />
+                    ) : doacoes.length === 0 ? (
+                        <div className="container-largo pt-10 md:pt-14">
+                            <EstadoVazio
+                                eyebrow="Nenhuma doação ainda"
+                                titulo="Ainda não há doações cadastradas"
+                                texto="Que tal ser a primeira pessoa a doar? Leva poucos minutos."
+                                acao={<Link to="/doacoes/nova" className="btn-primary">Cadastrar uma doação</Link>}
+                            />
+                        </div>
+                    ) : filtrando ? (
                         <div className="container-largo pt-10 md:pt-14">
                             <ContadorResultados quantidade={doacoesFiltradas.length} singular="doação" plural="doações" />
 

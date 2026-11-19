@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Campo } from "../Formulario/Formulario";
 import CampoSenha from "../Formulario/CampoSenha";
 import { atributosErro } from "../Formulario/atributosErro";
-import { emailEmUso, getUsuarios, saveUsuarios } from "../../services/usuariosStorage";
-import { loginAutomatico } from "../../services/authStorage";
 import { useDestinoAposLogin } from "../../hooks/useDestinoAposLogin";
+import { useAuth } from "../../hooks/useAuth";
 import { emailValido } from "../../services/formatacao";
 
 // Retorna { campo: "mensagem" } com os erros, na ordem em que aparecem na tela.
+// São as mesmas regras da API (que confere tudo de novo e também avisa se o e-mail já tem conta).
 function validar(form) {
     const erros = {};
 
@@ -16,9 +16,9 @@ function validar(form) {
 
     if (!form.email.trim()) erros.email = "O e-mail é obrigatório.";
     else if (!emailValido(form.email)) erros.email = "Digite um e-mail válido.";
-    else if (emailEmUso(form.email)) erros.email = "Este e-mail já está cadastrado.";
 
-    if (form.senha.length < 6) erros.senha = "A senha deve ter pelo menos 6 caracteres.";
+    if (form.senha.length < 8) erros.senha = "A senha deve ter pelo menos 8 caracteres.";
+    else if (form.senha.length > 72) erros.senha = "A senha pode ter no máximo 72 caracteres.";
     if (form.confirmarSenha !== form.senha) erros.confirmarSenha = "As senhas não são iguais.";
 
     return erros;
@@ -27,8 +27,11 @@ function validar(form) {
 function CadastroForm() {
     const [form, setForm] = useState({ nome: "", email: "", senha: "", confirmarSenha: "" });
     const [erros, setErros] = useState({});
+    const [erroGeral, setErroGeral] = useState("");
+    const [enviando, setEnviando] = useState(false);
     const navigate = useNavigate();
     const destino = useDestinoAposLogin();
+    const { cadastrar } = useAuth();
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -41,35 +44,47 @@ function CadastroForm() {
         });
     }
 
-    function handleSubmit(event) {
+    function mostrarErros(novosErros) {
+        setErros(novosErros);
+        const primeiroErro = Object.keys(novosErros)[0];
+        if (primeiroErro) document.getElementById(primeiroErro)?.focus();
+    }
+
+    async function handleSubmit(event) {
         event.preventDefault();
+        setErroGeral("");
 
         const novosErros = validar(form);
-        setErros(novosErros);
-
-        const primeiroErro = Object.keys(novosErros)[0];
-        if (primeiroErro) {
-            document.getElementById(primeiroErro)?.focus();
+        if (Object.keys(novosErros).length > 0) {
+            mostrarErros(novosErros);
             return;
         }
 
-        const novoUsuario = {
-            id: Date.now(),
-            nome: form.nome.trim(),
-            email: form.email.trim(),
-            senha: form.senha,
-            tipo: "doador",
-        };
-
-        if (!saveUsuarios([...getUsuarios(), novoUsuario])) return; // armazenamento cheio: o aviso aparece sozinho
-        loginAutomatico(novoUsuario);
-
-        // já entra na conta e segue para a home (ou para a página que tentou abrir)
-        navigate(destino, { replace: true });
+        setEnviando(true);
+        try {
+            await cadastrar({ nome: form.nome.trim(), email: form.email.trim(), senha: form.senha });
+            // já entra na conta e segue para a home (ou para a página que tentou abrir)
+            navigate(destino, { replace: true });
+        } catch (erro) {
+            setEnviando(false);
+            if (erro.campos) {
+                mostrarErros(erro.campos); // 400: a API diz o que está errado em cada campo
+            } else if (erro.status === 409) {
+                mostrarErros({ email: erro.message }); // e-mail que já tem conta
+            } else {
+                setErroGeral(erro.message); // servidor fora do ar, muitas tentativas...
+            }
+        }
     }
 
     return (
         <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+            {erroGeral && (
+                <p role="alert" className="aviso-erro">
+                    {erroGeral}
+                </p>
+            )}
+
             <Campo id="nome" rotulo="Nome" erro={erros.nome}>
                 <input
                     type="text"
@@ -97,7 +112,7 @@ function CadastroForm() {
                 />
             </Campo>
 
-            <Campo id="senha" rotulo="Senha" erro={erros.senha} dica="Mínimo de 6 caracteres.">
+            <Campo id="senha" rotulo="Senha" erro={erros.senha} dica="Mínimo de 8 caracteres.">
                 <CampoSenha
                     id="senha"
                     name="senha"
@@ -119,8 +134,8 @@ function CadastroForm() {
                 />
             </Campo>
 
-            <button type="submit" className="btn-primary mt-1 w-full">
-                Criar conta
+            <button type="submit" className="btn-primary mt-1 w-full" disabled={enviando}>
+                {enviando ? "Criando conta..." : "Criar conta"}
             </button>
         </form>
     );

@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import FotoDoacao from "../../components/Doacoes/FotoDoacao";
 import SeloStatus from "../../components/Doacoes/SeloStatus";
 import { useFavorito } from "../../components/Doacoes/useFavorito";
 import EstadoVazio from "../../components/Comuns/EstadoVazio";
 import InfoItem from "../../components/Comuns/InfoItem";
+import { Carregando, ErroAoCarregar } from "../../components/Comuns/EstadoRequisicao";
 import { ArrowIcon, CheckBadge, PinIcon } from "../../components/Comuns/Icons";
-import { getDoacoes } from "../../services/doacoesStorage";
-import { getUsuarioLogado } from "../../services/authStorage";
+import { useCarregar } from "../../hooks/useCarregar";
+import { useUsuarioLogado } from "../../hooks/useUsuarioLogado";
+import { buscarDoacao } from "../../services/doacoesService";
 import { diasAteVencer, ehExemplo, podeSerSolicitada, textoVencimento } from "../../services/ordenacaoDoacoes";
 
 // Por que a doação não pode ser solicitada, conforme o status.
@@ -30,7 +32,7 @@ function AvisoPublicada() {
                 <p className="font-semibold">Doação publicada! Obrigado por ajudar.</p>
                 <p className="mt-0.5 text-cream/90">
                     Ela já aparece para quem procura alimentos na sua região. Acompanhe os pedidos em{" "}
-                    <Link to="/solicitacoes" className="font-semibold underline">Solicitações</Link>.
+                    <Link to="/solicitacoes?aba=recebidas" className="font-semibold underline">Solicitações</Link>.
                 </p>
             </div>
             <button
@@ -56,9 +58,13 @@ function CartaoSecao({ titulo, children }) {
 
 function DetalhesDoacao() {
     const { id } = useParams();
-    const doacao = getDoacoes().find((item) => item.id === Number(id));
+    const usuario = useUsuarioLogado();
+    const buscar = useCallback(() => buscarDoacao(id), [id]);
+    // Busca de novo quando alguém entra ou sai (o telefone do doador só vem para quem está logado)
+    const { dados: doacao, erro, recarregar } = useCarregar(buscar, usuario?.id ?? null);
 
-    if (!doacao) {
+    // 404: não existe; 400: o endereço não tem um número no fim
+    if (erro?.status === 404 || erro?.status === 400) {
         return (
             <main className="container-page min-h-[60vh] py-16">
                 <EstadoVazio
@@ -72,18 +78,35 @@ function DetalhesDoacao() {
         );
     }
 
-    return <Detalhes doacao={doacao} />;
+    if (erro) {
+        return (
+            <main className="container-page min-h-[60vh] py-16">
+                <ErroAoCarregar erro={erro} onTentarNovamente={recarregar} titulo="Não foi possível carregar a doação" />
+            </main>
+        );
+    }
+
+    // Ao trocar de doação, mostra o carregando em vez da doação anterior
+    if (!doacao || doacao.id !== Number(id)) {
+        return (
+            <main className="container-page">
+                <Carregando texto="Carregando doação..." />
+            </main>
+        );
+    }
+
+    return <Detalhes doacao={doacao} usuario={usuario} />;
 }
 
 // Separado para os hooks (useFavorito) só rodarem quando a doação existe.
-function Detalhes({ doacao }) {
+function Detalhes({ doacao, usuario }) {
     const { status, favoritado, bloqueado, alternar } = useFavorito(doacao);
-    const usuario = getUsuarioLogado();
+    const location = useLocation();
     const minhaDoacao = Boolean(usuario) && doacao.usuarioId === usuario.id;
     const podeSolicitar = podeSerSolicitada(doacao, usuario);
     const dias = doacao.validade ? diasAteVencer(doacao.validade) : null;
     const ativa = status === "Disponível" || status === "Solicitada";
-    const acabouDePublicar = useLocation().state?.publicada === true;
+    const acabouDePublicar = location.state?.publicada === true;
 
     return (
         <main className="bg-cream pb-16 pt-8 md:pb-20">
@@ -201,7 +224,19 @@ function Detalhes({ doacao }) {
                             </span>
                             <div>
                                 <p className="font-semibold text-ink">{doacao.doador}</p>
-                                <p className="text-sm text-ink-soft">{doacao.contato}</p>
+                                {/* A API só envia o telefone para o próprio doador e para quem teve o pedido aceito */}
+                                {doacao.contato ? (
+                                    <p className="text-sm text-ink-soft">{doacao.contato}</p>
+                                ) : usuario ? (
+                                    <p className="text-sm text-ink-soft">O telefone aparece aqui quando o doador aceitar o seu pedido.</p>
+                                ) : (
+                                    <p className="text-sm text-ink-soft">
+                                        <Link to="/login" state={{ from: location }} className="font-semibold text-forest-dark underline">
+                                            Entre
+                                        </Link>{" "}
+                                        e peça a doação: o telefone aparece quando o doador aceitar.
+                                    </p>
+                                )}
                             </div>
                         </div>
                         <p className="mt-4 text-sm text-ink-soft">

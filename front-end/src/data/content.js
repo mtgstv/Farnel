@@ -1,34 +1,35 @@
-// Fotos das doações de exemplo (Unsplash; créditos em src/assets/doacoes/CREDITOS.md)
-import fotoArrozIntegral from "../assets/doacoes/arroz-integral.jpg";
-import fotoFeijaoCarioca from "../assets/doacoes/feijao-carioca.jpg";
-import fotoGraoDeBico from "../assets/doacoes/grao-de-bico.jpg";
-import fotoBananas from "../assets/doacoes/bananas.jpg";
-import fotoMangas from "../assets/doacoes/mangas.jpg";
-import fotoLaranjas from "../assets/doacoes/laranjas.jpg";
-import fotoAlface from "../assets/doacoes/alface.jpg";
-import fotoCouveEspinafre from "../assets/doacoes/couve-espinafre.jpg";
-import fotoBatatas from "../assets/doacoes/batatas.jpg";
-import fotoAboboras from "../assets/doacoes/aboboras.jpg";
-import fotoSardinha from "../assets/doacoes/sardinha.jpg";
-import fotoErvilhas from "../assets/doacoes/ervilhas.jpg";
-import fotoEspaguete from "../assets/doacoes/espaguete.jpg";
-import fotoLasanha from "../assets/doacoes/lasanha.jpg";
-import fotoSucoLaranja from "../assets/doacoes/suco-laranja.jpg";
-import fotoAguaMineral from "../assets/doacoes/agua-mineral.jpg";
-import fotoLeite from "../assets/doacoes/leite.jpg";
-import fotoIogurte from "../assets/doacoes/iogurte.jpg";
-import fotoQueijo from "../assets/doacoes/queijo.jpg";
-import fotoPaes from "../assets/doacoes/paes.jpg";
-import fotoBolo from "../assets/doacoes/bolo.jpg";
-import fotoCestaBasica from "../assets/doacoes/cesta-basica.jpg";
-import fotoOvos from "../assets/doacoes/ovos.jpg";
-import fotoTemperos from "../assets/doacoes/temperos.jpg";
-import fotoTomates from "../assets/doacoes/tomates.jpg";
-import fotoMacas from "../assets/doacoes/macas.jpg";
-import fotoCafe from "../assets/doacoes/cafe.jpg";
-import fotoBrocolis from "../assets/doacoes/brocolis.jpg";
-import fotoBiscoitos from "../assets/doacoes/biscoitos.jpg";
-import fotoPimentoes from "../assets/doacoes/pimentoes.jpg";
+// Fotos das doações de exemplo (Unsplash; créditos em public/images/doacoes/CREDITOS.md).
+// Ficam em public/ porque o banco de dados guarda o endereço delas (/images/doacoes/...).
+const fotoArrozIntegral = "/images/doacoes/arroz-integral.jpg";
+const fotoFeijaoCarioca = "/images/doacoes/feijao-carioca.jpg";
+const fotoGraoDeBico = "/images/doacoes/grao-de-bico.jpg";
+const fotoBananas = "/images/doacoes/bananas.jpg";
+const fotoMangas = "/images/doacoes/mangas.jpg";
+const fotoLaranjas = "/images/doacoes/laranjas.jpg";
+const fotoAlface = "/images/doacoes/alface.jpg";
+const fotoCouveEspinafre = "/images/doacoes/couve-espinafre.jpg";
+const fotoBatatas = "/images/doacoes/batatas.jpg";
+const fotoAboboras = "/images/doacoes/aboboras.jpg";
+const fotoSardinha = "/images/doacoes/sardinha.jpg";
+const fotoErvilhas = "/images/doacoes/ervilhas.jpg";
+const fotoEspaguete = "/images/doacoes/espaguete.jpg";
+const fotoLasanha = "/images/doacoes/lasanha.jpg";
+const fotoSucoLaranja = "/images/doacoes/suco-laranja.jpg";
+const fotoAguaMineral = "/images/doacoes/agua-mineral.jpg";
+const fotoLeite = "/images/doacoes/leite.jpg";
+const fotoIogurte = "/images/doacoes/iogurte.jpg";
+const fotoQueijo = "/images/doacoes/queijo.jpg";
+const fotoPaes = "/images/doacoes/paes.jpg";
+const fotoBolo = "/images/doacoes/bolo.jpg";
+const fotoCestaBasica = "/images/doacoes/cesta-basica.jpg";
+const fotoOvos = "/images/doacoes/ovos.jpg";
+const fotoTemperos = "/images/doacoes/temperos.jpg";
+const fotoTomates = "/images/doacoes/tomates.jpg";
+const fotoMacas = "/images/doacoes/macas.jpg";
+const fotoCafe = "/images/doacoes/cafe.jpg";
+const fotoBrocolis = "/images/doacoes/brocolis.jpg";
+const fotoBiscoitos = "/images/doacoes/biscoitos.jpg";
+const fotoPimentoes = "/images/doacoes/pimentoes.jpg";
 
 export const stats = [
   {

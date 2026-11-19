@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Navigate, Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import RotaPrivada from './RotaPrivada';
 import RotaAdmin from './RotaAdmin';
@@ -17,7 +17,6 @@ const NaoEncontrada = lazy(() => import('../pages/Principal/NaoEncontrada'));
 const Cadastro = lazy(() => import('../pages/Autenticacao/Cadastro'));
 const Login = lazy(() => import('../pages/Autenticacao/Login'));
 const Perfil = lazy(() => import('../pages/Autenticacao/Perfil'));
-const Usuarios = lazy(() => import('../pages/Autenticacao/Usuarios'));
 
 // Doações
 const Doacoes = lazy(() => import('../pages/Doacoes/Doacoes'));
@@ -53,16 +52,14 @@ function AppRoutes() {
 
                 <Route path="cadastro" element={<Cadastro />} />
                 <Route path="login" element={<Login />} />
-                <Route path="usuarios" element={<Usuarios />} />
+                {/* A antiga página "Usuários" virou "Gerenciar usuários", na área administrativa */}
+                <Route path="usuarios" element={<Navigate to="/admin/usuarios" replace />} />
 
                 <Route path="doacoes" element={<Doacoes />} />
                 <Route path="detalhes/:id" element={<DetalhesDoacao />} />
-                <Route path="favoritos" element={<Favoritos />} />
-                <Route path="dashboard" element={<Dashboard />} />
 
+                {/* Pública: qualquer visitante vê as instituições verificadas */}
                 <Route path="instituicao" element={<Instituicao />} />
-                <Route path="instituicao/doacoes" element={<InstDoa />} />
-                <Route path="instituicao/solicitacoes" element={<InstSolic />} />
 
                 {/* Só para usuários logados */}
                 <Route element={<RotaPrivada />}>
@@ -71,6 +68,12 @@ function AppRoutes() {
                     <Route path="perfil" element={<Perfil />} />
                     <Route path="minhas-doacoes" element={<MinhasDoacoes />} />
                     <Route path="doacoes/nova" element={<NovaDoacao />} />
+                    {/* Os favoritos ficam na conta (API), por isso exigem login */}
+                    <Route path="favoritos" element={<Favoritos />} />
+                    <Route path="dashboard" element={<Dashboard />} />
+                    {/* O histórico e os pedidos da instituição logada */}
+                    <Route path="instituicao/doacoes" element={<InstDoa />} />
+                    <Route path="instituicao/solicitacoes" element={<InstSolic />} />
                 </Route>
 
                 {/* Só para administradores: protege tudo em /admin/* */}

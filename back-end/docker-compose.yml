@@ -1,0 +1,33 @@
+# Banco de dados do Farnel para desenvolvimento: PostgreSQL 18 no Docker (a mesma versão usada nos testes).
+# Comandos, dentro de back-end/:
+#   docker compose up -d --wait   liga o banco (na primeira vez, cria o banco "farnel")
+#   docker compose stop           desliga o banco (os dados ficam guardados)
+#   docker compose down -v        apaga o banco inteiro (na próxima vez o Flyway recria as tabelas)
+name: farnel
+
+services:
+  db:
+    image: postgres:18
+    container_name: farnel-db
+    environment:
+      POSTGRES_DB: farnel
+      POSTGRES_USER: farnel
+      # Senha só deste banco de desenvolvimento, que existe apenas no seu computador
+      # (não tem relação com a senha do PostgreSQL instalado no Windows)
+      POSTGRES_PASSWORD: farnel123
+    ports:
+      # 5433 porque o PostgreSQL instalado no Windows já usa a 5432.
+      # 127.0.0.1: só este computador acessa o banco (sem isso, qualquer aparelho da rede Wi-Fi conseguiria)
+      - "127.0.0.1:5433:5432"
+    volumes:
+      # A partir do PostgreSQL 18, a imagem guarda os dados dentro de /var/lib/postgresql
+      - farnel-dados:/var/lib/postgresql
+    # Faz o "docker compose up --wait" esperar o banco estar pronto para receber conexões
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U farnel -d farnel"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  farnel-dados:

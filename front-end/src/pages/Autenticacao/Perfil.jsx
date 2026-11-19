@@ -4,11 +4,12 @@ import { Campo, Secao } from "../../components/Formulario/Formulario";
 import FaixaTopo from "../../components/Layout/FaixaTopo";
 import { atributosErro } from "../../components/Formulario/atributosErro";
 import CampoSenha from "../../components/Formulario/CampoSenha";
-import { getUsuarioLogado, loginAutomatico } from "../../services/authStorage";
-import { atualizarUsuario, emailEmUso, getUsuarioPorId } from "../../services/usuariosStorage";
-import { getDoacoes } from "../../services/doacoesStorage";
-import { getSolicitacoes } from "../../services/solicitacoesStorage";
-import { getFavoritos } from "../../services/favoritosStorage";
+import { useAuth } from "../../hooks/useAuth";
+import { useCarregar } from "../../hooks/useCarregar";
+import { useFavoritos } from "../../hooks/useFavoritos";
+import { listarMinhasDoacoes } from "../../services/doacoesService";
+import { listarSolicitacoesFeitas } from "../../services/solicitacoesService";
+import { atualizarPerfil, trocarSenha } from "../../services/perfilService";
 import { comprimirImagem } from "../../services/imagem";
 import { emailValido, formatarTelefone, telefoneValido } from "../../services/formatacao";
 import { CATEGORIAS, ESTADOS, PERFIS_USUARIO } from "../../data/opcoesDoacao";
@@ -21,7 +22,7 @@ const AVISOS = [
 
 const AVISOS_PADRAO = { novasDoacoes: true, pedidosRecebidos: true, lembretesValidade: true };
 
-// O que pode ser editado no formulário, a partir do cadastro salvo.
+// O que pode ser editado no formulário, a partir da conta (que vem da API com o perfil completo).
 function dadosDoPerfil(usuario) {
     return {
         nome: usuario.nome ?? "",
@@ -40,13 +41,13 @@ function dadosDoPerfil(usuario) {
     };
 }
 
-function validarPerfil(form, usuarioId) {
+// As mesmas regras da API (que também avisa se o e-mail já é de outra conta).
+function validarPerfil(form) {
     const erros = {};
 
     if (form.nome.trim().length < 2) erros.nome = "Informe seu nome.";
 
     if (!emailValido(form.email)) erros.email = "Digite um e-mail válido.";
-    else if (emailEmUso(form.email, usuarioId)) erros.email = "Este e-mail já está em uso por outra conta.";
 
     if (form.telefone && !telefoneValido(form.telefone)) erros.telefone = "Informe o telefone com DDD.";
 
@@ -65,14 +66,17 @@ function Iniciais({ nome }) {
 // ---------- Cartão da esquerda: foto, apresentação e números ----------
 
 function CartaoApresentacao({ usuario, form, onFoto, onRemoverFoto, erroFoto, carregandoFoto }) {
-    const membroDesde = usuario.id > 1e12
-        ? new Date(usuario.id).toLocaleDateString("pt-BR", { month: "long", year: "numeric" })
-        : null;
+    const membroDesde = new Date(usuario.criadoEm).toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+
+    // Os números vêm da API ("…" enquanto carregam)
+    const { dados: minhasDoacoes } = useCarregar(listarMinhasDoacoes);
+    const { dados: meusPedidos } = useCarregar(listarSolicitacoesFeitas);
+    const { favoritos, carregando: carregandoFavoritos } = useFavoritos();
 
     const numeros = [
-        { valor: getDoacoes().filter((doacao) => doacao.usuarioId === usuario.id).length, rotulo: "Doações", para: "/minhas-doacoes" },
-        { valor: getSolicitacoes().filter((pedido) => pedido.solicitanteId === usuario.id).length, rotulo: "Pedidos", para: "/solicitacoes" },
-        { valor: getFavoritos().length, rotulo: "Favoritos", para: "/favoritos" },
+        { valor: minhasDoacoes ? minhasDoacoes.length : "…", rotulo: "Doações", para: "/minhas-doacoes" },
+        { valor: meusPedidos ? meusPedidos.length : "…", rotulo: "Pedidos", para: "/solicitacoes" },
+        { valor: carregandoFavoritos ? "…" : favoritos.length, rotulo: "Favoritos", para: "/favoritos" },
     ];
 
     return (
@@ -147,31 +151,43 @@ function CartaoApresentacao({ usuario, form, onFoto, onRemoverFoto, erroFoto, ca
 
 // ---------- Troca de senha (separada do resto do perfil) ----------
 
-function TrocarSenha({ usuarioId }) {
+function TrocarSenha() {
     const [senhas, setSenhas] = useState({ atual: "", nova: "", confirmacao: "" });
     const [erros, setErros] = useState({});
     const [sucesso, setSucesso] = useState(false);
+    const [enviando, setEnviando] = useState(false);
 
     function handleChange(event) {
         setSenhas((atuais) => ({ ...atuais, [event.target.name]: event.target.value }));
         setSucesso(false);
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
 
+        // A senha atual quem confere é a API (ela só existe lá, como hash)
         const novosErros = {};
-        if (senhas.atual !== getUsuarioPorId(usuarioId)?.senha) novosErros.atual = "Senha atual incorreta.";
-        if (senhas.nova.length < 6) novosErros.nova = "A nova senha deve ter pelo menos 6 caracteres.";
+        if (!senhas.atual) novosErros.atual = "Informe a senha atual.";
+        if (senhas.nova.length < 8) novosErros.nova = "A nova senha deve ter pelo menos 8 caracteres.";
         else if (senhas.nova === senhas.atual) novosErros.nova = "A nova senha deve ser diferente da atual.";
         if (senhas.confirmacao !== senhas.nova) novosErros.confirmacao = "As senhas não são iguais.";
 
         setErros(novosErros);
         if (Object.keys(novosErros).length > 0) return;
 
-        if (!atualizarUsuario(usuarioId, { senha: senhas.nova })) return; // armazenamento cheio: o aviso aparece sozinho
-        setSenhas({ atual: "", nova: "", confirmacao: "" });
-        setSucesso(true);
+        setEnviando(true);
+        try {
+            await trocarSenha({ senhaAtual: senhas.atual, novaSenha: senhas.nova });
+            setSenhas({ atual: "", nova: "", confirmacao: "" });
+            setSucesso(true);
+        } catch (erro) {
+            // Os campos da API se chamam senhaAtual e novaSenha; na tela, atual e nova
+            setErros(erro.campos
+                ? { atual: erro.campos.senhaAtual, nova: erro.campos.novaSenha }
+                : { atual: erro.message });
+        } finally {
+            setEnviando(false);
+        }
     }
 
     const campos = [
@@ -208,8 +224,8 @@ function TrocarSenha({ usuarioId }) {
                 ))}
             </div>
 
-            <button type="submit" className="btn-outline self-start">
-                Alterar senha
+            <button type="submit" className="btn-outline self-start" disabled={enviando}>
+                {enviando ? "Alterando..." : "Alterar senha"}
             </button>
         </form>
     );
@@ -218,12 +234,13 @@ function TrocarSenha({ usuarioId }) {
 // ---------- Página ----------
 
 function Perfil() {
-    const sessao = getUsuarioLogado();
-    const usuario = getUsuarioPorId(sessao.id) ?? sessao;
+    const { usuario, atualizarUsuario } = useAuth();
 
     const [form, setForm] = useState(() => dadosDoPerfil(usuario));
     const [erros, setErros] = useState({});
+    const [erroGeral, setErroGeral] = useState("");
     const [salvo, setSalvo] = useState(false);
+    const [enviando, setEnviando] = useState(false);
     const [erroFoto, setErroFoto] = useState("");
     const [carregandoFoto, setCarregandoFoto] = useState(false);
 
@@ -273,35 +290,45 @@ function Perfil() {
         }
     }
 
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        const novosErros = validarPerfil(form, usuario.id);
+    function mostrarErros(novosErros) {
         setErros(novosErros);
-
         const primeiroErro = Object.keys(novosErros)[0];
-        if (primeiroErro) {
-            document.getElementById(primeiroErro)?.focus();
-            return;
+        if (primeiroErro) document.getElementById(primeiroErro)?.focus();
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        if (enviando) return;
+        setErroGeral("");
+
+        const novosErros = validarPerfil(form);
+        mostrarErros(novosErros);
+        if (Object.keys(novosErros).length > 0) return;
+
+        setEnviando(true);
+        try {
+            // PUT /me: o perfil inteiro, como está no formulário
+            const atualizado = await atualizarPerfil({
+                ...form,
+                nome: form.nome.trim(),
+                email: form.email.trim(),
+                organizacao: form.perfil === "Pessoa física" ? "" : form.organizacao.trim(),
+                sobre: form.sobre.trim(),
+                cidade: form.cidade.trim(),
+                endereco: form.endereco.trim(),
+                horario: form.horario.trim(),
+            });
+
+            // Atualiza a sessão: o header, o perfil e os formulários de doação e de pedido já usam os dados novos
+            atualizarUsuario(atualizado);
+            setSalvo(true);
+        } catch (erro) {
+            if (erro.campos) mostrarErros(erro.campos); // 400: a API diz o que está errado em cada campo
+            else if (erro.status === 409) mostrarErros({ email: erro.message }); // e-mail de outra conta
+            else setErroGeral(erro.message);
+        } finally {
+            setEnviando(false);
         }
-
-        const atualizado = atualizarUsuario(usuario.id, {
-            ...form,
-            nome: form.nome.trim(),
-            email: form.email.trim(),
-            organizacao: form.perfil === "Pessoa física" ? "" : form.organizacao.trim(),
-            sobre: form.sobre.trim(),
-            cidade: form.cidade.trim(),
-            endereco: form.endereco.trim(),
-            horario: form.horario.trim(),
-        });
-
-        // O cadastro existe mas não foi salvo (armazenamento cheio): o aviso aparece sozinho.
-        if (!atualizado && getUsuarioPorId(usuario.id)) return;
-
-        // atualiza a sessão (e o header) com o nome, e-mail e foto novos
-        loginAutomatico(atualizado ?? { ...sessao, ...form });
-        setSalvo(true);
     }
 
     return (
@@ -444,19 +471,25 @@ function Perfil() {
                                     </div>
                                 </Secao>
 
+                                {erroGeral && (
+                                    <p role="alert" className="aviso-erro">
+                                        {erroGeral}
+                                    </p>
+                                )}
+
                                 <div className="flex flex-col-reverse items-stretch gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-end">
                                     {salvo && (
                                         <p role="status" className="text-sm font-semibold text-forest-dark sm:mr-auto">
                                             ✓ Alterações salvas.
                                         </p>
                                     )}
-                                    <button type="submit" className="btn-primary" disabled={carregandoFoto}>
-                                        Salvar alterações
+                                    <button type="submit" className="btn-primary" disabled={carregandoFoto || enviando}>
+                                        {enviando ? "Salvando..." : "Salvar alterações"}
                                     </button>
                                 </div>
                             </form>
 
-                            <TrocarSenha usuarioId={usuario.id} />
+                            <TrocarSenha />
                         </div>
                     </div>
                 </div>

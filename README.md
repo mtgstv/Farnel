@@ -180,7 +180,7 @@ front-end/
 └── src/
     ├── main.jsx             # ponto de entrada (React + BrowserRouter)
     ├── App.jsx              # rotas + tela de erro + aviso de armazenamento
-    ├── assets/              # imagens (fotos das doações em assets/doacoes)
+    ├── assets/              # imagens do site (as fotos das doações de exemplo ficam em public/images/doacoes)
     ├── components/
     │   ├── Autenticacao/    # formulário de cadastro
     │   ├── Comuns/          # peças reutilizáveis: ícones, estado vazio, botões, filtros
@@ -266,5 +266,5 @@ A equipe usou ferramentas como: Claude, ChatGPT, Gemini, Gemma, como assistente 
 
 ## Créditos
 
-- Fotos das doações: [Unsplash](https://unsplash.com), sob a [Licença Unsplash](https://unsplash.com/license). Os autores estão listados em `front-end/src/assets/doacoes/CREDITOS.md`.
+- Fotos das doações: [Unsplash](https://unsplash.com), sob a [Licença Unsplash](https://unsplash.com/license). Os autores estão listados em `front-end/public/images/doacoes/CREDITOS.md`.
 - Dados sobre desperdício de alimentos: ONU, *Food Waste Index Report*, 2024.

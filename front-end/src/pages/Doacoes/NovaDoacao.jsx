@@ -25,9 +25,8 @@ import {
     TruckIcon,
     UserIcon,
 } from "../../components/Comuns/Icons";
-import { getUsuarioLogado } from "../../services/authStorage";
-import { getUsuarioPorId } from "../../services/usuariosStorage";
-import { adicionarDoacao } from "../../services/doacoesStorage";
+import { useUsuarioLogado } from "../../hooks/useUsuarioLogado";
+import { cadastrarDoacao } from "../../services/doacoesService";
 import { comprimirImagem } from "../../services/imagem";
 import { formatarTelefone, hojeISO, paraDataBR } from "../../services/formatacao";
 import { diasAteVencer, textoVencimento } from "../../services/ordenacaoDoacoes";
@@ -65,9 +64,7 @@ function focarCampo(nome) {
 }
 
 function formularioInicial(usuario) {
-    // Os dados salvos no perfil já preenchem o doador, o contato e a retirada.
-    const perfil = usuario ? getUsuarioPorId(usuario.id) : null;
-
+    // Os dados do perfil (que vêm da API junto com a conta) já preenchem o doador, o contato e a retirada.
     return {
         titulo: "",
         categoria: "",
@@ -79,13 +76,13 @@ function formularioInicial(usuario) {
         alergenicos: [],
         imagem: null,
         tipoRetirada: "",
-        cidade: perfil?.cidade ?? "",
-        uf: perfil?.uf ?? "",
-        endereco: perfil?.endereco ?? "",
-        horario: perfil?.horario ?? "",
+        cidade: usuario?.cidade ?? "",
+        uf: usuario?.uf ?? "",
+        endereco: usuario?.endereco ?? "",
+        horario: usuario?.horario ?? "",
         observacoes: "",
-        doador: perfil?.organizacao || usuario?.nome || "",
-        contato: perfil?.telefone ?? "",
+        doador: usuario?.organizacao || usuario?.nome || "",
+        contato: usuario?.telefone ?? "",
         declaracao: false,
     };
 }
@@ -100,8 +97,9 @@ function dicaValidade(validade) {
 }
 
 function NovaDoacao() {
-    const usuario = getUsuarioLogado();
+    const usuario = useUsuarioLogado();
     const navigate = useNavigate();
+    const [enviando, setEnviando] = useState(false);
 
     const [form, setForm] = useState(() => formularioInicial(usuario));
     const [erros, setErros] = useState({});
@@ -172,8 +170,9 @@ function NovaDoacao() {
         }
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
+        if (enviando) return;
         setErroGeral("");
         setTentouEnviar(true);
         setErros(errosAtuais);
@@ -184,36 +183,46 @@ function NovaDoacao() {
             return;
         }
 
-        const novaDoacao = {
-            id: Date.now(),
+        // Formato do POST /doacoes: a validade já vem do <input type="date"> como aaaa-mm-dd.
+        // O status (Disponível), a data de cadastro e o dono da doação são definidos pela API.
+        const dados = {
             titulo: form.titulo.trim(),
             categoria: form.categoria,
-            imagem: form.imagem, // null quando não há foto
             descricao: form.descricao.trim(),
-            quantidade: `${Number(form.quantidade)} ${form.unidade}`,
-            validade: paraDataBR(form.validade),
-            dataCadastro: paraDataBR(hojeISO()),
+            quantidade: Number(form.quantidade),
+            unidade: form.unidade,
+            validade: form.validade,
             conservacao: form.conservacao,
             alergenicos: form.alergenicos,
-            local: `${form.cidade.trim()}/${form.uf}`,
-            endereco: form.endereco.trim(),
             tipoRetirada: form.tipoRetirada,
+            cidade: form.cidade.trim(),
+            uf: form.uf,
+            endereco: form.endereco.trim(),
             horario: form.horario.trim(),
             observacoes: form.observacoes.trim(),
             doador: form.doador.trim(),
             contato: form.contato,
-            status: "Disponível",
-            usuarioId: usuario.id,
+            imagem: form.imagem, // foto já reduzida (data URL), ou null
         };
 
-        // Falha quando o armazenamento do navegador está cheio (geralmente por causa das fotos).
-        if (!adicionarDoacao(novaDoacao)) {
-            setErroGeral("Não foi possível salvar a doação. Tente usar uma foto menor ou remover a foto.");
-            return;
+        setEnviando(true);
+        try {
+            const criada = await cadastrarDoacao(dados);
+            // A página de detalhes mostra a confirmação de que a doação foi publicada.
+            navigate(`/detalhes/${criada.id}`, { state: { publicada: true } });
+        } catch (erro) {
+            setEnviando(false);
+            if (erro.campos) {
+                // A API recusou algum campo (400): mostra a mensagem dela no campo certo
+                setErros(erro.campos);
+                focarCampo(Object.keys(erro.campos)[0]);
+            }
+            setErroGeral(
+                erro.status === 0
+                    ? "Não foi possível falar com o servidor. Seus dados continuam aqui: tente publicar de novo."
+                    : erro.message
+            );
         }
-
-        // A página de detalhes mostra a confirmação de que a doação foi publicada.
-        navigate(`/detalhes/${novaDoacao.id}`, { state: { publicada: true } });
     }
 
     return (
@@ -616,11 +625,11 @@ function NovaDoacao() {
                                 <Link to="/doacoes" className="btn-outline">
                                     Cancelar
                                 </Link>
-                                <button type="submit" className="btn-primary sm:min-w-56" disabled={carregandoImagem}>
-                                    {carregandoImagem ? (
+                                <button type="submit" className="btn-primary sm:min-w-56" disabled={carregandoImagem || enviando}>
+                                    {carregandoImagem || enviando ? (
                                         <>
                                             <span aria-hidden="true" className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                                            Aguardando a foto...
+                                            {enviando ? "Publicando..." : "Aguardando a foto..."}
                                         </>
                                     ) : (
                                         <>

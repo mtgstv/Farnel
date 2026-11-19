@@ -41,5 +41,24 @@ export function removerChave(chave) {
     }
 }
 
+/*
+ * Na AV1, tudo ficava no localStorage, inclusive as contas (com a senha!). Agora quem guarda
+ * os dados é a API (senha só como hash no banco; sessão em cookie HttpOnly), então os dados
+ * antigos são apagados ao abrir o site, para não deixar senhas esquecidas no navegador.
+ */
+const CHAVES_DA_AV1 = [
+    "usuarios",
+    "usuarioLogado",
+    "favoritos",
+    "doacoes",
+    "doacoesVersaoDados",
+    "doacoesVersaoExemplos",
+    "solicitacoes",
+];
+
+export function limparDadosDaAV1() {
+    CHAVES_DA_AV1.forEach(removerChave);
+}
+
 export const ehLista = Array.isArray;
 export const ehObjeto = (valor) => typeof valor === "object" && !Array.isArray(valor);

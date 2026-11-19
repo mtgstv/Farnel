@@ -2,15 +2,20 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import laranjainteira from "../../assets/laranjainteira.png";
 import laranja from "../../assets/Laranja.png";
-import { getDoacoes } from "../../services/doacoesStorage";
+import { listarDoacoes } from "../../services/doacoesService";
 import { statusDaDoacao } from "../../services/ordenacaoDoacoes";
 import "../../styles/orange-rain.css";
 
 let uid = 0;
 
-// Cai uma laranja para cada doação disponível no site (vencidas não contam).
-function contarDoacoesDisponiveis() {
-    return getDoacoes().filter((doacao) => statusDaDoacao(doacao) === "Disponível").length;
+// Cai uma laranja para cada doação disponível no site (vencidas não contam), contadas na API.
+async function contarDoacoesDisponiveis() {
+    try {
+        const doacoes = await listarDoacoes();
+        return doacoes.filter((doacao) => statusDaDoacao(doacao) === "Disponível").length;
+    } catch {
+        return 12; // servidor fora do ar: a brincadeira continua com algumas laranjas
+    }
 }
 
 function makeDrops(quantidade) {
@@ -79,12 +84,12 @@ export default function OrangeRain({ className = "" }) {
     const [drops, setDrops] = useState([]);
     const [spinKey, setSpinKey] = useState(0);
 
-    const handleClick = () => {
+    const handleClick = async () => {
         setSpinKey((k) => k + 1); // muda a key da imagem para reiniciar o giro a cada clique
 
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-        const batch = makeDrops(contarDoacoesDisponiveis());
+        const batch = makeDrops(await contarDoacoesDisponiveis());
         setDrops((current) => [...current, ...batch]);
 
         // remove as laranjas depois que terminam de cair

@@ -3,14 +3,33 @@ import HeroLogado from "../../components/HomeLogado/HeroLogado";
 import ResumoUsuario from "../../components/HomeLogado/ResumoUsuario";
 import DoacoesDisponiveis from "../../components/HomeLogado/DoacoesDisponiveis";
 import { ArrowIcon } from "../../components/Comuns/Icons";
-import { getDoacoes } from "../../services/doacoesStorage";
-import { getFavoritos } from "../../services/favoritosStorage";
+import { Carregando, ErroAoCarregar } from "../../components/Comuns/EstadoRequisicao";
+import { useCarregar } from "../../hooks/useCarregar";
+import { useFavoritos } from "../../hooks/useFavoritos";
+import { listarDoacoes } from "../../services/doacoesService";
 
 // Página inicial de quem está logado. A Home decide qual versão mostrar.
 function HomeLogado({ usuario }) {
-    const doacoes = getDoacoes();
+    const { dados: doacoes, erro, recarregar } = useCarregar(listarDoacoes, usuario.id);
+    const { favoritos } = useFavoritos();
 
-    // Mais recentes primeiro (o id é a data de criação).
+    if (erro) {
+        return (
+            <main className="container-page py-16">
+                <ErroAoCarregar erro={erro} onTentarNovamente={recarregar} titulo="Não foi possível carregar as doações" />
+            </main>
+        );
+    }
+
+    if (!doacoes) {
+        return (
+            <main className="container-page">
+                <Carregando texto="Carregando suas doações..." />
+            </main>
+        );
+    }
+
+    // Mais recentes primeiro (o id cresce a cada doação cadastrada).
     const minhasDoacoes = doacoes
         .filter((doacao) => doacao.usuarioId === usuario.id)
         .sort((a, b) => b.id - a.id);
@@ -18,7 +37,7 @@ function HomeLogado({ usuario }) {
     return (
         <main>
             <HeroLogado usuario={usuario} minhasDoacoes={minhasDoacoes} />
-            <ResumoUsuario minhasDoacoes={minhasDoacoes} totalFavoritos={getFavoritos().length} />
+            <ResumoUsuario minhasDoacoes={minhasDoacoes} totalFavoritos={favoritos.length} />
             <DoacoesDisponiveis doacoes={doacoes} />
 
             <section className="container-page pb-20 md:pb-24">

@@ -3,44 +3,41 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import PaginaCentralizada from "../../components/Layout/PaginaCentralizada";
 import CampoSenha from "../../components/Formulario/CampoSenha";
 import { Campo } from "../../components/Formulario/Formulario";
-import { getUsuarios } from "../../services/usuariosStorage";
-import { loginAutomatico } from "../../services/authStorage";
 import { useDestinoAposLogin } from "../../hooks/useDestinoAposLogin";
-import { useUsuarioLogado } from "../../hooks/useUsuarioLogado";
+import { useAuth } from "../../hooks/useAuth";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [erro, setErro] = useState("");
+    const [enviando, setEnviando] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const destino = useDestinoAposLogin();
-    const jaLogado = useUsuarioLogado();
+    const { usuario: jaLogado, entrar } = useAuth();
 
     // Quem já está logado não precisa entrar de novo.
     if (jaLogado) return <Navigate to={destino} replace />;
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
 
-        const emailDigitado = email.trim().toLowerCase();
-
-        if (!emailDigitado || !senha) {
+        if (!email.trim() || !senha) {
             setErro("Preencha o e-mail e a senha.");
             return;
         }
 
-        const usuario = getUsuarios().find(
-            (item) => item.email.toLowerCase() === emailDigitado && item.senha === senha
-        );
-
-        if (!usuario) {
-            setErro("E-mail ou senha incorretos.");
-            return;
+        setErro("");
+        setEnviando(true);
+        try {
+            await entrar({ email: email.trim(), senha });
+            navigate(destino, { replace: true });
+        } catch (erroApi) {
+            // A API explica o motivo: e-mail ou senha incorretos (401), muitas tentativas (429)
+            // ou servidor fora do ar (status 0)
+            setErro(erroApi.message);
+            setEnviando(false);
         }
-
-        loginAutomatico(usuario);
-        navigate(destino, { replace: true });
     }
 
     return (
@@ -81,8 +78,8 @@ function Login() {
                         />
                     </Campo>
 
-                    <button type="submit" className="btn-primary mt-1 w-full">
-                        Entrar
+                    <button type="submit" className="btn-primary mt-1 w-full" disabled={enviando}>
+                        {enviando ? "Entrando..." : "Entrar"}
                     </button>
                 </form>
 
